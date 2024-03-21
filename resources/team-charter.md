@@ -78,14 +78,14 @@ Being active in the slack channel, answering the polly bot for standups, opening
 **What is personally important for each team member about becoming an SDE?**
 
 - Andrew Gerhold
-- Breanna Bourque
+- Breanna Bourque - Becoming confident in my abilities and expanding my programming knowledge
 - Gillian Flaherty - To learn as much as possible, including multiple languages, before graduating NSS
 - Julie Lerche
 
 **What each team member wants to achieve: e.g. improve analytical skills, learn project management skills, develop public speaking skills, speak up more, speak up less, etc.**
 
 - Andrew Gerhold
-- Breanna Bourque
+- Breanna Bourque - Improve my understanding of backend and learn as much as I can about the front end
 - Gillian Flaherty - To focus mostly on the frontend side of this project so I can imporve those skills
 - Julie Lerche
 
@@ -106,6 +106,6 @@ _Filling out the following roles and responsibilities is suggested only. Some ro
 **I agree to the terms and conditions of these team agreements:**
 
 - Andrew Gerhold
-- Breanna Bourque
+- Breanna Bourque X
 - Gillian Flaherty X
 - Julie Lerche

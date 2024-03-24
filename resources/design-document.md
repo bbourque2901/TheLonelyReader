@@ -1,14 +1,12 @@
 # Design Document
 
-## LonerReads
+## LonelyReads
 
 ## 1. Problem Statement
 
 To give our clients the ability to categorize and track books being read without the social pressures on other reading apps.
 
 ## 2. Top Questions to Resolve in Review
-
-_List the most important questions you have about your design, or things that you are still debating internally that you might like help working through._
 
 1. How to acquire book data for the Books table. Will we need to manually input a bunch of books or is there a simpler solution?
 2. How will we be able to let our clients input booklist specific data about each book? (ratings, comments, progress tracking)
@@ -52,27 +50,27 @@ We will use API Gateway and Lambda to create eight endpoints (as outlined below)
 
 We will utilize DynamoDB to store booklists and books. For simpler book list retrieval, we will store the list of books in a given booklist directly in the booklists table.
 
-LonerReads will also provide a web interface for users to manage their booklists. A main page providing a list view of all of their booklists will let them create new booklists and link off to pages per-booklists to update metadata and add books.
+LonelyReads will also provide a web interface for users to manage their booklists. A main page providing a list view of all of their booklists will let them create new booklists and link off to pages per-booklists to update metadata and add books.
 
 # 6. API
 
 ## 6.1. Public Models
 // BooklistModel
-String id;
-String name;
-String customerId;
-Integer bookCount;
-List<String> tags;
+- String id;
+- String name;
+- String customerId;
+- Integer bookCount;
+- List<String> tags;
 
 // BookModel
-String asin;
-String title;
-String author;
-String genre;
-Integer rating;
-String comments;
-Boolean currentlyReading;
-Integer percentageComplete;
+- String asin;
+- String title;
+- String author;
+- String genre;
+- Integer rating;
+- String comments;
+- Boolean currentlyReading;
+- Integer percentageComplete;
 
 ## 6.2. Get BookList Endpoint
 
@@ -135,23 +133,24 @@ Integer percentageComplete;
 # 7. Tables
 
 //booklists
-id: partition key, string
-name: string
-customerId: string (customerId-bookList-index partitionKey)
-bookCount: number
-tags: stringSet
-bookList: list
+- id: partition key, string
+- name: string
+- customerId: string (customerId-bookList-index partitionKey)
+- bookCount: number
+- tags: stringSet
+- bookList: list
 
 //books
-asin: partition key, string
-title: string
-author: string
-genre: string
-rating: number
-comments: string
-currentlyReading: BOOL
-percentageComplete: number
+- asin: partition key, string
+- title: string
+- author: string
+- genre: string
+- rating: number
+- comments: string
+- currentlyReading: BOOL
+- percentageComplete: number
 
 # 8. Pages
 
-_Include mock-ups of the web pages you expect to build. These can be as sophisticated as mockups/wireframes using drawing software, or as simple as hand-drawn pictures that represent the key customer-facing components of the pages. It should be clear what the interactions will be on the page, especially where customers enter and submit data. You may want to accompany the mockups with some description of behaviors of the page (e.g. “When customer submits the submit-dog-photo button, the customer is sent to the doggie detail page”)_
+![image](https://github.com/nss-se-cohort-04/u5-projecttemplate-carbon/assets/146966793/d8bf9a55-3554-468d-8363-d8e48459199d)
+

@@ -34,6 +34,10 @@ U9. As a user, I want to be able to see the books I'm currently reading in my bo
 
 U10. As a user, I want to see how far along I am in the books I'm currently reading in my booklist(s).
 
+U11. As a user, I want to be able to search for a booklist by name.
+
+U12. As a user, I want to be able to search for books by title/ASIN.
+
 ## 4. Project Scope
 
 ### 4.1. In Scope
@@ -45,6 +49,7 @@ U10. As a user, I want to see how far along I am in the books I'm currently read
 ### 4.2. Out of Scope
 
 - importing a full library of books so our database is complete
+- using a third party tracking service like kindle so user doesn't have to manually update progress in a specific book whil reading
 
 # 5. Proposed Architecture Overview
 

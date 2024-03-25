@@ -20,15 +20,19 @@ U2. As a user, I want to retrieve my list(s) with a given ID.
 
 U3. As a user, I want to be able to update list names and tags.
 
-U4. As a user, I want to add/remove books from a list or delete a list entirely.
+U4. As a user, I want to be able to add books to a list.
 
-U5. As a user, I want to be able to add ratings to the books in my booklist(s).
+U5. As a user, I want to be able to remove books from a list.
 
-U6. As a user, I want to be able to add comments to the books in my booklist(s).
+U6. As a user, I want to be able to remove a booklist entirely from my account.
 
-U7. As a user, I want to be able to see the books I'm currently reading in my booklist(s).
+U7. As a user, I want to be able to add ratings to the books in my booklist(s).
 
-U8. As a user, I want to see how far along I am in the books I'm currently reading in my booklist(s).
+U8. As a user, I want to be able to add comments to the books in my booklist(s).
+
+U9. As a user, I want to be able to see the books I'm currently reading in my booklist(s).
+
+U10. As a user, I want to see how far along I am in the books I'm currently reading in my booklist(s).
 
 ## 4. Project Scope
 

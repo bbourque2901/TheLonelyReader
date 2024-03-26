@@ -70,6 +70,7 @@ LonelyReads will also provide a web interface for users to manage their booklist
 - String customerId;
 - Integer bookCount;
 - List<String> tags;
+- List<String> asin;
 
 // BookModel
 - String asin;

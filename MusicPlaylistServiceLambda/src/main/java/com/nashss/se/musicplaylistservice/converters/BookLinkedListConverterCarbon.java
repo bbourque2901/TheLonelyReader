@@ -1,13 +1,15 @@
 package com.nashss.se.musicplaylistservice.converters;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverter;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.nashss.se.musicplaylistservice.dynamodb.models.AlbumTrack;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.print.Book;
+
 import java.util.LinkedList;
 import java.util.List;
 

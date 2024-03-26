@@ -200,32 +200,32 @@ Resources:
                 - logs:PutLogEvents
                 - cloudwatch:PutMetricData
               Resource: '*'
-        - PolicyName: 'AccessPlaylistsTable'
+        - PolicyName: 'AccessBooklistsTable'
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
             - Effect: Allow
               Action: dynamodb:*
-              Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/playlists"
+              Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/booklists"
                 
-        - PolicyName: 'AccessAlbumTracksTable'
+        - PolicyName: 'AccessBooksTable'
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
             - Effect: Allow
               Action: dynamodb:*
-              Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/album_tracks"
+              Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/books"
 
   #-----------------------------------------------------
   # Lambda Functions Configuration
   #-----------------------------------------------------
 
-  GetPlaylistLambda:
+  GetBooklistLambda:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt AccessRole.Arn
       CodeUri: MusicPlaylistServiceLambda
-      Handler: com.nashss.se.musicplaylistservice.lambda.GetPlaylistLambda::handleRequest
+      Handler: com.nashss.se.musicplaylistservice.lambda.GetBooklistLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -237,17 +237,17 @@ Resources:
         MusicPlaylistService:
           Type: Api
           Properties:
-            Path: /playlists/{id}
+            Path: /booklists/{id}
             Method: get
             Auth:
               Authorizer: 'NONE'
 
-  SearchPlaylistsLambda:
+  SearchBooklistsLambda:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt AccessRole.Arn
       CodeUri: MusicPlaylistServiceLambda
-      Handler: com.nashss.se.musicplaylistservice.lambda.SearchPlaylistsLambda::handleRequest
+      Handler: com.nashss.se.musicplaylistservice.lambda.SearchBooklistsLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -259,17 +259,17 @@ Resources:
         MusicPlaylistService:
           Type: Api
           Properties:
-            Path: /playlists/search
+            Path: /booklists/search
             Method: get
             Auth:
               Authorizer: 'NONE'
 
-  GetPlaylistSongsLambda:
+  GetBooklistBooksLambda:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt AccessRole.Arn
       CodeUri: MusicPlaylistServiceLambda
-      Handler: com.nashss.se.musicplaylistservice.lambda.GetPlaylistSongsLambda::handleRequest
+      Handler: com.nashss.se.musicplaylistservice.lambda.GetBooklistBooksLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -281,17 +281,17 @@ Resources:
         MusicPlaylistService:
           Type: Api
           Properties:
-            Path: /playlists/{id}/songs
+            Path: /booklists/{id}/songs
             Method: get
             Auth:
               Authorizer: 'NONE'
 
-  CreatePlaylistLambda:
+  CreateBooklistLambda:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt AccessRole.Arn
       CodeUri: MusicPlaylistServiceLambda
-      Handler: com.nashss.se.musicplaylistservice.lambda.CreatePlaylistLambda::handleRequest
+      Handler: com.nashss.se.musicplaylistservice.lambda.CreateBooklistLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -303,15 +303,15 @@ Resources:
         MusicPlaylistService:
           Type: Api
           Properties:
-            Path: /playlists
+            Path: /booklists
             Method: post
 
-  UpdatePlaylistLambda:
+  UpdateBooklistLambda:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt AccessRole.Arn
       CodeUri: MusicPlaylistServiceLambda
-      Handler: com.nashss.se.musicplaylistservice.lambda.UpdatePlaylistLambda::handleRequest
+      Handler: com.nashss.se.musicplaylistservice.lambda.UpdateBooklistLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -326,12 +326,12 @@ Resources:
             Path: /playlists/{id}
             Method: put
 
-  AddSongToPlaylistLambda:
+  AddBookToBooklistLambda:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt AccessRole.Arn
       CodeUri: MusicPlaylistServiceLambda
-      Handler: com.nashss.se.musicplaylistservice.lambda.AddSongToPlaylistLambda::handleRequest
+      Handler: com.nashss.se.musicplaylistservice.lambda.AddBookToBooklistLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -343,14 +343,15 @@ Resources:
         MusicPlaylistService:
           Type: Api
           Properties:
-            Path: /playlists/{id}/songs
+            Path: /booklists/{id}/songs
             Method: post
 
   #-----------------------------------------------------
   # DynamoDB Configuration
   #-----------------------------------------------------
   
-  PlaylistsTable:
+
+  BooklistTable:
     Type: AWS::DynamoDB::Table
     Properties:
       AttributeDefinitions:
@@ -360,25 +361,21 @@ Resources:
         - AttributeName: "id"
           KeyType: "HASH"
       BillingMode: "PAY_PER_REQUEST"
-      TableName: "playlists"
+      TableName: "booklists"
 
-  AlbumTracksTable:
+  Book_Table:
     Type: AWS::DynamoDB::Table
     Properties:
       AttributeDefinitions:
         - AttributeName: "asin"
           AttributeType: "S"
-        - AttributeName: "track_number"
-          AttributeType: "N"
       KeySchema:
         - AttributeName: "asin"
           KeyType: "HASH"
-        - AttributeName: "track_number"
-          KeyType: "RANGE"
       BillingMode: "PAY_PER_REQUEST"
-      TableName: "album_tracks"
+      TableName: "book_table"
 
-#-----------------------------------------------------
+
 # The outputs defined below will be printed
 #  to the screen after a successful deploy
 #-----------------------------------------------------

@@ -7,16 +7,19 @@ public class BookModel {
     private final String asin;
     private final String title;
     private final String author;
+
+    private final String genre;
     private final int rating;
     private final String comments;
     private final boolean currentlyReading;
     private final int percentComplete;
 
-    private BookModel(String asin, String title, String author, int rating
+    private BookModel(String asin, String title, String author, String genre, int rating
     ,String comments, boolean currentlyReading, int percentComplete) {
         this.asin = asin;
         this.title = title;
         this.author = author;
+        this.genre = genre;
         this.rating = rating;
         this.comments = comments;
         this.currentlyReading = currentlyReading;
@@ -34,6 +37,8 @@ public class BookModel {
     public String getAuthor() {
         return author;
     }
+
+    public String getGenre() { return genre; }
 
     public int getRating() {
         return rating;
@@ -77,6 +82,7 @@ public class BookModel {
         private String asin;
         private String title;
         private String author;
+        private String genre;
         private int rating;
         private String comments;
         private boolean currentlyReading;
@@ -94,6 +100,11 @@ public class BookModel {
 
         public Builder withAuthor(String author) {
             this.author = author;
+            return this;
+        }
+
+        public Builder withGenre(String genre) {
+            this.genre = genre;
             return this;
         }
 
@@ -118,7 +129,7 @@ public class BookModel {
         }
 
         public BookModel build() {
-            return new BookModel(asin, title, author, rating, comments, currentlyReading, percentComplete);
+            return new BookModel(asin, title, author, genre, rating, comments, currentlyReading, percentComplete);
         }
     }
 }

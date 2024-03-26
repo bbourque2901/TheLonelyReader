@@ -15,6 +15,7 @@ public class Book {
     private String asin;
     private String title;
     private String author;
+    private String genre;
     private Integer rating;
     private String comments;
     private boolean currentlyReading;
@@ -45,6 +46,15 @@ public class Book {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    @DynamoDBAttribute(attributeName = "genre")
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 
     @DynamoDBAttribute(attributeName = "rating")
@@ -109,6 +119,11 @@ public class Book {
                 "asin='" + asin + '\'' +
                 ", title=" + title +
                 ", author='" + author + '\'' +
+                ", genre='" + genre + '\'' +
+                ", rating='" + rating + '\'' +
+                ", comments='" + comments + '\'' +
+                ", currentlyReading='" + currentlyReading + '\'' +
+                ", percentageComplete='" + percentComplete + '\'' +
                 '}';
     }
 

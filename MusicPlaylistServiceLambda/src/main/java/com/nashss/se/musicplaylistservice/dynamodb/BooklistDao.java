@@ -1,6 +1,8 @@
 package com.nashss.se.musicplaylistservice.dynamodb;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;
+import com.nashss.se.musicplaylistservice.dynamodb.models.Playlist;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -15,11 +17,15 @@ public class BooklistDao {
     /**
      * Instantiates a BooklistDao object.
      *
-     * @param dynamoDbMapper the {@link DynamoDBMapper} used to interact with the booklists table
+     * @param dynamoDBMapper the {@link DynamoDBMapper} used to interact with the booklists table
      */
 
     @Inject
     public BooklistDao(DynamoDBMapper dynamoDBMapper) {
         this.dynamoDBMapper = dynamoDBMapper;
+    }
+    public Booklist saveBooklist(Booklist booklist) {
+        this.dynamoDBMapper.save(booklist);
+        return booklist;
     }
 }

@@ -14,8 +14,8 @@ public class BookModel {
     private final boolean currentlyReading;
     private final int percentComplete;
 
-    private BookModel(String asin, String title, String author, String genre, int rating
-    ,String comments, boolean currentlyReading, int percentComplete) {
+    private BookModel(String asin, String title, String author, String genre, int rating,
+                      String comments, boolean currentlyReading, int percentComplete) {
         this.asin = asin;
         this.title = title;
         this.author = author;
@@ -38,7 +38,9 @@ public class BookModel {
         return author;
     }
 
-    public String getGenre() { return genre; }
+    public String getGenre() {
+        return genre;
+    }
 
     public int getRating() {
         return rating;

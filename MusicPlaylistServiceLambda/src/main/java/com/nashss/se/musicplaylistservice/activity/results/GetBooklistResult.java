@@ -20,8 +20,9 @@ public class GetBooklistResult {
                 '}';
     }
 
-    public static GetBooklistResult.Builder builder() {
-        return new GetBooklistResult.Builder();
+    //CHECKSTYLE:OFF:Builder
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder {

@@ -1,20 +1,21 @@
 package com.nashss.se.musicplaylistservice.dynamodb;
 
+import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;
+import com.nashss.se.musicplaylistservice.exceptions.BooklistNotFoundException;
+
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;
 
-import com.nashss.se.musicplaylistservice.exceptions.BooklistNotFoundException;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 /**
- * Accesses data for a booklist using {@link com.nashss.se.musicplaylistservice.dynamodb.models.Booklist} to represent the model in DynamoDB.
+ * Accesses data for a booklist using {@link Booklist} to represent the model in DynamoDB.
  */
 @Singleton
 public class BooklistDao {
@@ -97,7 +98,7 @@ public class BooklistDao {
     }
 
     /**
-     * Helper method for searchBooklists method
+     * Helper method for searchBooklists method.
      */
     private StringBuilder filterExpressionPart(String target, String valueMapNamePrefix, int position) {
         String possiblyAnd = position == 0 ? "" : "and ";

@@ -7,12 +7,13 @@ import com.nashss.se.musicplaylistservice.dynamodb.BooklistDao;
 
 import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;
 import com.nashss.se.musicplaylistservice.models.BooklistModel;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.inject.Inject;
-
 import java.util.List;
+
+import javax.inject.Inject;
 
 import static com.nashss.se.musicplaylistservice.utils.NullUtils.ifNull;
 

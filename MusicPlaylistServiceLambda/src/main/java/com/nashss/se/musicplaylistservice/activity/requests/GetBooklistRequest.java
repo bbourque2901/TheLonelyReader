@@ -18,14 +18,15 @@ public class GetBooklistRequest {
                 '}';
     }
 
-    public static GetBooklistRequest.Builder builder() {
-        return new GetBooklistRequest.Builder();
+    //CHECKSTYLE:OFF:Builder
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder {
         private String id;
 
-        public GetBooklistRequest.Builder withId(String id) {
+        public Builder withId(String id) {
             this.id = id;
             return this;
         }

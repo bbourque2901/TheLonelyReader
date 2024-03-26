@@ -1,75 +1,166 @@
 # Design Document
 
-## Instructions
-
-_Replace italicized text (including this text!) with details of the design you are proposing for your team project. (Your replacement text shouldn't be in italics)._
-
-_You should take a look at the [example design document](example-design-document.md) in the same folder as this template for more guidance on the types of information to capture, and the level of detail to aim for._
-
-## _Project Title_ Design
+## LonelyReads
 
 ## 1. Problem Statement
 
-_Explain clearly what problem you are trying to solve._
+To give our clients the ability to categorize and track books being read without the social pressures on other reading apps.
 
 ## 2. Top Questions to Resolve in Review
 
-_List the most important questions you have about your design, or things that you are still debating internally that you might like help working through._
-
-1.
-2.
-3.
+1. How to acquire book data for the Books table. Will we need to manually input a bunch of books or is there a simpler solution?
+2. How will we be able to let our clients input booklist specific data about each book? (ratings, comments, progress tracking)
+3. How to make our front end user friendly while keeping it stylish and cute.
 
 ## 3. Use Cases
 
-_This is where we work backwards from the customer and define what our customers would like to do (and why). You may also include use cases for yourselves (as developers), or for the organization providing the product to customers._
+U1. As a user, I want to create a list of books with a name and list of tags.
 
-U1. _As a [product] customer, I want to `<result>` when I `<action>`_
+U2. As a user, I want to retrieve my list(s) with a given ID.
 
-U2. _As a [product] customer, I want to view my grocery list when I log into the grocery list page_
+U3. As a user, I want to be able to update list names and tags.
 
-U3. ...
+U4. As a user, I want to be able to add books to a list.
+
+U5. As a user, I want to be able to remove books from a list.
+
+U6. As a user, I want to be able to remove a booklist entirely from my account.
+
+U7. As a user, I want to be able to add ratings to the books in my booklist(s).
+
+U8. As a user, I want to be able to add comments to the books in my booklist(s).
+
+U9. As a user, I want to be able to see the books I'm currently reading in my booklist(s).
+
+U10. As a user, I want to see how far along I am in the books I'm currently reading in my booklist(s).
+
+U11. As a user, I want to be able to search for a booklist by name.
+
+U12. As a user, I want to be able to search for books by title/ASIN.
 
 ## 4. Project Scope
 
-_Clarify which parts of the problem you intend to solve. It helps reviewers know what questions to ask to make sure you are solving for what you say and stops discussions from getting sidetracked by aspects you do not intend to handle in your design._
-
 ### 4.1. In Scope
 
-_Which parts of the problem defined in Sections 1 and 2 will you solve with this design? This should include the base functionality of your product. What pieces are required for your product to work?_
-
-_The functionality described above should be what your design is focused on. You do not need to include the design for any out of scope features or expansions._
+- Creating, retrieving, and updating a booklist
+- Adding to and retrieving a saved booklist's list of books
+- Retrieving all booklists a customer has created
 
 ### 4.2. Out of Scope
 
-_Based on your problem description in Sections 1 and 2, are there any aspects you are not planning to solve? Do potential expansions or related problems occur to you that you want to explicitly say you are not worrying about now? Feel free to put anything here that you think your team can't accomplish in the unit, but would love to do with more time._
-
-_The functionality here does not need to be accounted for in your design._
+- importing a full library of books so our database is complete
+- using a third party tracking service like kindle so user doesn't have to manually update progress in a specific book whil reading
 
 # 5. Proposed Architecture Overview
 
-_Describe broadly how you are proposing to solve for the requirements you described in Section 2. This may include class diagram(s) showing what components you are planning to build. You should argue why this architecture (organization of components) is reasonable. That is, why it represents a good data flow and a good separation of concerns. Where applicable, argue why this architecture satisfies the stated requirements._
+Our minimum lovable product will include creating, retrieving, and updating booklists, as well as adding to and retrieving a saved booklist's list of books. 
+
+We will use API Gateway and Lambda to create eight endpoints (as outlined below) that will handle the creation, update, and retrieval of playlists to satisfy our requirements. 
+
+We will utilize DynamoDB to store booklists and books. For simpler book list retrieval, we will store the list of books in a given booklist directly in the booklists table.
+
+LonelyReads will also provide a web interface for users to manage their booklists. A main page providing a list view of all of their booklists will let them create new booklists and link off to pages per-booklists to update metadata and add books.
 
 # 6. API
 
 ## 6.1. Public Models
+// BooklistModel
+- String id;
+- String name;
+- String customerId;
+- Integer bookCount;
+- List<String> tags;
+- List<String> asin;
 
-_Define the data models your service will expose in its responses via your *`-Model`* package. These will be equivalent to the *`PlaylistModel`* and *`SongModel`* from the Unit 3 project._
+// BookModel
+- String asin;
+- String title;
+- String author;
+- String genre;
+- Integer rating;
+- String comments;
+- Boolean currentlyReading;
+- Integer percentageComplete;
 
-## 6.2. _First Endpoint_
+## 6.2. Get BookList Endpoint
 
-_Describe the behavior of the first endpoint you will build into your service API. This should include what data it requires, what data it returns, and how it will handle any known failure cases. You should also include a sequence diagram showing how a user interaction goes from user to website to service to database, and back. This first endpoint can serve as a template for subsequent endpoints. (If there is a significant difference on a subsequent endpoint, review that with your team before building it!)_
+- accepts GET requests to /booklists/:id
+- accepts a booklist id and returns corresponding BooklistModel
+    - will throw BooklistNotFoundException if the given booklist id is not found
 
-_(You should have a separate section for each of the endpoints you are expecting to build...)_
+## 6.3 Create Booklist Endpoint
 
-## 6.3 _Second Endpoint_
+- accepts POST requests to /booklists
+- accepts data to create a new booklist(name, customerId, tags), returns new booklist and unique id
+- For security concerns, we will validate the provided booklist name does not contain any invalid characters: " ' \
+    - If the booklist name contains any of the invalid characters, will throw an InvalidAttributeValueException.
 
-_(repeat, but you can use shorthand here, indicating what is different, likely primarily the data in/out and error conditions. If the sequence diagram is nearly identical, you can say in a few words how it is the same/different from the first endpoint)_
+## 6.4 Update Booklist Endpoint
+
+- accepts PUT requests to /booklists/:id
+- can update playlist id, name, and customerId. Returns updated booklist
+- will throw BooklistNotFoundException if the given booklist id is not found
+- For security concerns, we will validate the provided booklist name does not contain any invalid characters: " ' \
+    - If the booklist name contains any of the invalid characters, will throw an InvalidAttributeValueException.
+ 
+## 6.5 Add Book to Booklist Endpoint
+
+- accepts POST requests to /booklists/:id/books
+- accepts booklist ID and book to be added, book is specified by asin
+- will throw BooklistNotFoundException if the given booklist id is not found
+- will throw BookNotFoundException if the given book id is not found
+- By default will insert book to end of the booklist
+    - can add optional readNext parameter that will insert book to front of booklist
+ 
+## 6.6 Remove Book from Booklist Endpoint
+
+- accepts DELETE requests to /booklists/:id/books
+- accepts a booklist id and book to be removed, book is specified by asin
+- will throw BooklistNotFoundException if the given booklist id is not found
+- will throw BookNotFoundException if the given book id is not found
+
+ ## 6.7 Get Booklist Books Endpoint
+
+- accepts GET request to /playlist/:id/songs
+- retrieves all books of a booklist with the given booklist id
+    - returns in default order, unless optional order parameter is provided (default, alpha, shuffle)
+- if booklist is found, but contains no books, and empty list will be returned
+- will throw BookNotFoundException if the given book id is not found
+
+## 6.8 Get Booklists for User Endpoint
+
+- accepts GET requets to /playlists/:customerId
+- accepts customerId and returns BooklistModels created by user
+- if none created by user, empty list returned
+
+## 6.9 Update Book on User Booklist Enpoint
+
+- accepts PUT requests to /booklists/:id
+- user can update a book in their booklist's attributes (rating, comments, currentlyReading, percentageComplete). returns updated book on user 	booklist
+- will throw BooklistNotFoundException if the given booklist id is not found
+- will throw BookNotFoundException if the given book id is not found
 
 # 7. Tables
 
-_Define the DynamoDB tables you will need for the data your service will use. It may be helpful to first think of what objects your service will need, then translate that to a table structure, like with the *`Playlist` POJO* versus the `playlists` table in the Unit 3 project._
+//booklists
+- id: partition key, string
+- name: string
+- customerId: string (customerId-bookList-index partitionKey)
+- bookCount: number
+- tags: stringSet
+- bookList: list
+
+//books
+- asin: partition key, string
+- title: string
+- author: string
+- genre: string
+- rating: number
+- comments: string
+- currentlyReading: BOOL
+- percentageComplete: number
 
 # 8. Pages
 
-_Include mock-ups of the web pages you expect to build. These can be as sophisticated as mockups/wireframes using drawing software, or as simple as hand-drawn pictures that represent the key customer-facing components of the pages. It should be clear what the interactions will be on the page, especially where customers enter and submit data. You may want to accompany the mockups with some description of behaviors of the page (e.g. “When customer submits the submit-dog-photo button, the customer is sent to the doggie detail page”)_
+![image](https://github.com/nss-se-cohort-04/u5-projecttemplate-carbon/assets/146966793/d8bf9a55-3554-468d-8363-d8e48459199d)
+

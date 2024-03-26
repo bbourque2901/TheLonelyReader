@@ -14,6 +14,8 @@ import com.nashss.se.projectresources.music.playlist.servic.util.MusicPlaylistSe
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.inject.Inject;
+
 /**
  * Implementation of the UpdateBooklistActivity for the MusicPlaylistService's UpdateBooklist API.
  *
@@ -32,6 +34,7 @@ public class UpdateBooklistActivity {
      * @param metricsPublisher MetricsPublisher to publish metrics.
      */
 
+    @Inject
     public UpdateBooklistActivity(BooklistDao booklistDao, MetricsPublisher metricsPublisher) {
         this.booklistDao = booklistDao;
         this.metricsPublisher = metricsPublisher;
@@ -77,7 +80,7 @@ public class UpdateBooklistActivity {
 
         publishExceptionMetrics(false, false);
         return UpdateBooklistResult.builder()
-                .withBooklist(new ModelConverterCarbon().toBookListModel(booklist))
+                .withBooklist(new ModelConverterCarbon().toBooklistModel(booklist))
                 .build();
     }
 
@@ -88,9 +91,9 @@ public class UpdateBooklistActivity {
      */
     private void publishExceptionMetrics(final boolean isInvalidAttributeValue,
                                          final boolean isInvalidAttributeChange) {
-        metricsPublisher.addCount(MetricsConstants.UPDATEPLAYLIST_INVALIDATTRIBUTEVALUE_COUNT,
+        metricsPublisher.addCount(MetricsConstants.UPDATEBOOKLIST_INVALIDATTRIBUTEVALUE_COUNT,
                 isInvalidAttributeValue ? 1 : 0);
-        metricsPublisher.addCount(MetricsConstants.UPDATEPLAYLIST_INVALIDATTRIBUTECHANGE_COUNT,
+        metricsPublisher.addCount(MetricsConstants.UPDATEBOOKLIST_INVALIDATTRIBUTECHANGE_COUNT,
                 isInvalidAttributeChange ? 1 : 0);
     }
 }

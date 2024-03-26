@@ -2,6 +2,7 @@ package com.nashss.se.musicplaylistservice.dynamodb;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;
+
 import com.nashss.se.musicplaylistservice.exceptions.BooklistNotFoundException;
 
 
@@ -26,6 +27,11 @@ public class BooklistDao {
         this.dynamoDBMapper = dynamoDBMapper;
     }
 
+    public Booklist saveBooklist(Booklist booklist) {
+        this.dynamoDBMapper.save(booklist);
+        return booklist;
+    }
+
     /**
      * Returns the {@link Booklist} corresponding to the specified id.
      *
@@ -38,6 +44,7 @@ public class BooklistDao {
         if (booklist == null) {
             throw new BooklistNotFoundException("Could not find booklist with id " + id);
         }
+
         return booklist;
     }
 }

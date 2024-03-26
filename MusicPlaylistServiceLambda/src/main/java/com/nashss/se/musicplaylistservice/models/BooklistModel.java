@@ -42,10 +42,15 @@ public class BooklistModel {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         BooklistModel that = (BooklistModel) o;
-        return bookCount == that.bookCount && Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(customerId, that.customerId) && Objects.equals(tags, that.tags);
+        return bookCount == that.bookCount && Objects.equals(id, that.id) && Objects.equals(name, that.name) &&
+                Objects.equals(customerId, that.customerId) && Objects.equals(tags, that.tags);
     }
 
     @Override
@@ -53,7 +58,9 @@ public class BooklistModel {
         return Objects.hash(id, name, customerId, bookCount, tags);
     }
 
-    public static Builder builder() {return new Builder(); }
+    public static Builder builder() {
+        return new Builder();
+    }
 
     public static class Builder {
         private String id;
@@ -87,6 +94,8 @@ public class BooklistModel {
             return this;
         }
 
-        public BooklistModel build() {return new BooklistModel(id, name, customerId, bookCount, tags); }
+        public BooklistModel build() {
+            return new BooklistModel(id, name, customerId, bookCount, tags);
+        }
     }
 }

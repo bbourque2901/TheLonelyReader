@@ -1,6 +1,7 @@
 package com.nashss.se.musicplaylistservice.activity;
 
 import com.nashss.se.musicplaylistservice.activity.requests.UpdateBooklistRequest;
+import com.nashss.se.musicplaylistservice.activity.results.UpdateBooklistResult;
 import com.nashss.se.musicplaylistservice.dynamodb.BooklistDao;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;
 import com.nashss.se.musicplaylistservice.metrics.MetricsPublisher;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
 
@@ -48,6 +50,9 @@ public class UpdateBooklistActivityTest {
         when(booklistDao.saveBooklist(startingBooklist)).thenReturn(startingBooklist);
 
         // WHEN
+        UpdateBooklistResult result = updateBooklistActivity.handleRequest(request);
 
+        // THEN
+        assertEquals()
     }
 }

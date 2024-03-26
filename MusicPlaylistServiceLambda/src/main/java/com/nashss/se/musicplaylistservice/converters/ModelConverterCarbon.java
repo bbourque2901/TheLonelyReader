@@ -18,7 +18,7 @@ public class ModelConverterCarbon {
      * @param bookList, the book list to convert
      * @return the converted book list
      */
-    public BooklistModel toBookListModel(Booklist bookList) {
+    public BooklistModel toBooklistModel(Booklist bookList) {
         List<String> tags = null;
         if (bookList.getTags() != null) {
             tags = new ArrayList<>(bookList.getTags());
@@ -78,7 +78,7 @@ public class ModelConverterCarbon {
         List<BooklistModel> bookListModels = new ArrayList<>();
 
         for (Booklist bookList : bookLists) {
-            bookListModels.add(toBookListModel(bookList));
+            bookListModels.add(toBooklistModel(bookList));
         }
 
         return bookListModels;

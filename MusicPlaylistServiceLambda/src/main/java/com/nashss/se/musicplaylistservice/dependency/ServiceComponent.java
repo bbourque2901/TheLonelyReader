@@ -51,8 +51,14 @@ public interface ServiceComponent {
 
     /**
      * Provides the relevant activity.
+
+     * @return CreateBooklistActivity
+     */
+    CreateBooklistActivity provideCreateBooklistActivity();
+/**
      * @return GetBooklistActivity
      */
     GetBooklistActivity provideGetBooklistActivity();
+
 
 }

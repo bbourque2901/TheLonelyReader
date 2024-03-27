@@ -21,8 +21,8 @@ public class GetCurrentlyReadingResult {
     }
 
     //CHECKSTYLE:OFF:Builder
-    public static GetBooklistResult.Builder builder() {
-        return new GetBooklistResult.Builder();
+    public static GetCurrentlyReadingResult.Builder builder() {
+        return new GetCurrentlyReadingResult.Builder();
     }
 
     public static class Builder {

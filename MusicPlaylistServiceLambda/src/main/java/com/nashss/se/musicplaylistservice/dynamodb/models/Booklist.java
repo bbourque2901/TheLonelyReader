@@ -46,6 +46,11 @@ public class Booklist {
     public void setBookCount(Integer bookCount) {
         this.bookCount = bookCount;
     }
+
+    /**
+     * getter for the tags for a booklist.
+     * @return tags
+     */
     @DynamoDBAttribute(attributeName = "tags")
     public Set<String> getTags() {
         if (null == tags) {
@@ -53,6 +58,11 @@ public class Booklist {
         }
         return new HashSet<>(tags);
     }
+
+    /**
+     * setter for the tags for a booklist.
+     * @param tags set of tags passed in
+     */
     public void setTags(Set<String> tags) {
         if (null == tags) {
             this.tags = null;
@@ -71,10 +81,20 @@ public class Booklist {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
         Booklist bookList = (Booklist) o;
-        return Objects.equals(id, bookList.id) && Objects.equals(name, bookList.name) && Objects.equals(customerId, bookList.customerId) && Objects.equals(bookCount, bookList.bookCount) && Objects.equals(tags, bookList.tags) && Objects.equals(asins, bookList.asins);
+        return Objects.equals(id, bookList.id) &&
+                Objects.equals(name, bookList.name) &&
+                Objects.equals(customerId, bookList.customerId) &&
+                Objects.equals(bookCount, bookList.bookCount) &&
+                Objects.equals(tags, bookList.tags) &&
+                Objects.equals(asins, bookList.asins);
     }
 
     @Override

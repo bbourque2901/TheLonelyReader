@@ -1,8 +1,8 @@
 package com.nashss.se.musicplaylistservice.activity;
 
-
 import com.nashss.se.musicplaylistservice.activity.requests.UpdateBooklistRequest;
 import com.nashss.se.musicplaylistservice.activity.results.UpdateBooklistResult;
+
 import com.nashss.se.musicplaylistservice.converters.ModelConverterCarbon;
 import com.nashss.se.musicplaylistservice.dynamodb.BooklistDao;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;

@@ -98,7 +98,7 @@ paths:
                     type: array
                     items:
                       type: string
-                      
+
   /books/{currentlyReading}:
     get:
       tags:

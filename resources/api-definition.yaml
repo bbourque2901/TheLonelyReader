@@ -98,6 +98,42 @@ paths:
                     type: array
                     items:
                       type: string
+                      
+  /books/{currentlyReading}:
+    get:
+      tags:
+        - Booklists
+        - Books
+      summary: Get all books that are being read (GetCurrentlyReadingLambda)
+      parameters:
+        - name: currentlyReading
+          in: path
+          description: boolean of the currentlyReading value to create a list from
+          required: true
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: BooklistResponse
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  customerId:
+                    type: string
+                  bookCount:
+                    type: integer
+                  tags:
+                    type: array
+                    items:
+                      type: string
+        "500":
+          description: "Invalid input parameters"
 
   /booklists/{id}:
     get:
@@ -133,6 +169,7 @@ paths:
                       type: string
         "500":
           description: "Invalid input parameters"
+
 
     put:
       tags:

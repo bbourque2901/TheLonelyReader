@@ -42,9 +42,9 @@ public class BookDao {
      *
      * @return a List of Booklist objects that match the search criteria.
      */
-    public Booklist getCurrentlyReading() {
+    public Booklist getCurrentlyReading(boolean isCurrentlyReading) {
         Map<String, AttributeValue> valueMap = new HashMap<>();
-        valueMap.put(":currentlyReading", new AttributeValue().withBOOL(Boolean.TRUE));
+        valueMap.put(":currentlyReading", new AttributeValue().withBOOL(isCurrentlyReading));
         DynamoDBScanExpression dynamoDBScanExpression = new DynamoDBScanExpression()
                 .withFilterExpression("currentlyReading = :currentlyReading")
                 .withExpressionAttributeValues(valueMap);

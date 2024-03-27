@@ -36,7 +36,7 @@ public class GetCurrentlyReadingActivity {
     public GetCurrentlyReadingResult handleRequest(final GetCurrentlyReadingRequest getCurrentlyReadingRequest) {
         log.info("Recieved GetCurrentlyReadingRequest {}", getCurrentlyReadingRequest);
         boolean requestedBoolean = getCurrentlyReadingRequest.isCurrentlyReading();
-        Booklist booklist = bookDao.getCurrentlyReading();
+        Booklist booklist = bookDao.getCurrentlyReading(requestedBoolean);
         BooklistModel booklistModel = new ModelConverterCarbon().toBooklistModel(booklist);
 
         return GetCurrentlyReadingResult.builder()

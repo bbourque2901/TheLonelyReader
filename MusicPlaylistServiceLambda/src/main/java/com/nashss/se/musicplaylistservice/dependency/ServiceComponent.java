@@ -71,5 +71,7 @@ public interface ServiceComponent {
      */
     UpdateBooklistActivity provideUpdateBooklistActivity();
 
+    GetCurrentlyReadingActivity provideGetCurrentlyReadingActivity();
+
 
 }

@@ -15,7 +15,7 @@ public class ModelConverterCarbon {
     /**
      * Converts a provided {@link Booklist} into a {@link BooklistModel} representation.
      *
-     * @param bookList, the book list to convert
+     * @param bookList the book list to convert
      * @return the converted book list
      */
     public BooklistModel toBooklistModel(Booklist bookList) {
@@ -36,7 +36,7 @@ public class ModelConverterCarbon {
     /**
      * Converts a provided Book into a BookModel representation.
      *
-     * @param book, the Book to convert to BookModel
+     * @param book the Book to convert to BookModel
      * @return the converted BookModel with fields mapped from Book
      */
     public BookModel toBookModel(Book book) {
@@ -45,17 +45,13 @@ public class ModelConverterCarbon {
                 .withTitle(book.getTitle())
                 .withAuthor(book.getAuthor())
                 .withGenre(book.getGenre())
-                .withRating(book.getRating())
-                .withComments(book.getComments())
-                .withCurrentlyReading(book.isCurrentlyReading())
-                .withPercentComplete(book.getPercentComplete())
                 .build();
     }
 
     /**
      * Converts a list of Books to a list of BookModels.
      *
-     * @param books, The Books to convert to BookModels
+     * @param books The Books to convert to BookModels
      * @return The converted list of BookModels
      */
     public List<BookModel> toBookModelList(List<Book> books) {
@@ -71,7 +67,7 @@ public class ModelConverterCarbon {
     /**
      * Converts a list of Booklists to a list of BooklistModels.
      *
-     * @param bookLists, The Booklists to convert to BooklistModels
+     * @param bookLists The Booklists to convert to BooklistModels
      * @return The converted list of BooklistModels
      */
     public List<BooklistModel> toBookListModelList(List<Booklist> bookLists) {

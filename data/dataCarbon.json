@@ -1,0 +1,64 @@
+{
+  "Books": [
+    {
+      "PutRequest": {
+        "Item": {
+          "asin": { "S": "B019HKJTCI" },
+          "title": { "S": "The Hobbit" },
+          "author": { "S": "J. R. R. Tolkien" },
+          "genre": { "S": "fantasy" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "asin": { "S": "B00000000" },
+          "title": { "S": "A Tale of Two Cities" },
+          "author": { "S": "Charles Dickens" },
+          "genre": { "S": "historical fiction" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "asin": { "S": "B07VSG6V59" },
+          "title": { "S": "To Kill a Mockingbird" },
+          "author": { "S": "Harper Lee" },
+          "genre": { "S": "southern gothic" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "asin": { "S": "B07NJ3H27X" },
+          "title": { "S": "The Great Gatsby" },
+          "author": { "S": "F. Scott Fitzgerald" },
+          "genre": { "S": "tragedy" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "asin": { "S": "B004CAWKXE" },
+          "title": { "S": "The Hunger Games" },
+          "author": { "S": "Suzanne Collins" },
+          "genre": { "S": "YA fiction" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "asin": { "S": "B000LP5FSG" },
+          "title": { "S": "The Handmaid's Tale" },
+          "author": { "S": "Margaret Atwood" },
+          "genre": { "S": "dystopian" }
+        }
+      }
+    }
+  ]
+}

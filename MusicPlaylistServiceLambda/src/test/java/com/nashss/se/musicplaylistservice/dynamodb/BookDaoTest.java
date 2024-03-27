@@ -1,23 +1,21 @@
 package com.nashss.se.musicplaylistservice.dynamodb;
 
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import com.nashss.se.musicplaylistservice.dynamodb.models.Book;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
-import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.mockito.ArgumentCaptor;
 import static org.mockito.ArgumentMatchers.any;
@@ -27,6 +25,8 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class BookDaoTest {
@@ -34,6 +34,8 @@ public class BookDaoTest {
     private DynamoDBMapper dynamoDBMapper;
     @Mock
     private PaginatedScanList<Book> pagScanList;
+    @Mock
+    private ScanResultPage<Book> scanResultPage;
     @Captor
     ArgumentCaptor<DynamoDBScanExpression> scanExpCaptor;
 
@@ -79,6 +81,26 @@ public class BookDaoTest {
         verify(dynamoDBMapper).scan(eq(Book.class), scanExpCaptor.capture());
         assertNotNull(results);
         assertTrue(results.size() == 0);
+    }
+
+    @Test
+    public void getCurrentlyReading_withValidCriteria_returnsAListOfBooks() {
+        // GIVEN
+        boolean currentlyReading = true;
+        Book book = new Book();
+        book.setAsin("1234");
+        List<Book> result = new ArrayList<>();
+        result.add(book);
+        when(dynamoDBMapper.scanPage(eq(Book.class),
+                any(DynamoDBScanExpression.class))).thenReturn(scanResultPage);
+        when(scanResultPage.getResults()).thenReturn(result);
+
+        // WHEN
+        Booklist results = bookDao.getCurrentlyReading(currentlyReading);
+
+        // THEN
+        verify(dynamoDBMapper).scanPage(eq(Book.class), scanExpCaptor.capture());
+        assertNotNull(results);
     }
 
 }

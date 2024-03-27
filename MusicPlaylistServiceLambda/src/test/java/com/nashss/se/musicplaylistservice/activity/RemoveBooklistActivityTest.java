@@ -1,9 +1,7 @@
 package com.nashss.se.musicplaylistservice.activity;
 
 import com.google.common.collect.Sets;
-import com.nashss.se.musicplaylistservice.activity.requests.GetBooklistRequest;
 import com.nashss.se.musicplaylistservice.activity.requests.RemoveBooklistRequest;
-import com.nashss.se.musicplaylistservice.activity.results.GetBooklistResult;
 import com.nashss.se.musicplaylistservice.activity.results.RemoveBooklistResult;
 import com.nashss.se.musicplaylistservice.dynamodb.BooklistDao;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;

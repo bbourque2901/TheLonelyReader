@@ -6,6 +6,7 @@ import com.nashss.se.musicplaylistservice.converters.ModelConverterCarbon;
 import com.nashss.se.musicplaylistservice.dynamodb.BooklistDao;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;
 import com.nashss.se.musicplaylistservice.models.BooklistModel;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -44,8 +45,8 @@ public class RemoveBooklistActivity {
         Booklist booklist = booklistDao.removeBooklist(requestedId);
         BooklistModel booklistModel = null;
 
-        if (booklist == null ) {
-           log.info("Booklist with id {} not found", requestedId);
+        if (booklist == null) {
+            log.info("Booklist with id {} not found", requestedId);
         } else {
             booklistModel = new ModelConverterCarbon().toBooklistModel(booklist);
         }

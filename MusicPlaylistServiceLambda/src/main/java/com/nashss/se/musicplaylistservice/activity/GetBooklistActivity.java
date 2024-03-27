@@ -45,7 +45,7 @@ public class GetBooklistActivity {
         log.info("Received GetBooklistRequest {}", getBooklistRequest);
         String requestedId = getBooklistRequest.getId();
         Booklist booklist = booklistDao.getBooklist(requestedId);
-        BooklistModel booklistModel = new ModelConverterCarbon().toBookListModel(booklist);
+        BooklistModel booklistModel = new ModelConverterCarbon().toBooklistModel(booklist);
 
         return GetBooklistResult.builder()
                 .withBooklist(booklistModel)

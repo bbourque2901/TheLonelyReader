@@ -2,6 +2,8 @@ package com.nashss.se.musicplaylistservice.dynamodb;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Book;
+import com.nashss.se.musicplaylistservice.dynamodb.models.Playlist;
+import com.nashss.se.musicplaylistservice.exceptions.BookNotFoundException;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -25,4 +27,20 @@ public class BookDao {
     public BookDao(DynamoDBMapper dynamoDbMapper) {
         this.dynamoDBMapper = dynamoDbMapper;
     }
+
+    /**
+     * Returns the {@link Book} corresponding to the specified asin.
+     *
+     * @param asin the Book asin
+     * @return the stored Book, or null if none was found.
+     */
+    public Book getBook(String asin) {
+        Book book = this.dynamoDBMapper.load(Book.class, asin);
+        if (book == null) {
+            throw new BookNotFoundException("Could not find book with asin: " + asin);
+        }
+
+        return book;
+    }
+
 }

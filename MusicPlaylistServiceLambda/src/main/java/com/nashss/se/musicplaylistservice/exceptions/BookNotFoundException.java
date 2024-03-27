@@ -1,16 +1,15 @@
 package com.nashss.se.musicplaylistservice.exceptions;
 
 /**
- * Exception to throw when a given AlbumTrack ASIN and track number is not found
- * in the database.
+ * Exception to throw when a given Book ASIN is not found in the database.
  */
-public class AlbumTrackNotFoundException extends RuntimeException {
-    private static final long serialVersionUID = -1230785223023147290L;
+public class BookNotFoundException extends RuntimeException {
+    private static final long serialVersionUID = -8476300357845845322L;
 
     /**
      * Exception with no message or cause.
      */
-    public AlbumTrackNotFoundException() {
+    public BookNotFoundException() {
         super();
     }
 
@@ -18,7 +17,7 @@ public class AlbumTrackNotFoundException extends RuntimeException {
      * Exception with a message, but no cause.
      * @param message A descriptive message for this exception.
      */
-    public AlbumTrackNotFoundException(String message) {
+    public BookNotFoundException(String message) {
         super(message);
     }
 
@@ -26,7 +25,7 @@ public class AlbumTrackNotFoundException extends RuntimeException {
      * Exception with no message, but with a cause.
      * @param cause The original throwable resulting in this exception.
      */
-    public AlbumTrackNotFoundException(Throwable cause) {
+    public BookNotFoundException(Throwable cause) {
         super(cause);
     }
 
@@ -35,7 +34,7 @@ public class AlbumTrackNotFoundException extends RuntimeException {
      * @param message A descriptive message for this exception.
      * @param cause The original throwable resulting in this exception.
      */
-    public AlbumTrackNotFoundException(String message, Throwable cause) {
+    public BookNotFoundException(String message, Throwable cause) {
         super(message, cause);
     }
 }

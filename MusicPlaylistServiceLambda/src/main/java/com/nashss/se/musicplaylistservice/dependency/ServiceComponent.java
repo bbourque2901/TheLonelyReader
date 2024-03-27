@@ -1,6 +1,17 @@
 package com.nashss.se.musicplaylistservice.dependency;
 
-import com.nashss.se.musicplaylistservice.activity.*;
+import com.nashss.se.musicplaylistservice.activity.AddBookToBooklistActivity;
+import com.nashss.se.musicplaylistservice.activity.AddSongToPlaylistActivity;
+import com.nashss.se.musicplaylistservice.activity.CreateBooklistActivity;
+import com.nashss.se.musicplaylistservice.activity.CreatePlaylistActivity;
+import com.nashss.se.musicplaylistservice.activity.GetBooklistActivity;
+import com.nashss.se.musicplaylistservice.activity.GetPlaylistActivity;
+import com.nashss.se.musicplaylistservice.activity.GetPlaylistSongsActivity;
+import com.nashss.se.musicplaylistservice.activity.SearchBooklistsActivity;
+import com.nashss.se.musicplaylistservice.activity.SearchBooksActivity;
+import com.nashss.se.musicplaylistservice.activity.SearchPlaylistsActivity;
+import com.nashss.se.musicplaylistservice.activity.UpdateBooklistActivity;
+import com.nashss.se.musicplaylistservice.activity.UpdatePlaylistActivity;
 
 import dagger.Component;
 
@@ -54,6 +65,7 @@ public interface ServiceComponent {
      * @return CreateBooklistActivity
      */
     CreateBooklistActivity provideCreateBooklistActivity();
+
     /**
      *Provides the relevant activity.
      * @return GetBooklistActivity
@@ -61,7 +73,13 @@ public interface ServiceComponent {
     GetBooklistActivity provideGetBooklistActivity();
 
     /**
-     *Provides the relevant activity.
+     * Provides the relevant activity.
+     * @return AddBookToBooklistActivity
+     */
+    AddBookToBooklistActivity provideAddBookToBooklistActivity();
+
+    /**
+     * Provides the relevant activity.
      * @return SearchBooklistActivity
      */
     SearchBooklistsActivity provideSearchBooklistsActivity();
@@ -77,6 +95,5 @@ public interface ServiceComponent {
      * @return SearchBooksActivity
      */
     SearchBooksActivity provideSearchBooksActivity();
-
 
 }

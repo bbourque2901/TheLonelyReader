@@ -176,13 +176,13 @@ paths:
   /playlists/{id}/songs:
     get:
       tags:
-        - Songs
-      summary: Retrieves a list of all songs in a playlist (GetPlaylistSongsLambda)
-      operationId: getSongs
+        - Books
+      summary: Retrieves a list of all songs in a booklist (GetBooklistBooksLambda)
+      operationId: getBooks
       parameters:
         - name: id
           in: path
-          description: ID of playlist to return
+          description: ID of booklist to return
           required: true
           schema:
             type: string
@@ -209,13 +209,13 @@ paths:
 
     post:
       tags:
-        - Songs
-      summary: Add a song to a playlist (AddSongToPlaylistLambda)
-      operationId: addSong
+        - Books
+      summary: Add a song to a booklist (AddSongToBooklistLambda)
+      operationId: addBook
       parameters:
         - name: id
           in: path
-          description: ID of playlist to return
+          description: ID of booklist to return
           required: true
           schema:
             type: string
@@ -227,14 +227,12 @@ paths:
               properties:
                 asin:
                   type: string
-                trackNumber:
-                  type: integer
                 id:
                   type: string
 
       responses:
         "200":
-          description: the song
+          description: the book
           content:
             application/json:
               schema:
@@ -248,7 +246,15 @@ paths:
                           type: string
                         title:
                           type: string
-                        album:
+                        author:
                           type: string
-                        trackNumber:
+                        genre:
+                          type: string
+                        rating:
+                          type: integer
+                        comments:
+                          type: string
+                        currentlyReading:
+                          type: boolean
+                        percentComplete:
                           type: integer

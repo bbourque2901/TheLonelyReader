@@ -8,6 +8,7 @@ import com.nashss.se.musicplaylistservice.activity.GetBooklistActivity;
 import com.nashss.se.musicplaylistservice.activity.GetPlaylistActivity;
 import com.nashss.se.musicplaylistservice.activity.GetPlaylistSongsActivity;
 import com.nashss.se.musicplaylistservice.activity.SearchBooklistsActivity;
+import com.nashss.se.musicplaylistservice.activity.SearchBooksActivity;
 import com.nashss.se.musicplaylistservice.activity.SearchPlaylistsActivity;
 import com.nashss.se.musicplaylistservice.activity.UpdateBooklistActivity;
 import com.nashss.se.musicplaylistservice.activity.UpdatePlaylistActivity;
@@ -88,4 +89,11 @@ public interface ServiceComponent {
      * @return UpdateBooklistActivity
      */
     UpdateBooklistActivity provideUpdateBooklistActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return SearchBooksActivity
+     */
+    SearchBooksActivity provideSearchBooksActivity();
+
 }

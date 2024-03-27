@@ -157,7 +157,25 @@ paths:
                   type: string
                 customerId:
                   type: string
-
+    delete:
+      tags:
+        - Booklists
+      summary: Remove a booklist (RemoveBooklistLambda)
+      parameters:
+        - name: id
+          in: path
+          description: ID of booklist to retrieve
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
       responses:
         "200":
           description: BooklistResponse

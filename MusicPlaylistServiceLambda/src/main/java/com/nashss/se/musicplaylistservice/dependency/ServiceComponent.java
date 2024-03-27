@@ -71,5 +71,9 @@ public interface ServiceComponent {
      */
     UpdateBooklistActivity provideUpdateBooklistActivity();
 
-
+    /**
+     * Provides the relevant activity.
+     * @return RemoveBooklistActivity
+     */
+    RemoveBooklistActivity provideRemoveBooklistActivity();
 }

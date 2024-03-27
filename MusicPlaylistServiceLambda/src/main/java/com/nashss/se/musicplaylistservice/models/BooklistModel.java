@@ -58,6 +58,8 @@ public class BooklistModel {
         return Objects.hash(id, name, customerId, bookCount, tags);
     }
 
+
+    //CHECKSTYLE:OFF:Builder
     public static Builder builder() {
         return new Builder();
     }

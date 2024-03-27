@@ -1,7 +1,10 @@
 package com.nashss.se.musicplaylistservice.dynamodb.models;
 
-
-import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperFieldModel;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTyped;
 
 import java.util.Objects;
 
@@ -9,7 +12,7 @@ import java.util.Objects;
  * Represents a Book in the Books table.
  */
 
-@DynamoDBTable(tableName = "book_table")
+@DynamoDBTable(tableName = "Books")
 public class Book {
 
     private String asin;

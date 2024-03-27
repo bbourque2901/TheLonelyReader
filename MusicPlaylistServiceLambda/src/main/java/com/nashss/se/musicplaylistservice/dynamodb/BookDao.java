@@ -1,9 +1,9 @@
 package com.nashss.se.musicplaylistservice.dynamodb;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Book;
-import com.nashss.se.musicplaylistservice.dynamodb.models.Playlist;
 import com.nashss.se.musicplaylistservice.exceptions.BookNotFoundException;
+
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

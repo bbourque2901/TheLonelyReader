@@ -9,7 +9,7 @@ public class AddBookToBooklistRequest {
     private final String id;
     private final String customerId;
 
-    public AddBookToBooklistRequest(String asin, String id, String customerId) {
+    private AddBookToBooklistRequest(String asin, String id, String customerId) {
         this.asin = asin;
         this.id = id;
         this.customerId = customerId;

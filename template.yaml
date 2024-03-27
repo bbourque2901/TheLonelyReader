@@ -323,7 +323,7 @@ Resources:
         MusicPlaylistService:
           Type: Api
           Properties:
-            Path: /playlists/{id}
+            Path: /booklists/{id}
             Method: put
 
   AddBookToBooklistLambda:
@@ -361,9 +361,9 @@ Resources:
         - AttributeName: "id"
           KeyType: "HASH"
       BillingMode: "PAY_PER_REQUEST"
-      TableName: "booklists"
+      TableName: "Booklists"
 
-  Book_Table:
+  BookTable:
     Type: AWS::DynamoDB::Table
     Properties:
       AttributeDefinitions:
@@ -373,7 +373,7 @@ Resources:
         - AttributeName: "asin"
           KeyType: "HASH"
       BillingMode: "PAY_PER_REQUEST"
-      TableName: "book_table"
+      TableName: "Books"
 
 
 # The outputs defined below will be printed

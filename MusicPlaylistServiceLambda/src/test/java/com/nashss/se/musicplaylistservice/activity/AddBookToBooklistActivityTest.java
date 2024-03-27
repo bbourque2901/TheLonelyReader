@@ -4,6 +4,7 @@ import com.nashss.se.musicplaylistservice.activity.requests.AddBookToBooklistReq
 import com.nashss.se.musicplaylistservice.activity.requests.AddSongToPlaylistRequest;
 import com.nashss.se.musicplaylistservice.activity.results.AddBookToBooklistResult;
 import com.nashss.se.musicplaylistservice.activity.results.AddSongToPlaylistResult;
+import com.nashss.se.musicplaylistservice.converters.ModelConverterCarbon;
 import com.nashss.se.musicplaylistservice.dynamodb.AlbumTrackDao;
 import com.nashss.se.musicplaylistservice.dynamodb.BookDao;
 import com.nashss.se.musicplaylistservice.dynamodb.BooklistDao;
@@ -26,6 +27,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
@@ -44,24 +48,35 @@ public class AddBookToBooklistActivityTest {
     @BeforeEach
     void setup() {
         openMocks(this);
-        addBookToBooklistActivity = new AddBookToBooklistActivity(booklistDao, bookDao);
+        this.addBookToBooklistActivity = new AddBookToBooklistActivity(booklistDao, bookDao);
     }
 
     @Test
     void handleRequest_validRequest_addsBookToEndOfBooklist() {
         // GIVEN
-        // a non-empty playlist
+        // a non-empty booklist
         Booklist originalBooklist = BooklistTestHelper.generateBooklist();
         String booklistId = originalBooklist.getId();
         String customerId = originalBooklist.getCustomerId();
 
-        // the new song to add to the playlist
+        // The .generateBooklist() method generates a booklist with a single asin
+        // Assigning this to a variable to be used in mockito when() statement (@Ln 79)
+        String existingAsin = originalBooklist.getAsins().get(0);
+
+        // The new book to add to the booklist
         Book bookToAdd = BookTestHelper.generateBook(2);
         String addedAsin = bookToAdd.getAsin();
+
+        // Since we use a List<String> for asins instead of List<Book>...
+        // Need to create a Book object for the existing asin (@Ln 62) in the booklist.
+        // If wanting to expand this test for a booklist containing more than one existing asin...
+        // Need to create Book object for each additional asin
+        Book existingBookInBooklist = BookTestHelper.generateBook(1);
 
         when(booklistDao.getBooklist(booklistId)).thenReturn(originalBooklist);
         when(booklistDao.saveBooklist(originalBooklist)).thenReturn(originalBooklist);
         when(bookDao.getBook(addedAsin)).thenReturn(bookToAdd);
+        when(bookDao.getBook(existingAsin)).thenReturn(existingBookInBooklist);
 
         AddBookToBooklistRequest request = AddBookToBooklistRequest.builder()
                 .withAsin(addedAsin)
@@ -117,6 +132,9 @@ public class AddBookToBooklistActivityTest {
         assertThrows(BookNotFoundException.class, () -> addBookToBooklistActivity.handleRequest(request));
     }
 }
+
+// The two tests below are testing the QueueNext and QueueLast functionality from MusicPlaylistService
+// Decided to comment them out instead of delete in case we want to add a similar function to order books
 
 //    @Test
 //    void handleRequest_validRequestWithQueueNextFalse_addsSongToEndOfPlaylist() {

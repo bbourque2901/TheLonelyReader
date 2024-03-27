@@ -45,10 +45,6 @@ public class ModelConverterCarbon {
                 .withTitle(book.getTitle())
                 .withAuthor(book.getAuthor())
                 .withGenre(book.getGenre())
-                .withRating(book.getRating())
-                .withComments(book.getComments())
-                .withCurrentlyReading(book.isCurrentlyReading())
-                .withPercentComplete(book.getPercentComplete())
                 .build();
     }
 

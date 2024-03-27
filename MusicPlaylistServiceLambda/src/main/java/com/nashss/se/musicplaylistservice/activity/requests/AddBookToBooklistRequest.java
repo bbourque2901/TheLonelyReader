@@ -30,7 +30,7 @@ public class AddBookToBooklistRequest {
     @Override
     public String toString() {
         return "AddBookToBooklistRequest{" +
-                "asin=" + asin + '\'' +
+                "asin='" + asin + '\'' +
                 ", id='" + id + '\'' +
                 ", customerId='" + customerId + '\'' +
                 '}';

@@ -8,18 +8,18 @@ servers:
   - url: http://localhost:3000
 
 tags:
-  - name: Playlists
-    description: Create, view, and update playlists
+  - name: Booklists
+    description: Create, view, and update booklists
 
-  - name: Songs
-    description: View and add songs to playlists
+  - name: Book
+    description: View and add songs to booklists
 
 paths:
 
-  /playlists/search:
+  /booklists/search:
     get:
       tags:
-        - Playlists
+        - Booklists
       parameters:
         - name: q
           in: query
@@ -29,7 +29,7 @@ paths:
             type: array
             items:
               type: string
-      summary: Search for a playlist (SearchPlaylistLambda)
+      summary: Search for a booklist (SearchBooklistsLambda)
       responses:
         "200":
           description: A playlist object

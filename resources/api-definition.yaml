@@ -32,7 +32,7 @@ paths:
       summary: Search for a booklist (SearchBooklistsLambda)
       responses:
         "200":
-          description: A playlist object
+          description: A booklist object
           content:
             application/json:
               schema:
@@ -44,18 +44,22 @@ paths:
                     type: string
                   customerId:
                     type: string
-                  songCount:
+                  bookCount:
                     type: integer
                   tags:
                     type: array
                     items:
                       type: string
+                  asins:
+                    type: array
+                    items:
+                      type: string
 
-  /playlists:
+  /booklists:
     post:
       tags:
-        - Playlists
-      summary: Create a new playlist (CreatePlaylistLambda)
+        - Booklists
+      summary: Create a new booklist (CreateBooklistLambda)
       requestBody:
         content:
           application/json:
@@ -72,7 +76,7 @@ paths:
                     type: string
       responses:
         "200":
-          description: A playlist object
+          description: A booklist object
           content:
             application/json:
               schema:
@@ -84,28 +88,32 @@ paths:
                     type: string
                   customerId:
                     type: string
-                  songCount:
+                  bookCount:
                     type: integer
                   tags:
                     type: array
                     items:
                       type: string
+                  asins:
+                    type: array
+                    items:
+                      type: string
 
-  /playlists/{id}:
+  /booklists/{id}:
     get:
       tags:
-        - Playlists
-      summary: Get an existing playlist (GetPlaylistLambda)
+        - Booklists
+      summary: Get an existing booklist (GetBooklistLambda)
       parameters:
         - name: id
           in: path
-          description: ID of playlist to retrieve
+          description: ID of booklist to retrieve
           required: true
           schema:
             type: string
       responses:
         "200":
-          description: PlaylistResponse
+          description: BooklistResponse
           content:
             application/json:
               schema:
@@ -117,7 +125,7 @@ paths:
                     type: string
                   customerId:
                     type: string
-                  songCount:
+                  bookCount:
                     type: integer
                   tags:
                     type: array
@@ -128,12 +136,12 @@ paths:
 
     put:
       tags:
-        - Playlists
-      summary: Update the name of an existing playlist (UpdatePlaylistLambda)
+        - Booklists
+      summary: Update the name of an existing booklist (UpdateBooklistLambda)
       parameters:
         - name: id
           in: path
-          description: ID of playlist to retrieve
+          description: ID of booklist to retrieve
           required: true
           schema:
             type: string
@@ -152,7 +160,7 @@ paths:
 
       responses:
         "200":
-          description: PlaylistResponse
+          description: BooklistResponse
           content:
             application/json:
               schema:
@@ -164,7 +172,7 @@ paths:
                     type: string
                   customerId:
                     type: string
-                  songCount:
+                  bookCount:
                     type: integer
                   tags:
                     type: array
@@ -173,28 +181,28 @@ paths:
         "500":
           description: "Invalid input parameters"
 
-  /playlists/{id}/songs:
+  /booklists/{id}/books:
     get:
       tags:
-        - Songs
-      summary: Retrieves a list of all songs in a playlist (GetPlaylistSongsLambda)
-      operationId: getSongs
+        - Books
+      summary: Retrieves a list of all songs in a booklist (GetBooklistBooksLambda)
+      operationId: getBooks
       parameters:
         - name: id
           in: path
-          description: ID of playlist to return
+          description: ID of booklist to return
           required: true
           schema:
             type: string
       responses:
         "200":
-          description: A playlist object
+          description: A booklist object
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  songList:
+                  booklist:
                     type: array
                     items:
                       properties:
@@ -202,20 +210,28 @@ paths:
                           type: string
                         title:
                           type: string
-                        album:
+                        author:
                           type: string
-                        trackNumber:
+                        genre:
+                          type: string
+                        rating:
+                          type: integer
+                        comments:
+                          type: string
+                        currentlyReading:
+                          type: boolean
+                        percentComplete:
                           type: integer
 
     post:
       tags:
-        - Songs
-      summary: Add a song to a playlist (AddSongToPlaylistLambda)
-      operationId: addSong
+        - Books
+      summary: Add a book to a booklist (AddBookToBooklistLambda)
+      operationId: addBook
       parameters:
         - name: id
           in: path
-          description: ID of playlist to return
+          description: ID of booklist to return
           required: true
           schema:
             type: string
@@ -227,14 +243,12 @@ paths:
               properties:
                 asin:
                   type: string
-                trackNumber:
-                  type: integer
                 id:
                   type: string
 
       responses:
         "200":
-          description: the song
+          description: the book
           content:
             application/json:
               schema:
@@ -248,7 +262,54 @@ paths:
                           type: string
                         title:
                           type: string
-                        album:
+                        author:
                           type: string
-                        trackNumber:
+                        genre:
+                          type: string
+                        rating:
                           type: integer
+                        comments:
+                          type: string
+                        currentlyReading:
+                          type: boolean
+                        percentComplete:
+                          type: integer
+
+  /books/search:
+    get:
+      tags:
+        - Books
+      parameters:
+        - name: q
+          in: query
+          description: Search term (name or asin)
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      summary: Search for a book (SearchBooksLambda)
+      responses:
+        "200":
+          description: A book object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  asin:
+                    type: string
+                  title:
+                    type: string
+                  author:
+                    type: string
+                  genre:
+                    type: string
+                  rating:
+                    type: integer
+                  comments:
+                    type: string
+                  currentlyReading:
+                    type: boolean
+                  percentComplete:
+                    type: integer

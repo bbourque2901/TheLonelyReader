@@ -65,13 +65,22 @@ public interface ServiceComponent {
      * @return SearchBooklistActivity
      */
     SearchBooklistsActivity provideSearchBooklistsActivity();
+
     /**
      * Provides the relevant activity.
      * @return UpdateBooklistActivity
      */
     UpdateBooklistActivity provideUpdateBooklistActivity();
 
+
     GetCurrentlyReadingActivity provideGetCurrentlyReadingActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return SearchBooksActivity
+     */
+    SearchBooksActivity provideSearchBooksActivity();
+
 
 
 }

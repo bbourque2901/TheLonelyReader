@@ -12,7 +12,7 @@ import java.util.Objects;
  * Represents a Book in the Books table.
  */
 
-@DynamoDBTable(tableName = "book_table")
+@DynamoDBTable(tableName = "Books")
 public class Book {
 
     private String asin;

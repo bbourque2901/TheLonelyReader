@@ -3,6 +3,12 @@ package com.nashss.se.musicplaylistservice.dynamodb;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Book;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -25,5 +31,58 @@ public class BookDao {
     @Inject
     public BookDao(DynamoDBMapper dynamoDbMapper) {
         this.dynamoDBMapper = dynamoDbMapper;
+    }
+
+    /**
+     * Perform a search (via a "scan") of the book table for books matching the given criteria.
+     *
+     * Both "bookName" and "tags" attributes are searched.
+     * The criteria are an array of Strings. Each element of the array is search individually.
+     * ALL elements of the criteria array must appear in the bookName or the asin (or both).
+     * Searches are CASE SENSITIVE.
+     *
+     * @param criteria an array of String containing search criteria.
+     * @return a List of Book objects that match the search criteria.
+     */
+    public List<Book> searchBooks(String[] criteria) {
+        DynamoDBScanExpression dynamoDBScanExpression = new DynamoDBScanExpression();
+
+        if (criteria.length > 0) {
+            Map<String, AttributeValue> valueMap = new HashMap<>();
+            String valueMapNamePrefix = ":c";
+
+            StringBuilder nameFilterExpression = new StringBuilder();
+            StringBuilder asinFilterExpression = new StringBuilder();
+
+            for (int i = 0; i < criteria.length; i++) {
+                valueMap.put(valueMapNamePrefix + i,
+                        new AttributeValue().withS(criteria[i]));
+                nameFilterExpression.append(
+                        filterExpressionPart("bookName", valueMapNamePrefix, i));
+                asinFilterExpression.append(
+                        filterExpressionPart("asin", valueMapNamePrefix, i));
+            }
+
+            dynamoDBScanExpression.setExpressionAttributeValues(valueMap);
+            dynamoDBScanExpression.setFilterExpression(
+                    "(" + nameFilterExpression + ") or (" + asinFilterExpression + ")");
+        }
+
+        return this.dynamoDBMapper.scan(Book.class, dynamoDBScanExpression);
+    }
+
+
+    /**
+     * Helper method for searchBooks method.
+     */
+    private StringBuilder filterExpressionPart(String target, String valueMapNamePrefix, int position) {
+        String possiblyAnd = position == 0 ? "" : "and ";
+        return new StringBuilder()
+                .append(possiblyAnd)
+                .append("contains(")
+                .append(target)
+                .append(", ")
+                .append(valueMapNamePrefix).append(position)
+                .append(") ");
     }
 }

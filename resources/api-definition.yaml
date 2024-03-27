@@ -292,3 +292,42 @@ paths:
                           type: boolean
                         percentComplete:
                           type: integer
+
+  /books/search:
+    get:
+      tags:
+        - Books
+      parameters:
+        - name: q
+          in: query
+          description: Search term (name or asin)
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      summary: Search for a book (SearchBooksLambda)
+      responses:
+        "200":
+          description: A book object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  asin:
+                    type: string
+                  title:
+                    type: string
+                  author:
+                    type: string
+                  genre:
+                    type: string
+                  rating:
+                    type: integer
+                  comments:
+                    type: string
+                  currentlyReading:
+                    type: boolean
+                  percentComplete:
+                    type: integer

@@ -15,7 +15,7 @@ export default class MusicPlaylistClient extends BindingClass {
     constructor(props = {}) {
         super();
 
-        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getPlaylist', 'getPlaylistSongs', 'createPlaylist'];
+        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getPlaylist', 'getPlaylistSongs', 'createBooklist'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -102,24 +102,24 @@ export default class MusicPlaylistClient extends BindingClass {
     }
 
     /**
-     * Create a new playlist owned by the current user.
-     * @param name The name of the playlist to create.
-     * @param tags Metadata tags to associate with a playlist.
+     * Create a new booklist owned by the current user.
+     * @param name The name of the booklist to create.
+     * @param tags Metadata tags to associate with a booklist.
      * @param errorCallback (Optional) A function to execute if the call fails.
-     * @returns The playlist that has been created.
+     * @returns The booklist that has been created.
      */
-    async createPlaylist(name, tags, errorCallback) {
+    async createBooklist(name, tags, errorCallback) {
         try {
-            const token = await this.getTokenOrThrow("Only authenticated users can create playlists.");
-            const response = await this.axiosClient.post(`playlists`, {
+            const token = await this.getTokenOrThrow("Only authenticated users can create booklists.");
+            const response = await this.axiosClient.post(`booklists`, {
                 name: name,
-                tags: tags
+                tags: tags,
             }, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
-            return response.data.playlist;
+            return response.data.booklist;
         } catch (error) {
             this.handleError(error, errorCallback)
         }

@@ -206,7 +206,7 @@ Resources:
             Statement:
             - Effect: Allow
               Action: dynamodb:*
-              Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/booklists"
+              Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/Booklists"
                 
         - PolicyName: 'AccessBooksTable'
           PolicyDocument:
@@ -214,7 +214,7 @@ Resources:
             Statement:
             - Effect: Allow
               Action: dynamodb:*
-              Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/books"
+              Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/Books"
 
   #-----------------------------------------------------
   # Lambda Functions Configuration

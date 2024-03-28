@@ -62,16 +62,16 @@ public class AddBookToBooklistActivity {
             throw new SecurityException("You must own a booklist to add books to it.");
         }
 
-        List<String> asins = booklist.getAsins();
-        asins.add(addBookToBooklistRequest.getAsin());
+        List<String> asinsToAdd = new ArrayList<>();
+        asinsToAdd.add(addBookToBooklistRequest.getAsin());
 
-        List<Book> books = new ArrayList<>();
-        for (String asin : asins) {
+        List<Book> books = booklist.getBooks();
+        for (String asin : asinsToAdd) {
             books.add(bookDao.getBook(asin));
         }
 
-        booklist.setAsins(asins);
-        booklist.setBookCount(asins.size());
+        booklist.setBooks(books);
+        booklist.setBookCount(books.size());
         booklistDao.saveBooklist(booklist);
 
         List<BookModel> bookModels = new ModelConverterCarbon().toBookModelList(books);

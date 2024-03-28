@@ -4,6 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.ScanResultPage;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Book;
+import com.nashss.se.musicplaylistservice.exceptions.BookNotFoundException;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 
@@ -70,6 +71,21 @@ public class BookDao {
         return returnList;
     }
 /**
+     * Returns the {@link Book} corresponding to the specified asin.
+     *
+     * @param asin the Book asin
+     * @return the stored Book, or null if none was found.
+     */
+    public Book getBook(String asin) {
+        Book book = this.dynamoDBMapper.load(Book.class, asin);
+        if (book == null) {
+            throw new BookNotFoundException("Could not find book with asin: " + asin);
+        }
+
+        return book;
+    }
+
+    /**
      * Perform a search (via a "scan") of the book table for books matching the given criteria.
      *
      * Both "bookName" and "tags" attributes are searched.

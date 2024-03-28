@@ -110,4 +110,21 @@ public class BooklistDao {
                 .append(valueMapNamePrefix).append(position)
                 .append(") ");
     }
+
+    /**
+     * Removes the {@link Booklist} corresponding to the specified id.
+     *
+     * @param id the Booklist ID
+     * @return the removed Booklist, or null if none was found.
+     */
+    public Booklist removeBooklist(String id) {
+        Booklist booklist = this.dynamoDBMapper.load(Booklist.class, id);
+
+        if (booklist == null) {
+            throw new BooklistNotFoundException("Could not find booklist with id " + id);
+        }
+        dynamoDBMapper.delete(booklist);
+
+        return booklist;
+    }
 }

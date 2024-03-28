@@ -1,5 +1,5 @@
 package com.nashss.se.musicplaylistservice.dependency;
-
+//CHECKSTYLE:OFF
 import com.nashss.se.musicplaylistservice.activity.*;
 
 import dagger.Component;
@@ -78,6 +78,9 @@ public interface ServiceComponent {
      * @return UpdateBooklistActivity
      */
     UpdateBooklistActivity provideUpdateBooklistActivity();
+
+
+    GetCurrentlyReadingActivity provideGetCurrentlyReadingActivity();
 
     /**
      * Provides the relevant activity.

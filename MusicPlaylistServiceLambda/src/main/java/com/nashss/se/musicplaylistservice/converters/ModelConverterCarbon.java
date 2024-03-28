@@ -24,12 +24,18 @@ public class ModelConverterCarbon {
             tags = new ArrayList<>(bookList.getTags());
         }
 
+        List<String> asins = null;
+        if (bookList.getAsins() != null) {
+            asins = new ArrayList<>(bookList.getAsins());
+        }
+
         return BooklistModel.builder()
                 .withId(bookList.getId())
                 .withName(bookList.getName())
                 .withCustomerId(bookList.getCustomerId())
                 .withBookCount(bookList.getBookCount())
                 .withTags(tags)
+                .withAsins(asins)
                 .build();
     }
 
@@ -60,7 +66,6 @@ public class ModelConverterCarbon {
         for (Book book : books) {
             bookModels.add(toBookModel(book));
         }
-
         return bookModels;
     }
 

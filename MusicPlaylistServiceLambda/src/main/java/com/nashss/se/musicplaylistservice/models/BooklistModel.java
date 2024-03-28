@@ -11,13 +11,15 @@ public class BooklistModel {
     private final String customerId;
     private final int bookCount;
     private final List<String> tags;
+    private final List<String> asins;
 
-    private BooklistModel(String id, String name, String customerId, int bookCount, List<String> tags) {
+    private BooklistModel(String id, String name, String customerId, int bookCount, List<String> tags, List<String> asins) {
         this.id = id;
         this.name = name;
         this.customerId = customerId;
         this.bookCount = bookCount;
         this.tags = tags;
+        this.asins = asins;
     }
 
     public String getId() {
@@ -40,6 +42,8 @@ public class BooklistModel {
         return copyToList(tags);
     }
 
+    public List<String> getAsins() { return copyToList(asins);}
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -50,12 +54,12 @@ public class BooklistModel {
         }
         BooklistModel that = (BooklistModel) o;
         return bookCount == that.bookCount && Objects.equals(id, that.id) && Objects.equals(name, that.name) &&
-                Objects.equals(customerId, that.customerId) && Objects.equals(tags, that.tags);
+                Objects.equals(customerId, that.customerId) && Objects.equals(tags, that.tags) && Objects.equals(asins, that.asins);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, customerId, bookCount, tags);
+        return Objects.hash(id, name, customerId, bookCount, tags, asins);
     }
 
 
@@ -70,6 +74,7 @@ public class BooklistModel {
         private String customerId;
         private int bookCount;
         private List<String> tags;
+        private List<String> asins;
 
         public Builder withId(String id) {
             this.id = id;
@@ -95,9 +100,13 @@ public class BooklistModel {
             this.tags = copyToList(tags);
             return this;
         }
+        public Builder withAsins(List<String> asins) {
+            this.asins = copyToList(asins);
+            return this;
+        }
 
         public BooklistModel build() {
-            return new BooklistModel(id, name, customerId, bookCount, tags);
+            return new BooklistModel(id, name, customerId, bookCount, tags, asins);
         }
     }
 }

@@ -25,11 +25,11 @@ public final class BooklistTestHelper {
         booklist.setCustomerId("customerABC");
         booklist.setTags(Collections.singleton("tag"));
 
-        List<String> asins = new ArrayList<>();
+        List<Book> asins = new ArrayList<>();
         for (int i = 0; i < numBooks; i++) {
-            asins.add(BookTestHelper.generateBook(i).getAsin());
+            asins.add(BookTestHelper.generateBook(i));
         }
-        booklist.setAsins(asins);
+        booklist.setBooks(asins);
         booklist.setBookCount(asins.size());
 
         return booklist;

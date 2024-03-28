@@ -1,5 +1,5 @@
 package com.nashss.se.musicplaylistservice.dependency;
-
+//CHECKSTYLE:OFF
 import com.nashss.se.musicplaylistservice.activity.*;
 
 import dagger.Component;

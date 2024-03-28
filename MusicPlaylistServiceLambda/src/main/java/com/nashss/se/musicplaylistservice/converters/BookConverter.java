@@ -1,12 +1,11 @@
 package com.nashss.se.musicplaylistservice.converters;
+import com.nashss.se.musicplaylistservice.dynamodb.models.Book;
+import com.nashss.se.musicplaylistservice.exceptions.BookSerializationException;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nashss.se.musicplaylistservice.dynamodb.models.Book;
-import com.nashss.se.musicplaylistservice.exceptions.BookSerializationException;
 
 import java.util.List;
 

@@ -1,10 +1,10 @@
 package com.nashss.se.musicplaylistservice.dynamodb.models;
+import com.nashss.se.musicplaylistservice.converters.BookConverter;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverted;
-import com.nashss.se.musicplaylistservice.converters.BookConverter;
 
 import java.util.HashSet;
 import java.util.List;

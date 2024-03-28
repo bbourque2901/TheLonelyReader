@@ -20,6 +20,7 @@ public class GetCurrentlyReadingLambda
                 () -> input.fromPath(path ->
                         GetCurrentlyReadingRequest.builder()
                                 .withCurrentlyReading(Boolean.parseBoolean(path.get("currentlyReading")))
+                                .withId(path.get("id"))
                                 .build()),
                 (request, serviceComponent) ->
                         serviceComponent.provideGetCurrentlyReadingActivity().handleRequest(request)

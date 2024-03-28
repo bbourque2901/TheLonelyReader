@@ -33,7 +33,7 @@ public class GetCurrentlyReadingActivityTest {
     }
 
     @Test
-    public void handleRequest_savedBooklistFound_returnsBooklistModelInResult() {
+    public void handleRequest_savedBooklistFound_returnsBooklistWithOnlyCurrentlyReadingAsins() {
         // GIVEN
         String expectedId = "expectedId";
         String expectedName = "expectedName";
@@ -70,6 +70,6 @@ public class GetCurrentlyReadingActivityTest {
         assertEquals(expectedCustomerId, result.getBooklist().getCustomerId());
         assertEquals(expectedBookCount, result.getBooklist().getBookCount());
         assertEquals(expectedTags, result.getBooklist().getTags());
-        assertEquals(List.of("current1", "current2"), result.getBooklist().g);
+        assertEquals(List.of("current1", "current2"), result.getBooklist().getAsins());
     }
 }

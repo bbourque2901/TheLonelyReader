@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-@DynamoDBTable(tableName = "booklists")
+@DynamoDBTable(tableName = "Booklists")
 public class Booklist {
     private String id;
     private String name;

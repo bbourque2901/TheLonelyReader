@@ -1,13 +1,13 @@
 :root {
     /* css variables: https://developer.mozilla.org/en-US/docs/Web/CSS/var */
-    --primary-color: #5D5E5E;
-    --secondary-color: #ffffff;
-    --tertiary-color: #F5881F;
-    --error-color: #EE3A23;
+    --primary-color: #A789CF; /*light purple - main background */
+    --secondary-color: #ffffff; /*white - wording */
+    --tertiary-color: #5816AE; /*dark purple - buttons and header background */
+    --error-color: #D4A841; /*orange */
 }
 
 .background {
-    background-color: #8A8C8F;
+    background-color: var(--primary-color);
     margin: 0;
     counter-reset: section;
     font-family: "Helvetica Neue",Helvetica,sans-serif;
@@ -18,7 +18,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--primary-color);
+    background-color: var(--tertiary-color);
     color: var(--secondary-color);
     padding: 4px 20px;
 }

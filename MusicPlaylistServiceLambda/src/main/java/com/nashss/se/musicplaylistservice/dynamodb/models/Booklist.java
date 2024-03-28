@@ -3,6 +3,8 @@ package com.nashss.se.musicplaylistservice.dynamodb.models;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverted;
+import com.nashss.se.musicplaylistservice.converters.BookConverter;
 
 import java.util.HashSet;
 import java.util.List;
@@ -16,7 +18,7 @@ public class Booklist {
     private String customerId;
     private Integer bookCount;
     private Set<String> tags;
-    private List<String> asins;
+    private List<Book> books;
 
     @DynamoDBHashKey(attributeName = "id")
     public String getId() {
@@ -69,14 +71,14 @@ public class Booklist {
         } else {
             this.tags = new HashSet<>(tags);
         }
-        this.tags = tags;
     }
     @DynamoDBAttribute(attributeName = "bookList")
-    public List<String> getAsins() {
-        return asins;
+    @DynamoDBTypeConverted(converter = BookConverter.class)
+    public List<Book> getBooks() {
+        return books;
     }
-    public void setAsins(List<String> asins) {
-        this.asins = asins;
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 
     @Override
@@ -94,11 +96,11 @@ public class Booklist {
                 Objects.equals(customerId, bookList.customerId) &&
                 Objects.equals(bookCount, bookList.bookCount) &&
                 Objects.equals(tags, bookList.tags) &&
-                Objects.equals(asins, bookList.asins);
+                Objects.equals(books, bookList.books);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, customerId, bookCount, tags, asins);
+        return Objects.hash(id, name, customerId, bookCount, tags, books);
     }
 }

@@ -91,4 +91,9 @@ public interface ServiceComponent {
      */
     RemoveBooklistActivity provideRemoveBooklistActivity();
 
+    /**
+     * Provides the relevant activity.
+     * @return RemoveBookFromBooklistActivity
+     */
+    RemoveBookFromBooklistActivity provideRemoveBookFromBooklistActivity();
 }

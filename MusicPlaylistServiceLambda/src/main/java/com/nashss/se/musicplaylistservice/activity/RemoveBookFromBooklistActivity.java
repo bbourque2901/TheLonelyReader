@@ -64,20 +64,14 @@ public class RemoveBookFromBooklistActivity {
 
         Book bookToRemove = bookDao.getBook(removeBFromBooklistRequest.getAsin());
 
-        //List<String> asins = booklist.getAsins();
-        //asins.remove(removeBFromBooklistRequest.getAsin());
-
-        List<Book> books = booklist.getBooklist();
+        List<Book> books = booklist.getBooks();
         books.remove(bookToRemove);
-        //for (String asin : asins) {
-        //    books.remove(bookDao.getBook(asin));
-        //}
 
-        booklist.setBooklist(books);
-        booklist.setBookCount(booklist.getBooklist().size());
-        booklistDao.saveBooklist(booklist);
+        booklist.setBooks(books);
+        booklist.setBookCount(booklist.getBooks().size());
+        booklist = booklistDao.saveBooklist(booklist);
 
-        List<BookModel> bookModels = new ModelConverterCarbon().toBookModelList(books);
+        List<BookModel> bookModels = new ModelConverterCarbon().toBookModelList(booklist.getBooks());
 
         return RemoveBookFromBooklistResult.builder()
                 .withBooklist(bookModels)

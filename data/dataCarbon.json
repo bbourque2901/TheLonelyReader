@@ -1,0 +1,124 @@
+{
+  "Books": [
+    {
+      "PutRequest": {
+        "Item": {
+          "asin": { "S": "B019HKJTCI" },
+          "title": { "S": "The Hobbit" },
+          "author": { "S": "J. R. R. Tolkien" },
+          "genre": { "S": "fantasy" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "asin": { "S": "B00000000" },
+          "title": { "S": "A Tale of Two Cities" },
+          "author": { "S": "Charles Dickens" },
+          "genre": { "S": "historical fiction" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "asin": { "S": "B07VSG6V59" },
+          "title": { "S": "To Kill a Mockingbird" },
+          "author": { "S": "Harper Lee" },
+          "genre": { "S": "southern gothic" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "asin": { "S": "B07NJ3H27X" },
+          "title": { "S": "The Great Gatsby" },
+          "author": { "S": "F. Scott Fitzgerald" },
+          "genre": { "S": "tragedy" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "asin": { "S": "B004CAWKXE" },
+          "title": { "S": "The Hunger Games" },
+          "author": { "S": "Suzanne Collins" },
+          "genre": { "S": "YA fiction" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "asin": { "S": "B000LP5FSG" },
+          "title": { "S": "The Handmaid's Tale" },
+          "author": { "S": "Margaret Atwood" },
+          "genre": { "S": "dystopian" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "asin": { "S": "6NB4PXZRJE" },
+          "title": { "S": "The Lord of the Rings" },
+          "author": { "S": "J. R. R. Tolkien" },
+          "genre": { "S": "fantasy" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "asin": { "S": "1F1T6N6G27" },
+          "title": { "S": "And Then There Were None" },
+          "author": { "S": "Agatha Christie" },
+          "genre": { "S": "mystery" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "asin": { "S": "CEG3AUB13A" },
+          "title": { "S": "The Da Vinci Code" },
+          "author": { "S": "Dan Brown" },
+          "genre": { "S": "mystery" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "asin": { "S": "0LT57BVJLC" },
+          "title": { "S": "The Catcher in the Rye" },
+          "author": { "S": "J.D. Salinger" },
+          "genre": { "S": "classics" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "asin": { "S": "NFAF5EJ46Z" },
+          "title": { "S": "Black Beauty" },
+          "author": { "S": "Anna Sewell" },
+          "genre": { "S": "classics" }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "asin": { "S": "2JW2CLZ9N0" },
+          "title": { "S": "Watership Down" },
+          "author": { "S": "Richard Adams" },
+          "genre": { "S": "classics" }
+        }
+      }
+    }
+  ]
+}

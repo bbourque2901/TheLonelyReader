@@ -14,7 +14,9 @@ public class RemoveBooklistRequest {
         return id;
     }
 
-    public String getCustomerId() { return customerId; }
+    public String getCustomerId() {
+        return customerId;
+    }
 
     @Override
     public String toString() {

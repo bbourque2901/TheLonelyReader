@@ -8,9 +8,13 @@ import java.util.List;
 public class RemoveBookFromBooklistResult {
     private final List<BookModel> booklist;
 
-    private RemoveBookFromBooklistResult(List<BookModel> booklist) { this.booklist = booklist; }
+    private RemoveBookFromBooklistResult(List<BookModel> booklist) {
+        this.booklist = booklist;
+    }
 
-    public List<BookModel> getBooklist() { return new ArrayList<>(booklist); }
+    public List<BookModel> getBooklist() {
+        return new ArrayList<>(booklist);
+    }
 
     @Override
     public String toString() {

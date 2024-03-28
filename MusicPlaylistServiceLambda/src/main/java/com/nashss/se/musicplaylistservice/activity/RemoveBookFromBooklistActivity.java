@@ -8,12 +8,13 @@ import com.nashss.se.musicplaylistservice.dynamodb.BooklistDao;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Book;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;
 import com.nashss.se.musicplaylistservice.models.BookModel;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Inject;
 
 /**
  * Implementation of the RemoveBookFromBooklistActivity for the BookPlaylist API.
@@ -47,22 +48,22 @@ public class RemoveBookFromBooklistActivity {
      * <p>
      * If the book does not exist, this should throw an BookNotFoundException.
      *
-     * @param removeBookFromBooklistRequest request object containing the book list ID and an asin to retrieve
+     * @param removeBFromBooklistRequest request object containing the book list ID and an asin to retrieve
      *                                 book data
      * @return removeBookFromPlaylistResult result object containing the book list's updated list of
      *                                 API defined {@link BookModel}s
      */
-    public RemoveBookFromBooklistResult handleRequest(final RemoveBookFromBooklistRequest removeBookFromBooklistRequest) {
-        log.info("Received RemoveBookFromBooklistRequest {} ", removeBookFromBooklistRequest);
+    public RemoveBookFromBooklistResult handleRequest(final RemoveBookFromBooklistRequest removeBFromBooklistRequest) {
+        log.info("Received RemoveBookFromBooklistRequest {} ", removeBFromBooklistRequest);
 
-        Booklist booklist = booklistDao.getBooklist(removeBookFromBooklistRequest.getId());
+        Booklist booklist = booklistDao.getBooklist(removeBFromBooklistRequest.getId());
 
-        if (!booklist.getCustomerId().equals(removeBookFromBooklistRequest.getCustomerId())) {
+        if (!booklist.getCustomerId().equals(removeBFromBooklistRequest.getCustomerId())) {
             throw new SecurityException("You must own a booklist to remove books from it!");
         }
 
         List<String> asins = booklist.getAsins();
-        asins.remove(removeBookFromBooklistRequest.getAsin());
+        asins.remove(removeBFromBooklistRequest.getAsin());
 
         List<Book> books = new ArrayList<>();
         for (String asin : asins) {

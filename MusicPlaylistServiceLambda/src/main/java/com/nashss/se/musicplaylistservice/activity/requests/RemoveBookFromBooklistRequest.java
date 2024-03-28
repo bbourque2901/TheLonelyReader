@@ -12,11 +12,17 @@ public class RemoveBookFromBooklistRequest {
         this.customerId = customerId;
     }
 
-    public String getId() { return id; }
+    public String getId() {
+        return id;
+    }
 
-    public String getAsin() { return asin; }
+    public String getAsin() {
+        return asin;
+    }
 
-    public String getCustomerId() { return customerId; }
+    public String getCustomerId() {
+        return customerId;
+    }
 
     @Override
     public String toString() {

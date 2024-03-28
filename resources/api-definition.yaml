@@ -99,7 +99,7 @@ paths:
                     items:
                       type: string
 
-  /books/{currentlyReading}:
+  /books/{currentlyReading} {id}:
     get:
       tags:
         - Booklists
@@ -112,6 +112,12 @@ paths:
           required: true
           schema:
             type: boolean
+        - name: id
+          in: path
+          description: id of the playlist to check, if blank will return all currently reading
+          required: false
+          schema:
+            type: string
       responses:
         "200":
           description: BooklistResponse

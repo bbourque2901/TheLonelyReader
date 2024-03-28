@@ -109,7 +109,6 @@ export default class MusicPlaylistClient extends BindingClass {
      * @returns The booklist that has been created.
      */
     async createBooklist(name, tags, errorCallback) {
-    console.log(`hello from booklist  ${name}, ${tags}, ${errorCallback}`)
         try {
             const token = await this.getTokenOrThrow("Only authenticated users can create booklists.");
             const response = await this.axiosClient.post(`booklists`, {
@@ -120,7 +119,6 @@ export default class MusicPlaylistClient extends BindingClass {
                     Authorization: `Bearer ${token}`
                 }
             });
-            console.log(`before retur ${name}, ${tags}, ${errorCallback}`)
             return response.data.booklist;
         } catch (error) {
             this.handleError(error, errorCallback)

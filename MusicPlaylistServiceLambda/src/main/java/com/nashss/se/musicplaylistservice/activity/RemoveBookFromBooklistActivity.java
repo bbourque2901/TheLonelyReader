@@ -62,16 +62,19 @@ public class RemoveBookFromBooklistActivity {
             throw new SecurityException("You must own a booklist to remove books from it!");
         }
 
-        List<String> asins = booklist.getAsins();
-        asins.remove(removeBFromBooklistRequest.getAsin());
+        Book bookToRemove = bookDao.getBook(removeBFromBooklistRequest.getAsin());
 
-        List<Book> books = new ArrayList<>();
-        for (String asin : asins) {
-            books.remove(bookDao.getBook(asin));
-        }
+        //List<String> asins = booklist.getAsins();
+        //asins.remove(removeBFromBooklistRequest.getAsin());
 
-        booklist.setAsins(asins);
-        booklist.setBookCount(asins.size());
+        List<Book> books = booklist.getBooklist();
+        books.remove(bookToRemove);
+        //for (String asin : asins) {
+        //    books.remove(bookDao.getBook(asin));
+        //}
+
+        booklist.setBooklist(books);
+        booklist.setBookCount(booklist.getBooklist().size());
         booklistDao.saveBooklist(booklist);
 
         List<BookModel> bookModels = new ModelConverterCarbon().toBookModelList(books);

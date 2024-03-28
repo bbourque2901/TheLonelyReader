@@ -61,7 +61,7 @@ public class AddBookToBooklistActivityTest {
 
         // The .generateBooklist() method generates a booklist with a single asin
         // Assigning this to a variable to be used in mockito when() statement (@Ln 79)
-        String existingAsin = originalBooklist.getAsins().get(0);
+        String existingAsin = originalBooklist.getBooks().get(0).getAsin();
 
         // The new book to add to the booklist
         Book bookToAdd = BookTestHelper.generateBook(2);

@@ -75,7 +75,7 @@ public class CreateBooklistActivity {
         booklist.setCustomerId(createBooklistRequest.getCustomerId());
         booklist.setBookCount(0);
         booklist.setTags(booklistTags);
-        booklist.setAsins(new ArrayList<>());
+        booklist.setBooks(new ArrayList<>());
 
         booklistDao.saveBooklist(booklist);
 

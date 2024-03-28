@@ -79,6 +79,9 @@ public interface ServiceComponent {
      */
     UpdateBooklistActivity provideUpdateBooklistActivity();
 
+
+    GetCurrentlyReadingActivity provideGetCurrentlyReadingActivity();
+
     /**
      * Provides the relevant activity.
      * @return SearchBooksActivity
@@ -90,5 +93,6 @@ public interface ServiceComponent {
      * @return RemoveBooklistActivity
      */
     RemoveBooklistActivity provideRemoveBooklistActivity();
+
 
 }

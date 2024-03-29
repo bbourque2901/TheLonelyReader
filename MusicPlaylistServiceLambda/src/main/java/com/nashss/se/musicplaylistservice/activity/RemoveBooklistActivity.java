@@ -36,7 +36,7 @@ public class RemoveBooklistActivity {
      * <p>
      * If the booklist does not exist, this should throw a BooklistNotFoundException.
      *
-     * @param removeBooklistRequest request object containing the playlist ID
+     * @param removeBooklistRequest request object containing the booklist ID
      * @return removeBooklistResult result object containing the API defined {@link BooklistModel}
      */
     public RemoveBooklistResult handleRequest(final RemoveBooklistRequest removeBooklistRequest) {

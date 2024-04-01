@@ -5,6 +5,7 @@ import com.nashss.se.musicplaylistservice.activity.results.GetCurrentlyReadingRe
 import com.nashss.se.musicplaylistservice.converters.ModelConverterCarbon;
 import com.nashss.se.musicplaylistservice.dynamodb.BookDao;
 import com.nashss.se.musicplaylistservice.dynamodb.BooklistDao;
+import com.nashss.se.musicplaylistservice.dynamodb.models.Book;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;
 import com.nashss.se.musicplaylistservice.models.BooklistModel;
 import org.apache.logging.log4j.LogManager;
@@ -48,14 +49,14 @@ public class GetCurrentlyReadingActivity {
         //narrows search results to a specific playlist. If no playlist given, returns all results.
         if (getCurrentlyReadingRequest.getId() != null) {
             Booklist requestedList = booklistDao.getBooklist(getCurrentlyReadingRequest.getId());
-            List<String> requestListAsins = requestedList.getAsins();
-            List<String> finalAsins = new ArrayList<>();
-            for (String asin : requestListAsins) {
-                if (currentlyReading.getAsins().contains(asin)) {
-                    finalAsins.add(asin);
+            List<Book> requestListBooks = requestedList.getBooks();
+            List<Book> booksBeingRead = new ArrayList<>();
+            for (Book book : requestListBooks) {
+                if (currentlyReading.getBooks().contains(book)) {
+                    booksBeingRead.add(book);
                 }
             }
-            requestedList.setAsins(finalAsins);
+            requestedList.setBooks(booksBeingRead);
             booklistModel = new ModelConverterCarbon().toBooklistModel(requestedList);
         } else {
             booklistModel = new ModelConverterCarbon().toBooklistModel(currentlyReading);

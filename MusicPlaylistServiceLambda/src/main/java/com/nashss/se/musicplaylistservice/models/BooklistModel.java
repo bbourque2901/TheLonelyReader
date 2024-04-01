@@ -1,5 +1,7 @@
 package com.nashss.se.musicplaylistservice.models;
 
+import com.nashss.se.musicplaylistservice.dynamodb.models.Book;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -11,15 +13,15 @@ public class BooklistModel {
     private final String customerId;
     private final int bookCount;
     private final List<String> tags;
-    private final List<String> asins;
+    private final List<Book> books;
 
-    private BooklistModel(String id, String name, String customerId, int bookCount, List<String> tags, List<String> asins) {
+    private BooklistModel(String id, String name, String customerId, int bookCount, List<String> tags, List<Book> books) {
         this.id = id;
         this.name = name;
         this.customerId = customerId;
         this.bookCount = bookCount;
         this.tags = tags;
-        this.asins = asins;
+        this.books = books;
     }
 
     public String getId() {
@@ -41,8 +43,9 @@ public class BooklistModel {
     public List<String> getTags() {
         return copyToList(tags);
     }
-
-    public List<String> getAsins() { return copyToList(asins);}
+    public List<Book> getBooks() {
+        return copyToList(books);
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -54,12 +57,12 @@ public class BooklistModel {
         }
         BooklistModel that = (BooklistModel) o;
         return bookCount == that.bookCount && Objects.equals(id, that.id) && Objects.equals(name, that.name) &&
-                Objects.equals(customerId, that.customerId) && Objects.equals(tags, that.tags) && Objects.equals(asins, that.asins);
+                Objects.equals(customerId, that.customerId) && Objects.equals(tags, that.tags) && Objects.equals(books, that.books);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, customerId, bookCount, tags, asins);
+        return Objects.hash(id, name, customerId, bookCount, tags, books);
     }
 
 
@@ -68,13 +71,14 @@ public class BooklistModel {
         return new Builder();
     }
 
+
     public static class Builder {
         private String id;
         private String name;
         private String customerId;
         private int bookCount;
         private List<String> tags;
-        private List<String> asins;
+        private List<Book> books;
 
         public Builder withId(String id) {
             this.id = id;
@@ -100,13 +104,13 @@ public class BooklistModel {
             this.tags = copyToList(tags);
             return this;
         }
-        public Builder withAsins(List<String> asins) {
-            this.asins = copyToList(asins);
+        public Builder withBooks(List<Book> books) {
+            this.books = copyToList(books);
             return this;
         }
 
         public BooklistModel build() {
-            return new BooklistModel(id, name, customerId, bookCount, tags, asins);
+            return new BooklistModel(id, name, customerId, bookCount, tags, books);
         }
     }
 }

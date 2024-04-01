@@ -60,13 +60,13 @@ public class BookDao {
                 .withExpressionAttributeValues(valueMap);
         ScanResultPage<Book> bookResultPage = dynamoDBMapper.scanPage(Book.class, dynamoDBScanExpression);
         List<Book> results = bookResultPage.getResults();
-        List<String> asins = new ArrayList<>();
-        for (Book book : results) {
-            asins.add(book.getAsin());
-        }
+//        List<String> asins = new ArrayList<>();
+//        for (Book book : results) {
+//            asins.add(book.getAsin());
+//        }
         Booklist returnList = new Booklist();
-        returnList.setAsins(asins);
-        returnList.setBookCount(asins.size());
+        returnList.setBooks(results);
+        returnList.setBookCount(results.size());
         returnList.setName("Currently Reading");
         return returnList;
     }

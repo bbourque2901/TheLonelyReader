@@ -15,7 +15,7 @@ export default class MusicPlaylistClient extends BindingClass {
     constructor(props = {}) {
         super();
 
-        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getPlaylist', 'getPlaylistSongs', 'createBooklist'];
+        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getBooklist', 'getBooklistBooks', 'createBooklist'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -72,30 +72,30 @@ export default class MusicPlaylistClient extends BindingClass {
     }
 
     /**
-     * Gets the playlist for the given ID.
-     * @param id Unique identifier for a playlist
+     * Gets the booklist for the given ID.
+     * @param id Unique identifier for a booklist
      * @param errorCallback (Optional) A function to execute if the call fails.
-     * @returns The playlist's metadata.
+     * @returns The booklist's metadata.
      */
-    async getPlaylist(id, errorCallback) {
+    async getBooklist(id, errorCallback) {
         try {
-            const response = await this.axiosClient.get(`playlists/${id}`);
-            return response.data.playlist;
+            const response = await this.axiosClient.get(`booklists/${id}`);
+            return response.data.booklist;
         } catch (error) {
             this.handleError(error, errorCallback)
         }
     }
 
     /**
-     * Get the songs on a given playlist by the playlist's identifier.
-     * @param id Unique identifier for a playlist
+     * Get the books on a given booklist by the booklist's identifier.
+     * @param id Unique identifier for a booklist
      * @param errorCallback (Optional) A function to execute if the call fails.
-     * @returns The list of songs on a playlist.
+     * @returns The list of books on a booklist.
      */
-    async getPlaylistSongs(id, errorCallback) {
+    async getBooklistBooks(id, errorCallback) {
         try {
-            const response = await this.axiosClient.get(`playlists/${id}/songs`);
-            return response.data.songList;
+            const response = await this.axiosClient.get(`booklists/${id}/books`);
+            return response.data.bookslist;
         } catch (error) {
             this.handleError(error, errorCallback)
         }

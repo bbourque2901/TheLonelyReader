@@ -1,5 +1,8 @@
 package com.nashss.se.musicplaylistservice.activity;
 
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.services.books.v1.model.Volume;
 import com.nashss.se.musicplaylistservice.activity.requests.AddBookToBooklistRequest;
 import com.nashss.se.musicplaylistservice.activity.results.AddBookToBooklistResult;
 import com.nashss.se.musicplaylistservice.converters.ModelConverterCarbon;
@@ -7,6 +10,7 @@ import com.nashss.se.musicplaylistservice.dynamodb.BookDao;
 import com.nashss.se.musicplaylistservice.dynamodb.BooklistDao;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Book;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;
+import com.nashss.se.musicplaylistservice.googlebookapi.Request;
 import com.nashss.se.musicplaylistservice.models.BookModel;
 
 import org.apache.logging.log4j.LogManager;
@@ -25,6 +29,7 @@ public class AddBookToBooklistActivity {
     private final Logger log = LogManager.getLogger();
     private final BookDao bookDao;
     private final BooklistDao booklistDao;
+    private Request googleBookApi;
 
     /**
      * Instantiates a new AddSongToPlaylistActivity object.
@@ -53,7 +58,7 @@ public class AddBookToBooklistActivity {
      * @return addBookToPlaylistResult result object containing the book list's updated list of
      *                                 API defined {@link BookModel}s
      */
-    public AddBookToBooklistResult handleRequest(final AddBookToBooklistRequest addBookToBooklistRequest) {
+    public AddBookToBooklistResult handleRequest(final AddBookToBooklistRequest addBookToBooklistRequest) throws Exception {
         log.info("Received AddBookToBooklistRequest {} ", addBookToBooklistRequest);
 
         Booklist booklist = booklistDao.getBooklist(addBookToBooklistRequest.getId());
@@ -62,13 +67,27 @@ public class AddBookToBooklistActivity {
             throw new SecurityException("You must own a booklist to add books to it.");
         }
 
-        List<String> asinsToAdd = new ArrayList<>();
-        asinsToAdd.add(addBookToBooklistRequest.getAsin());
+        // First, check if the book already exists in DynamoDB (searching by asin)
+        // If not ('bookToAdd = null"), query the google book api for a book
+        // It will take any search term, including an isbn(asin).
+        // Both are just strings, so dont need to refactor yet
+
+        // 1. queryBooks() method takes the search term (or asin) and returns a list of volumes (books) in JSON format
+        // 2. extractAttributes() method selects a volume at a given index and extracts attributes needed
+        //    for Book object (just first result for now). Returns JSON response of Book object to be created
+        // 3. deserializeVolumeToBook() method takes JSON response returned from extractAttributes() and returns actual
+        //    Book object with those attributes. Accepts any book JSON response
+
+        Book bookToAdd = bookDao.getBook(addBookToBooklistRequest.getAsin());
+        if (bookToAdd == null) {
+            JsonFactory jsonFactory = GsonFactory.getDefaultInstance();
+            googleBookApi = new Request();
+            List<Volume> volumes = googleBookApi.queryBooks(jsonFactory, addBookToBooklistRequest.getAsin());
+            bookToAdd = googleBookApi.deserializeVolumeToBook(googleBookApi.extractAttributes(volumes, 0));
+        }
 
         List<Book> books = booklist.getBooks();
-        for (String asin : asinsToAdd) {
-            books.add(bookDao.getBook(asin));
-        }
+        books.add(bookToAdd);
 
         booklist.setBooks(books);
         booklist.setBookCount(books.size());

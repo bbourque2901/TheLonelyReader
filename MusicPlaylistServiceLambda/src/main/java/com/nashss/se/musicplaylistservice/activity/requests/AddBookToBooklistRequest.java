@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
 @JsonDeserialize(builder = AddBookToBooklistRequest.Builder.class)
 public class AddBookToBooklistRequest {
+
+    // With the google book api, asin will represent a books asin(isbn) or search term for now
     private final String asin;
     private final String id;
     private final String customerId;

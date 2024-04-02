@@ -2,6 +2,7 @@ package com.nashss.se.musicplaylistservice.googlebookapi.helper;
 
 import com.google.api.services.books.v1.model.Volume;
 
+import java.util.Collections;
 import java.util.List;
 
 public class VolumeInfoHelper {
@@ -18,7 +19,7 @@ public class VolumeInfoHelper {
             }
         }
 
-        return null;
+        return "";
     }
 
     public String getTitle(Volume.VolumeInfo volumeInfo) {
@@ -34,7 +35,7 @@ public class VolumeInfoHelper {
             return volumeInfo.getAuthors();
         }
 
-        return null;
+        return Collections.emptyList();
     }
 
     public List<String> getGenres(Volume.VolumeInfo volumeInfo) {
@@ -42,7 +43,7 @@ public class VolumeInfoHelper {
             return volumeInfo.getCategories();
         }
 
-        return null;
+        return Collections.emptyList();
     }
 
     public String getThumbnail(Volume.VolumeInfo volumeInfo) {
@@ -50,7 +51,7 @@ public class VolumeInfoHelper {
             return volumeInfo.getImageLinks().get("thumbnail").toString();
         }
 
-        return null;
+        return "";
     }
 
     public String getPageCount(Volume.VolumeInfo volumeInfo) {
@@ -58,7 +59,7 @@ public class VolumeInfoHelper {
             return volumeInfo.getPageCount().toString();
         }
 
-        return null;
+        return "";
     }
 
     public void viewVolumeFromList(List<Volume> volumes, int desiredIndex) {

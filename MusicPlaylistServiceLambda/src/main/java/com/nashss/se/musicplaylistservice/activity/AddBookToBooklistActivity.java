@@ -10,6 +10,7 @@ import com.nashss.se.musicplaylistservice.dynamodb.BookDao;
 import com.nashss.se.musicplaylistservice.dynamodb.BooklistDao;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Book;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;
+import com.nashss.se.musicplaylistservice.exceptions.GoogleBookAPISearchException;
 import com.nashss.se.musicplaylistservice.googlebookapi.Request;
 import com.nashss.se.musicplaylistservice.models.BookModel;
 
@@ -58,7 +59,7 @@ public class AddBookToBooklistActivity {
      * @return addBookToPlaylistResult result object containing the book list's updated list of
      *                                 API defined {@link BookModel}s
      */
-    public AddBookToBooklistResult handleRequest(final AddBookToBooklistRequest addBookToBooklistRequest) throws Exception {
+    public AddBookToBooklistResult handleRequest(final AddBookToBooklistRequest addBookToBooklistRequest) {
         log.info("Received AddBookToBooklistRequest {} ", addBookToBooklistRequest);
 
         Booklist booklist = booklistDao.getBooklist(addBookToBooklistRequest.getId());
@@ -68,7 +69,7 @@ public class AddBookToBooklistActivity {
         }
 
         // First, check if the book already exists in DynamoDB (searching by asin)
-        // If not ('bookToAdd = null"), query the google book api for a book
+        // If not ('bookToAdd' = null), query the google book api for a book
         // It will take any search term, including an isbn(asin).
         // Both are just strings, so dont need to refactor yet
 
@@ -80,10 +81,14 @@ public class AddBookToBooklistActivity {
 
         Book bookToAdd = bookDao.getBook(addBookToBooklistRequest.getAsin());
         if (bookToAdd == null) {
-            JsonFactory jsonFactory = GsonFactory.getDefaultInstance();
-            googleBookApi = new Request();
-            List<Volume> volumes = googleBookApi.queryBooks(jsonFactory, addBookToBooklistRequest.getAsin());
-            bookToAdd = googleBookApi.deserializeVolumeToBook(googleBookApi.extractAttributes(volumes, 0));
+            try {
+                JsonFactory jsonFactory = GsonFactory.getDefaultInstance();
+                googleBookApi = new Request();
+                List<Volume> volumes = googleBookApi.queryBooks(jsonFactory, addBookToBooklistRequest.getAsin());
+                bookToAdd = googleBookApi.deserializeVolumeToBook(googleBookApi.extractAttributes(volumes, 0));
+            } catch (Exception e) {
+                throw new GoogleBookAPISearchException("Error with request to Google Book API", e);
+            }
         }
 
         List<Book> books = booklist.getBooks();

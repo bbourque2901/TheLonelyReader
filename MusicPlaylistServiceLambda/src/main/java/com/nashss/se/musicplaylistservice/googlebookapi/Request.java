@@ -10,6 +10,9 @@ import com.google.api.services.books.v1.model.Volumes;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Book;
 import com.nashss.se.musicplaylistservice.googlebookapi.helper.VolumeInfoHelper;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.Collections;
 import java.util.List;
 
 public class Request {
@@ -17,7 +20,7 @@ public class Request {
 
     // Example JSON response : https://www.googleapis.com/books/v1/volumes/btpIkZ6X6egC
 
-    public List<Volume> queryBooks(JsonFactory jsonFactory, String query) throws Exception {
+    public List<Volume> queryBooks(JsonFactory jsonFactory, String query) throws IOException, GeneralSecurityException {
 
         Books books = new Books.Builder(GoogleNetHttpTransport.newTrustedTransport(), jsonFactory, null)
                 .setApplicationName(APPLICATION_NAME)
@@ -51,8 +54,16 @@ public class Request {
         Book book = new Book();
         book.setAsin(helper.getIsbn(volumeInfo));
         book.setTitle(helper.getTitle(volumeInfo));
-        book.setAuthor(helper.getAuthors(volumeInfo).get(0));
-        book.setGenre(helper.getGenres(volumeInfo).get(0));
+        if (!helper.getAuthors(volumeInfo).isEmpty()) {
+            book.setAuthor(helper.getAuthors(volumeInfo).get(0));
+        } else {
+            book.setAuthor("");
+        }
+        if (!helper.getGenres(volumeInfo).isEmpty()) {
+            book.setGenre(helper.getGenres(volumeInfo).get(0));
+        } else {
+            book.setGenre("");
+        }
         book.setThumbnail(helper.getThumbnail(volumeInfo));
         //book.setPageCount(Integer.parseInt(helper.getPageCount(volumeInfo)));
 

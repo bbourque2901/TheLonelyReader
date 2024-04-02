@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="text/javascript" src="assets/viewBooklist.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body class="background">
+<header class="header" id="header"></header>
+<div class="card">
+    <h2 id="booklist-name"></h2>
+    <h3>Created by: <span id="booklist-owner"></span></h3>
+    <div class="tags" id="tags"></div>
+    <ol id="books"></ol>
+</div>
+<div class="card">
+    <h2>Add Book to Booklist</h2>
+    <form class="card-content" id="add-book-form">
+        <p class="hidden error" id="error-message"> </p>
+        <p class="form-field">
+            <label>Book Asin</label>
+            <input type="text" required class="validated-field" id="book-asin" placeholder="B00000000" autofocus>
+        </p>
+    </form>
+    <a href="#" class="button" id="add-book">Add Book</a>
+</div>
+</body>
+
+</html>

@@ -25,7 +25,7 @@ module.exports = {
   entry: {
     createBooklist: path.resolve(__dirname, 'src', 'pages', 'createBooklist.js'),
     viewBooklist: path.resolve(__dirname, 'src', 'pages', 'viewBooklist.js'),
-    searchBooklists: path.resolve(__dirname, 'src', 'pages', 'searchBooklist.js'),
+    searchBooklists: path.resolve(__dirname, 'src', 'pages', 'searchBooklists.js'),
   },
   output: {
     path: path.resolve(__dirname, 'build', 'assets'),

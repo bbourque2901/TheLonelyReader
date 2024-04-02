@@ -108,7 +108,7 @@ class SearchBooklists extends BindingClass {
                 html += `
                 <tr>
                     <td>
-                        <a href="playlist.html?id=${res.id}">${res.name}</a>
+                        <a href="booklist.html?id=${res.id}">${res.name}</a>
                     </td>
                     <td>${res.bookCount}</td>
                     <td>${res.tags?.join(', ')}</td>

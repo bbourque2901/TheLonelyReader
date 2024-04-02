@@ -94,8 +94,10 @@ export default class MusicPlaylistClient extends BindingClass {
      */
     async getBooklistBooks(id, errorCallback) {
         try {
+            console.log('before path');
             const response = await this.axiosClient.get(`booklists/${id}/books`);
-            return response.data.bookslist;
+            console.log('after path before return');
+            return response.data.books;
         } catch (error) {
             this.handleError(error, errorCallback)
         }

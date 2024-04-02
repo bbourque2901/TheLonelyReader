@@ -27,7 +27,7 @@ import DataStore from "../util/DataStore";
         const booklist = await this.client.getBooklist(booklistId);
         this.dataStore.set('booklist', booklist);
         document.getElementById('books').innerText = "(loading books...)";
-        const songs = await this.client.getBooklistBooks(booklistId);
+        const books = await this.client.getBooklistBooks(booklistId);
         this.dataStore.set('books', books);
     }
 

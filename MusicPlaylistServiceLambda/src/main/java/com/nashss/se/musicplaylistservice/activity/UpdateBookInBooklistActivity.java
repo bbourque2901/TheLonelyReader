@@ -80,7 +80,7 @@ public class UpdateBookInBooklistActivity {
                 booklistDao.saveBooklist(booklist);
             }
         }
-        
+
         return UpdateBookInBooklistResult.builder()
                 .withBook(new ModelConverterCarbon().toBookModel(book))
                 .build();

@@ -15,7 +15,8 @@ export default class MusicPlaylistClient extends BindingClass {
     constructor(props = {}) {
         super();
 
-        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getBooklist', 'getBooklistBooks', 'createBooklist', 'search'];
+        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getBooklist',
+        'getBooklistBooks', 'createBooklist', 'search', 'removeBookFromBooklist'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -133,7 +134,7 @@ export default class MusicPlaylistClient extends BindingClass {
      */
     async addBookToBooklist(id, asin, errorCallback) {
         try {
-            const token = await this.getTokenOrThrow("Only authenticated users can add a song to a playlist.");
+            const token = await this.getTokenOrThrow("Only authenticated users can add a book to a booklist.");
             const response = await this.axiosClient.post(`booklists/${id}/books`, {
                 id: id,
                 asin: asin
@@ -142,6 +143,32 @@ export default class MusicPlaylistClient extends BindingClass {
                     Authorization: `Bearer ${token}`
                 }
             });
+            return response.data.books;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
+    }
+
+    /**
+     * removes a book from a booklist.
+     * @param id The id of the booklist to add a book to.
+     * @param asin The asin that uniquely identifies the book.
+     * @returns The list of books on a booklist.
+     */
+    async removeBookFromBooklist(id, asin, errorCallback) {
+        try {
+            console.log('delete endpoint called with id' + id);
+            const token = await this.getTokenOrThrow("Only authenticated users can remove a book from a booklist.");
+            console.log('made it past token');
+            const response = await this.axiosClient.delete(`booklists/${id}/books`, {
+                id: id,
+                asin: asin
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            console.log('made it past delete path');
             return response.data.books;
         } catch (error) {
             this.handleError(error, errorCallback)

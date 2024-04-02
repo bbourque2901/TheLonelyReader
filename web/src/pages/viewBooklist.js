@@ -36,15 +36,17 @@ import DataStore from "../util/DataStore";
       */
      mount() {
          document.getElementById('add-book').addEventListener('click', this.addBook);
-         var removeButtons = document.getElementsByClassName('button remove-book');
-         for(let b of removeButtons) {
-            b.addEventListener("click", this.remove)
-         }
+         document.getElementById('books').addEventListener('click', this.remove);
+//         var removeButtons = document.getElementsByClassName('button remove-book');
+//         for(let b of removeButtons) {
+//            b.addEventListener("click", this.remove)
+//         }
 
          this.header.addHeaderToPage();
 
          this.client = new MusicPlaylistClient();
          this.clientLoaded();
+
      }
 
       /**
@@ -72,6 +74,7 @@ import DataStore from "../util/DataStore";
         */
        addBooksToPage() {
            const books = this.dataStore.get('books')
+           const booklist = this.dataStore.get('booklist');
 
            if (books == null) {
                return;
@@ -86,7 +89,7 @@ import DataStore from "../util/DataStore";
                    <td>${book.author}</td>
                    <td>${book.genre}</td>
                    <td>${book.asin}</td>
-                   <td><button class="button remove-book">Delete</button></td>
+                   <td><button data-asin="${book.asin}" data-id="${booklist.id}" class="button remove-book">Remove</button></td>
                </tr>`;
            }
            document.getElementById('books').innerHTML = bookHtml;
@@ -97,7 +100,6 @@ import DataStore from "../util/DataStore";
          * booklist.
          */
          async addBook() {
-
                  const errorMessageDisplay = document.getElementById('error-message');
                  errorMessageDisplay.innerText = ``;
                  errorMessageDisplay.classList.add('hidden');
@@ -125,8 +127,12 @@ import DataStore from "../util/DataStore";
          /**
           * when remove button is clicked, removes book from booklist.
           */
-          async remove() {
-                  console.log("remove button clicked")
+          remove(e) {
+                console.log('remove button clicked', e.target.dataset.asin, e.target.dataset.id);
+                this.client.removeBookFromBooklist(e.target.dataset.id, e.target.dataset.asin, (error) => {
+                   errorMessageDisplay.innerText = `Error: ${error.message}`;
+                   errorMessageDisplay.classList.remove('hidden');
+               });
           }
 }
 

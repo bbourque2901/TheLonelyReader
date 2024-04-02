@@ -126,25 +126,23 @@ export default class MusicPlaylistClient extends BindingClass {
     }
 
     /**
-     * Add a song to a playlist.
-     * @param id The id of the playlist to add a song to.
-     * @param asin The asin that uniquely identifies the album.
-     * @param trackNumber The track number of the song on the album.
-     * @returns The list of songs on a playlist.
+     * Add a book to a booklist.
+     * @param id The id of the booklist to add a book to.
+     * @param asin The asin that uniquely identifies the book.
+     * @returns The list of books on a booklist.
      */
-    async addSongToPlaylist(id, asin, trackNumber, errorCallback) {
+    async addBookToBooklist(id, asin, errorCallback) {
         try {
             const token = await this.getTokenOrThrow("Only authenticated users can add a song to a playlist.");
-            const response = await this.axiosClient.post(`playlists/${id}/songs`, {
+            const response = await this.axiosClient.post(`booklists/${id}/books`, {
                 id: id,
-                asin: asin,
-                trackNumber: trackNumber
+                asin: asin
             }, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
-            return response.data.songList;
+            return response.data.books;
         } catch (error) {
             this.handleError(error, errorCallback)
         }

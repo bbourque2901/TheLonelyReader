@@ -78,10 +78,10 @@ import DataStore from "../util/DataStore";
            for (book of books) {
                bookHtml += `
                    <li class="book">
-                       <span class="asin">${book.asin}</span>
-                       <span class="title">${book.title}</span>
-                       <span class="author">${book.author}</span>
-                       <span class="genre">${book.genre}</span>
+                       <span class="title">${book.title} | </span>
+                       <span class="author">${book.author} | </span>
+                       <span class="genre">${book.genre} | </span>
+                       <span class="asin">${book.asin} | </span>
                    </li>
                `;
            }
@@ -93,7 +93,30 @@ import DataStore from "../util/DataStore";
          * booklist.
          */
          async addBook() {
-         }
+
+                 const errorMessageDisplay = document.getElementById('error-message');
+                 errorMessageDisplay.innerText = ``;
+                 errorMessageDisplay.classList.add('hidden');
+
+                 const booklist = this.dataStore.get('booklist');
+                 if (booklist == null) {
+                     return;
+                 }
+
+                 document.getElementById('add-book').innerText = 'Adding...';
+                 const asin = document.getElementById('book-asin').value;
+                 const booklistId = booklist.id;
+
+                 const books = await this.client.addBookToBooklist(booklistId, asin, (error) => {
+                     errorMessageDisplay.innerText = `Error: ${error.message}`;
+                     errorMessageDisplay.classList.remove('hidden');
+                 });
+
+                 this.dataStore.set('books', books);
+
+                 document.getElementById('add-book').innerText = 'Add Book';
+                 document.getElementById("add-book-form").reset();
+             }
 }
 
  /**

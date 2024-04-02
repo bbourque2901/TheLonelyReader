@@ -52,7 +52,7 @@ public class AddBookToBooklistActivityTest {
     }
 
     @Test
-    void handleRequest_validRequest_addsBookToEndOfBooklist() {
+    void handleRequest_validRequest_addsBookToEndOfBooklist() throws Exception {
         // GIVEN
         // a non-empty booklist
         Booklist originalBooklist = BooklistTestHelper.generateBooklist();
@@ -130,6 +130,64 @@ public class AddBookToBooklistActivityTest {
 
         // THEN
         assertThrows(BookNotFoundException.class, () -> addBookToBooklistActivity.handleRequest(request));
+    }
+
+    @Test
+    public void handleRequest_similarSearches_returnSameBook() throws Exception {
+        Booklist booklist = BooklistTestHelper.generateBooklist();
+        String booklistId = booklist.getId();
+        String customerId = booklist.getCustomerId();
+
+        String titleSearch = "game of thrones book one";
+        String isbnSearch = "9780553897845";
+
+        AddBookToBooklistRequest request = AddBookToBooklistRequest.builder()
+                .withId(booklistId)
+                .withAsin(titleSearch)
+                .withCustomerId(customerId)
+                .build();
+
+        when(booklistDao.getBooklist(booklistId)).thenReturn(booklist);
+        when(booklistDao.saveBooklist(booklist)).thenReturn(booklist);
+
+        AddBookToBooklistResult result = addBookToBooklistActivity.handleRequest(request);
+
+        verify(booklistDao).saveBooklist(booklist);
+
+        AddBookToBooklistRequest request2 = AddBookToBooklistRequest.builder()
+                .withId(booklistId)
+                .withAsin(isbnSearch)
+                .withCustomerId(customerId)
+                .build();
+
+        AddBookToBooklistResult result2 = addBookToBooklistActivity.handleRequest(request2);
+
+        assertEquals(result.getBookList().get(1), result2.getBookList().get(1));
+    }
+
+    @Test
+    public void test() throws Exception {
+        Booklist booklist = BooklistTestHelper.generateBooklist();
+        String booklistId = booklist.getId();
+        String customerId = booklist.getCustomerId();
+
+        String titleSearch = "declaration of independence";
+
+        AddBookToBooklistRequest request = AddBookToBooklistRequest.builder()
+                .withId(booklistId)
+                .withAsin(titleSearch)
+                .withCustomerId(customerId)
+                .build();
+
+        when(booklistDao.getBooklist(booklistId)).thenReturn(booklist);
+        when(booklistDao.saveBooklist(booklist)).thenReturn(booklist);
+
+        AddBookToBooklistResult result = addBookToBooklistActivity.handleRequest(request);
+
+        System.out.println(result.getBookList());
+        System.out.println(result.getBookList().get(1).getTitle());
+        System.out.println(result.getBookList().get(1).getAuthor());
+        System.out.println(result.getBookList().get(1).getAsin());
     }
 }
 

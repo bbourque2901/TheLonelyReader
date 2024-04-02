@@ -25,7 +25,7 @@ public class Request {
 
         Books.Volumes.List volumesList = books.volumes().list(query);
 
-        System.out.println(query);
+        //System.out.println(query);
 
         Volumes volumes = volumesList.execute();
 

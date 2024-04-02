@@ -20,6 +20,12 @@ public class AddBookToBooklistLambda
                             .withCustomerId(claims.get("email"))
                             .build());
         }, (request, serviceComponent) ->
-                serviceComponent.provideAddBookToBooklistActivity().handleRequest(request));
+        {
+            try {
+                return serviceComponent.provideAddBookToBooklistActivity().handleRequest(request);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 }

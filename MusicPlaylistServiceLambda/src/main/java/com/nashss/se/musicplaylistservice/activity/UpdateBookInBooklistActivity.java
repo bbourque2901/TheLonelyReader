@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UpdateBookInBooklistActivity {
@@ -66,17 +67,23 @@ public class UpdateBookInBooklistActivity {
         //tries to update currently reading, leaves alone if null
         try {
             book.setCurrentlyReading(updateBookInBooklistRequest.isCurrentlyReading());
-        } catch (NullPointerException e) {}
+        } catch (NullPointerException e) {
+            //can log here
+        }
         //tries to update percent complete, leaves alone if null
         try {
             book.setPercentComplete(updateBookInBooklistRequest.getPercentComplete());
-        } catch (NullPointerException e) {}
+        } catch (NullPointerException e) {
+            //can log here
+        }
         List<Booklist> results = booklistDao.getAllBooklistsForUser(updateBookInBooklistRequest.getCustomerId());
         for (Booklist booklist : results) {
             List<Book> currentBooklist = booklist.getBooks();
             if (currentBooklist.contains(originalBook)) {
-                currentBooklist.remove(originalBook);
-                currentBooklist.add(book);
+                List<Book> newlist = new ArrayList<>(currentBooklist);
+                newlist.remove(originalBook);
+                newlist.add(book);
+                booklist.setBooks(newlist);
                 booklistDao.saveBooklist(booklist);
             }
         }

@@ -12,7 +12,7 @@ public class BookModel {
     private final int rating;
     private final String comments;
     private final boolean currentlyReading;
-    private final int percentComplete;
+    private final Integer percentComplete;
 
     private BookModel(String asin, String title, String author, String genre, int rating,
                       String comments, boolean currentlyReading, int percentComplete) {
@@ -54,7 +54,7 @@ public class BookModel {
         return currentlyReading;
     }
 
-    public int getPercentComplete() {
+    public Integer getPercentComplete() {
         return percentComplete;
     }
 

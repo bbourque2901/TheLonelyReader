@@ -9,16 +9,16 @@ import DataStore from "../util/DataStore";
  class ViewBooklist extends BindingClass {
     constructor() {
             super();
-            this.bindClassMethods(['clientLoaded', 'mount', 'addBooklistToPage', 'addBooksToPage', 'addBook'], this);
+            this.bindClassMethods(['clientLoaded', 'mount', 'addBooklistToPage', 'addBooksToPage', 'addBook', 'remove'], this);
             this.dataStore = new DataStore();
             this.dataStore.addChangeListener(this.addBooklistToPage);
             this.dataStore.addChangeListener(this.addBooksToPage);
             this.header = new Header(this.dataStore);
             console.log("viewbooklist constructor");
-        }
+    }
 
     /**
-     * Once the client is loaded, get the booklist metadata and song list.
+     * Once the client is loaded, get the booklist metadata and book list.
      */
     async clientLoaded() {
         const urlParams = new URLSearchParams(window.location.search);
@@ -36,6 +36,10 @@ import DataStore from "../util/DataStore";
       */
      mount() {
          document.getElementById('add-book').addEventListener('click', this.addBook);
+         var removeButtons = document.getElementsByClassName('button remove-book');
+         for(let b of removeButtons) {
+            b.addEventListener("click", this.remove)
+         }
 
          this.header.addHeaderToPage();
 
@@ -73,17 +77,17 @@ import DataStore from "../util/DataStore";
                return;
            }
 
-           let bookHtml = '';
+           let bookHtml = '<table><tr><th>Title</th><th>Author</th><th>Genre</th><th>Asin</th><th>Remove Book</th></tr>';
            let book;
            for (book of books) {
                bookHtml += `
-                   <li class="book">
-                       <span class="title">${book.title} | </span>
-                       <span class="author">${book.author} | </span>
-                       <span class="genre">${book.genre} | </span>
-                       <span class="asin">${book.asin} | </span>
-                   </li>
-               `;
+               <tr>
+                   <td>${book.title}</td>
+                   <td>${book.author}</td>
+                   <td>${book.genre}</td>
+                   <td>${book.asin}</td>
+                   <td><button class="button remove-book">Delete</button></td>
+               </tr>`;
            }
            document.getElementById('books').innerHTML = bookHtml;
        }
@@ -116,7 +120,14 @@ import DataStore from "../util/DataStore";
 
                  document.getElementById('add-book').innerText = 'Add Book';
                  document.getElementById("add-book-form").reset();
-             }
+         }
+
+         /**
+          * when remove button is clicked, removes book from booklist.
+          */
+          async remove() {
+                  console.log("remove button clicked")
+          }
 }
 
  /**

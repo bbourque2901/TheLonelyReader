@@ -1,6 +1,6 @@
 package com.nashss.se.musicplaylistservice.exceptions;
 
-public class GoogleBookAPISearchException extends RuntimeException{
+public class GoogleBookAPISearchException extends RuntimeException {
     private static final long serialVersionUID = -800081441530037536L;
 
     /**

@@ -1,18 +1,18 @@
 package com.nashss.se.musicplaylistservice.googlebookapi;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.services.books.v1.Books;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.services.books.v1.model.Volume;
-import com.google.api.services.books.v1.model.Volumes;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Book;
 import com.nashss.se.musicplaylistservice.googlebookapi.helper.VolumeInfoHelper;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.services.books.v1.Books;
+import com.google.api.services.books.v1.model.Volume;
+import com.google.api.services.books.v1.model.Volumes;
+
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.Collections;
 import java.util.List;
 
 public class Request {
@@ -21,14 +21,15 @@ public class Request {
     // Example JSON response : https://www.googleapis.com/books/v1/volumes/btpIkZ6X6egC
 
     /**
-     * Queries the Google Book API with a given search term
+     * Queries the Google Book API with a given search term.
      * @param jsonFactory used to parse JSONs and access object properties
      * @param searchTerm the search term used to query the Google Book API
      * @return a list of Volumes returned by the query
      * @throws IOException when errors making request to the API
      * @throws GeneralSecurityException provides type safety
      */
-    public List<Volume> queryBooks(JsonFactory jsonFactory, String searchTerm) throws IOException, GeneralSecurityException {
+    public List<Volume> queryBooks(JsonFactory jsonFactory, String searchTerm) throws
+            IOException, GeneralSecurityException {
 
         Books books = new Books.Builder(GoogleNetHttpTransport.newTrustedTransport(), jsonFactory, null)
                 .setApplicationName(APPLICATION_NAME)
@@ -65,7 +66,6 @@ public class Request {
 
         // Create Book object and set attributes as values extracted by helper class
 
-        // For our ASIN, should we just use the ISBN?
         Book book = new Book();
         book.setAsin(helper.getIsbn(volumeInfo));
         book.setTitle(helper.getTitle(volumeInfo));

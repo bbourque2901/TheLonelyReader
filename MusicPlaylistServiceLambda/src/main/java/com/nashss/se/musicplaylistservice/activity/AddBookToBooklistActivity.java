@@ -1,8 +1,5 @@
 package com.nashss.se.musicplaylistservice.activity;
 
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.gson.GsonFactory;
-import com.google.api.services.books.v1.model.Volume;
 import com.nashss.se.musicplaylistservice.activity.requests.AddBookToBooklistRequest;
 import com.nashss.se.musicplaylistservice.activity.results.AddBookToBooklistResult;
 import com.nashss.se.musicplaylistservice.converters.ModelConverterCarbon;
@@ -14,10 +11,13 @@ import com.nashss.se.musicplaylistservice.exceptions.GoogleBookAPISearchExceptio
 import com.nashss.se.musicplaylistservice.googlebookapi.Request;
 import com.nashss.se.musicplaylistservice.models.BookModel;
 
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.services.books.v1.model.Volume;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 

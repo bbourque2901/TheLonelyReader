@@ -15,7 +15,7 @@ export default class MusicPlaylistClient extends BindingClass {
     constructor(props = {}) {
         super();
 
-        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getBooklist', 'getBooklistBooks', 'createBooklist'];
+        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getBooklist', 'getBooklistBooks', 'createBooklist', 'search'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -149,18 +149,18 @@ export default class MusicPlaylistClient extends BindingClass {
     }
 
     /**
-     * Search for a soong.
+     * Search for a book.
      * @param criteria A string containing search criteria to pass to the API.
-     * @returns The playlists that match the search criteria.
+     * @returns The booklists that match the search criteria.
      */
     async search(criteria, errorCallback) {
         try {
             const queryParams = new URLSearchParams({ q: criteria })
             const queryString = queryParams.toString();
 
-            const response = await this.axiosClient.get(`playlists/search?${queryString}`);
+            const response = await this.axiosClient.get(`booklists/search?${queryString}`);
 
-            return response.data.playlists;
+            return response.data.booklists;
         } catch (error) {
             this.handleError(error, errorCallback)
         }

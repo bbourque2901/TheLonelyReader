@@ -20,13 +20,21 @@ public class Request {
 
     // Example JSON response : https://www.googleapis.com/books/v1/volumes/btpIkZ6X6egC
 
-    public List<Volume> queryBooks(JsonFactory jsonFactory, String query) throws IOException, GeneralSecurityException {
+    /**
+     * Queries the Google Book API with a given search term
+     * @param jsonFactory used to parse JSONs and access object properties
+     * @param searchTerm the search term used to query the Google Book API
+     * @return a list of Volumes returned by the query
+     * @throws IOException when errors making request to the API
+     * @throws GeneralSecurityException provides type safety
+     */
+    public List<Volume> queryBooks(JsonFactory jsonFactory, String searchTerm) throws IOException, GeneralSecurityException {
 
         Books books = new Books.Builder(GoogleNetHttpTransport.newTrustedTransport(), jsonFactory, null)
                 .setApplicationName(APPLICATION_NAME)
                 .build();
 
-        Books.Volumes.List volumesList = books.volumes().list(query);
+        Books.Volumes.List volumesList = books.volumes().list(searchTerm);
 
         //System.out.println(query);
 
@@ -40,6 +48,13 @@ public class Request {
         return volumes.getItems();
     }
 
+    /**
+     * Extracts attributes needed to create Book object from a Volume.
+     * @param volumes a list of Volumes returned from querying the Google Book API
+     * @param desiredIndex the index of the desired Volume from list of Volumes
+     * @return a JSON representation of the Book object to be created
+     * @throws JsonProcessingException when a Volume has null isbn or title
+     */
     public String extractAttributes(List<Volume> volumes, int desiredIndex) throws JsonProcessingException {
         // Get the volume's VolumeInfo object from JSON response
         // VolumeInfo contains the attributes needed for a Book object
@@ -73,6 +88,12 @@ public class Request {
         return mapper.writeValueAsString(book);
     }
 
+    /**
+     * Deserializes a JSON array to a Book object.
+     * @param jsonArray JSON representation of a Book returned from extractAttributes()
+     * @return a Book object
+     * @throws JsonProcessingException when passing jsonArray with null isbn or title
+     */
     public Book deserializeVolumeToBook(String jsonArray) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
 

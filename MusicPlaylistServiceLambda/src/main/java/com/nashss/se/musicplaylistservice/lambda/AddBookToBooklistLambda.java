@@ -19,13 +19,12 @@ public class AddBookToBooklistLambda
                             .withAsin(unauthenticatedRequest.getAsin())
                             .withCustomerId(claims.get("email"))
                             .build());
-        }, (request, serviceComponent) ->
-        {
-            try {
-                return serviceComponent.provideAddBookToBooklistActivity().handleRequest(request);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        });
+        }, (request, serviceComponent) -> {
+                try {
+                    return serviceComponent.provideAddBookToBooklistActivity().handleRequest(request);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            });
     }
 }

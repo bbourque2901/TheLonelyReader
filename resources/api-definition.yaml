@@ -246,7 +246,7 @@ paths:
     get:
       tags:
         - Books
-      summary: Retrieves a list of all songs in a booklist (GetBooklistBooksLambda)
+      summary: Retrieves a list of all books in a booklist (GetBooklistBooksLambda)
       operationId: getBooks
       parameters:
         - name: id
@@ -263,7 +263,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  booklist:
+                  books:
                     type: array
                     items:
                       properties:
@@ -315,7 +315,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  songList:
+                  books:
                     type: array
                     items:
                       properties:
@@ -366,7 +366,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  songList:
+                  books:
                     type: array
                     items:
                       properties:

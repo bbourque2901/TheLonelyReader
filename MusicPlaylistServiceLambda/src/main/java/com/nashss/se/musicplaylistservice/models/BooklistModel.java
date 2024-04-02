@@ -15,7 +15,8 @@ public class BooklistModel {
     private final List<String> tags;
     private final List<Book> books;
 
-    private BooklistModel(String id, String name, String customerId, int bookCount, List<String> tags, List<Book> books) {
+    private BooklistModel(String id, String name, String customerId,
+                          int bookCount, List<String> tags, List<Book> books) {
         this.id = id;
         this.name = name;
         this.customerId = customerId;
@@ -56,8 +57,12 @@ public class BooklistModel {
             return false;
         }
         BooklistModel that = (BooklistModel) o;
-        return bookCount == that.bookCount && Objects.equals(id, that.id) && Objects.equals(name, that.name) &&
-                Objects.equals(customerId, that.customerId) && Objects.equals(tags, that.tags) && Objects.equals(books, that.books);
+        return bookCount == that.bookCount &&
+                Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(customerId, that.customerId) &&
+                Objects.equals(tags, that.tags) &&
+                Objects.equals(books, that.books);
     }
 
     @Override

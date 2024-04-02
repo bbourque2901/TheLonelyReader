@@ -8,8 +8,12 @@ public class GetCurrentlyReadingRequest {
         this.currentlyReading = currentlyReading;
         this.id = id;
     }
-    public boolean isCurrentlyReading() {return currentlyReading;}
-    public String getId() {return id;}
+    public boolean isCurrentlyReading() {
+        return currentlyReading;
+    }
+    public String getId() {
+        return id;
+    }
 
     @Override
     public String toString() {

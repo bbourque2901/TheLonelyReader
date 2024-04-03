@@ -13,10 +13,8 @@ import com.nashss.se.musicplaylistservice.dynamodb.models.AlbumTrack;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Book;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Playlist;
-import com.nashss.se.musicplaylistservice.exceptions.AlbumTrackNotFoundException;
-import com.nashss.se.musicplaylistservice.exceptions.BookNotFoundException;
-import com.nashss.se.musicplaylistservice.exceptions.BooklistNotFoundException;
-import com.nashss.se.musicplaylistservice.exceptions.PlaylistNotFoundException;
+import com.nashss.se.musicplaylistservice.exceptions.*;
+import com.nashss.se.musicplaylistservice.googlebookapi.Request;
 import com.nashss.se.musicplaylistservice.models.BookModel;
 import com.nashss.se.musicplaylistservice.models.SongModel;
 import com.nashss.se.musicplaylistservice.test.helper.AlbumTrackTestHelper;
@@ -32,8 +30,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.openMocks;
 
 public class AddBookToBooklistActivityTest {
@@ -44,15 +41,17 @@ public class AddBookToBooklistActivityTest {
     private BookDao bookDao;
 
     private AddBookToBooklistActivity addBookToBooklistActivity;
+    private ModelConverterCarbon modelConverter;
 
     @BeforeEach
     void setup() {
         openMocks(this);
         this.addBookToBooklistActivity = new AddBookToBooklistActivity(booklistDao, bookDao);
+        this.modelConverter = new ModelConverterCarbon();
     }
 
     @Test
-    void handleRequest_validRequest_addsBookToEndOfBooklist() {
+    void handleRequest_validRequest_addsBookToEndOfBooklist() throws Exception {
         // GIVEN
         // a non-empty booklist
         Booklist originalBooklist = BooklistTestHelper.generateBooklist();
@@ -130,6 +129,148 @@ public class AddBookToBooklistActivityTest {
 
         // THEN
         assertThrows(BookNotFoundException.class, () -> addBookToBooklistActivity.handleRequest(request));
+    }
+
+    @Test
+    public void handleRequest_similarSearches_returnSameBookFromAPI() throws Exception {
+        // GIVEN - A booklist and two requests with similar search terms to query to the Google Book API
+        Booklist booklist = BooklistTestHelper.generateBooklist();
+        String booklistId = booklist.getId();
+        String customerId = booklist.getCustomerId();
+
+        String titleSearch = "game of thrones book one";
+        String otherSearch = "got book one";
+
+        // Title
+        AddBookToBooklistRequest request = AddBookToBooklistRequest.builder()
+                .withId(booklistId)
+                .withAsin(titleSearch)
+                .withCustomerId(customerId)
+                .build();
+
+        when(booklistDao.getBooklist(booklistId)).thenReturn(booklist);
+        when(booklistDao.saveBooklist(booklist)).thenReturn(booklist);
+
+        // WHEN - Calling handleRequest() with both requests
+        AddBookToBooklistResult result = addBookToBooklistActivity.handleRequest(request);
+
+        verify(booklistDao).saveBooklist(booklist);
+
+        // Other
+        AddBookToBooklistRequest request2 = AddBookToBooklistRequest.builder()
+                .withId(booklistId)
+                .withAsin(otherSearch)
+                .withCustomerId(customerId)
+                .build();
+
+        AddBookToBooklistResult result2 = addBookToBooklistActivity.handleRequest(request2);
+
+        // THEN - The same book should be returned
+        // Tests consistency of the API
+        assertEquals(result.getBookList().get(1), result2.getBookList().get(1));
+    }
+
+    @Test
+    public void handleRequest_bookExistsInDynamoDB_returnsExistingBook() throws Exception {
+        // GIVEN - A booklist and a request for an existing book in DynamoDB
+        Booklist booklist = BooklistTestHelper.generateBooklist();
+        String booklistId = booklist.getId();
+        String customerId = booklist.getCustomerId();
+
+        String isbn = "9780553897845";
+
+        Book book = new Book();
+        book.setAsin(isbn);
+        book.setTitle("testBook");
+        book.setAuthor("testBookAuthor");
+
+        AddBookToBooklistRequest request = AddBookToBooklistRequest.builder()
+                .withId(booklistId)
+                .withAsin(isbn)
+                .withCustomerId(customerId)
+                .build();
+
+        when(booklistDao.getBooklist(booklistId)).thenReturn(booklist);
+        when(booklistDao.saveBooklist(booklist)).thenReturn(booklist);
+        when(bookDao.getBook(request.getAsin())).thenReturn(book);
+
+        // WHEN - Calling handleRequest() with the request
+        AddBookToBooklistResult result = addBookToBooklistActivity.handleRequest(request);
+
+
+        verify(booklistDao).saveBooklist(booklist);
+        verify(booklistDao).saveBooklist(booklist);
+        verify(bookDao).getBook(request.getAsin());
+
+        // THEN - The existing book in DynamoDB will be returned instead of pinging the Google Book API.
+        // If a book already exists in DynamoDB from a previous request, return it instead of pinging the API again.
+        assertEquals(modelConverter.toBookModel(book), result.getBookList().get(1));
+    }
+
+    @Test
+    public void handleRequest_withSearchTerm_savesBookToBooklist() {
+        // GIVEN - A booklist with a request for a book using a search term
+        Booklist booklist = BooklistTestHelper.generateBooklist();
+        String booklistId = booklist.getId();
+        String customerId = booklist.getCustomerId();
+
+        String titleSearch = "dune";
+
+        AddBookToBooklistRequest request = AddBookToBooklistRequest.builder()
+                .withId(booklistId)
+                .withAsin(titleSearch)
+                .withCustomerId(customerId)
+                .build();
+
+        when(booklistDao.getBooklist(booklistId)).thenReturn(booklist);
+        when(booklistDao.saveBooklist(booklist)).thenReturn(booklist);
+
+        // WHEN - Calling handleRequest() with the request
+        AddBookToBooklistResult result = addBookToBooklistActivity.handleRequest(request);
+
+        // THEN - The book created from deserializing Google Book API response is saved
+        verify(booklistDao).saveBooklist(booklist);
+        assertEquals(2, booklist.getBookCount());
+    }
+
+    @Test
+    public void handleRequest_invalidSearchTerm_throwsGoogleBookAPISearchException() {
+        // GIVEN - A booklist and a request with an empty search term
+        Booklist booklist = BooklistTestHelper.generateBooklist();
+        String booklistId = booklist.getId();
+        String customerId = booklist.getCustomerId();
+
+        String titleSearch = "";
+
+        AddBookToBooklistRequest request = AddBookToBooklistRequest.builder()
+                .withId(booklistId)
+                .withAsin(titleSearch)
+                .withCustomerId(customerId)
+                .build();
+
+        when(booklistDao.getBooklist(booklistId)).thenReturn(booklist);
+
+        assertThrows(GoogleBookAPISearchException.class, () -> addBookToBooklistActivity.handleRequest(request));
+    }
+
+    @Test
+    public void handleRequest_noResults_throwsGoogleBookAPISearchException() {
+        Booklist booklist = BooklistTestHelper.generateBooklist();
+        String booklistId = booklist.getId();
+        String customerId = booklist.getCustomerId();
+
+        // Can't find a search term that returns no results. Need to create this test in different package to mock the api
+        String titleSearch = "";
+
+        AddBookToBooklistRequest request = AddBookToBooklistRequest.builder()
+                .withId(booklistId)
+                .withAsin(titleSearch)
+                .withCustomerId(customerId)
+                .build();
+
+        when(booklistDao.getBooklist(booklistId)).thenReturn(booklist);
+
+        assertThrows(GoogleBookAPISearchException.class, () -> addBookToBooklistActivity.handleRequest(request));
     }
 }
 

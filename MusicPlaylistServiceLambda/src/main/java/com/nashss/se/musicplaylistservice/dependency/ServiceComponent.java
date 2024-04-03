@@ -108,4 +108,10 @@ public interface ServiceComponent {
      * @return RemoveBookFromBooklistActivity
      */
     RemoveBookFromBooklistActivity provideRemoveBookFromBooklistActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return GetBooklistBooksActivity
+     */
+    GetBooklistBooksActivity provideGetBooklistBooksActivity();
 }

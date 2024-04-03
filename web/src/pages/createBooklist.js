@@ -9,9 +9,9 @@ import DataStore from '../util/DataStore';
 class CreateBooklist extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['mount', 'submit', 'redirectToViewPlaylist'], this);
+        this.bindClassMethods(['mount', 'submit', 'redirectToViewBooklist'], this);
         this.dataStore = new DataStore();
-        this.dataStore.addChangeListener(this.redirectToViewPlaylist);
+        this.dataStore.addChangeListener(this.redirectToViewBooklist);
         this.header = new Header(this.dataStore);
     }
 
@@ -62,10 +62,10 @@ class CreateBooklist extends BindingClass {
     /**
      * When the booklist is updated in the datastore, redirect to the view booklist page.
      */
-    redirectToViewPlaylist() {
+    redirectToViewBooklist() {
         const booklist = this.dataStore.get('booklist');
         if (booklist != null) {
-            window.location.href = `/playlist.html?id=${playlist.id}`;
+            window.location.href = `/booklist.html?id=${booklist.id}`;
         }
     }
 }

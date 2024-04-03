@@ -13,6 +13,11 @@
     font-family: "Helvetica Neue",Helvetica,sans-serif;
 }
 
+.header-img {
+    width: 500px;
+    padding: 4px 20px;
+}
+
 .header {
     /* Flexbox: https://css-tricks.com/snippets/css/a-guide-to-flexbox/ */
     display: flex;
@@ -20,7 +25,7 @@
     align-items: center;
     background-color: var(--tertiary-color);
     color: var(--secondary-color);
-    padding: 4px 20px;
+    padding: 20px 20px;
 }
 
 .button {

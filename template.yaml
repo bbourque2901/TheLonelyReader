@@ -431,6 +431,7 @@ Resources:
           Type: Api
           Properties:
             Path: /booklists/{id}/books/{asin}
+            
             Method: delete
             Auth:
               Authorizer: 'NONE'

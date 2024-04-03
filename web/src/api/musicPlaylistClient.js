@@ -160,7 +160,7 @@ export default class MusicPlaylistClient extends BindingClass {
             console.log('delete endpoint called with id' + id);
             const token = await this.getTokenOrThrow("Only authenticated users can remove a book from a booklist.");
             console.log('made it past token');
-            const response = await this.axiosClient.delete(`booklists/${id}/books`, {
+            const response = await this.axiosClient.delete(`booklists/${id}/books/${asin}`, {
                 id: id,
                 asin: asin
             }, {

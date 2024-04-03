@@ -21,7 +21,7 @@ export default class MusicPlaylistClient extends BindingClass {
 
         this.authenticator = new Authenticator();;
         this.props = props;
-
+        
         axios.defaults.baseURL = process.env.API_BASE_URL;
         this.axiosClient = axios;
         this.clientLoaded();
@@ -157,18 +157,18 @@ export default class MusicPlaylistClient extends BindingClass {
      */
     async removeBookFromBooklist(id, asin, errorCallback) {
         try {
-            console.log('delete endpoint called with id' + id);
+            console.log('delete endpoint called with id ' + id);
+            console.log('delete endpoint called with asin ' + asin);
             const token = await this.getTokenOrThrow("Only authenticated users can remove a book from a booklist.");
-            console.log('made it past token');
             const response = await this.axiosClient.delete(`booklists/${id}/books/${asin}`, {
-                id: id,
-                asin: asin
-            }, {
                 headers: {
                     Authorization: `Bearer ${token}`
-                }
-            });
-            console.log('made it past delete path');
+                  },
+                  data: {
+                    id: id,
+                    asin: asin
+                  }
+                });
             return response.data.books;
         } catch (error) {
             this.handleError(error, errorCallback)

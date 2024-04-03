@@ -5,24 +5,30 @@ import com.nashss.se.musicplaylistservice.activity.results.RemoveBookFromBooklis
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class RemoveBookFromBooklistLambda
         extends LambdaActivityRunner<RemoveBookFromBooklistRequest, RemoveBookFromBooklistResult>
         implements RequestHandler<AuthenticatedLambdaRequest<RemoveBookFromBooklistRequest>, LambdaResponse> {
+
+    private final Logger log = LogManager.getLogger();
+
     @Override
     public LambdaResponse handleRequest(AuthenticatedLambdaRequest<RemoveBookFromBooklistRequest> inpt, Context ctxt) {
         return super.runActivity(
             () -> {
-                RemoveBookFromBooklistRequest unAuthRequest = inpt.fromPath(path ->
+                log.error("INPUT!!:: " + inpt.toString());
+                RemoveBookFromBooklistRequest unAuthRequest = inpt.fromUserClaims(claims ->
                         RemoveBookFromBooklistRequest.builder()
-                                .withId(path.get("id"))
-                                .withAsin(path.get("asin"))
+                                .withCustomerId(claims.get("email"))
                                 .build());
-                return inpt.fromUserClaims(claims ->
+
+                 return inpt.fromPath(path ->
                      RemoveBookFromBooklistRequest.builder()
-                        .withId(unAuthRequest.getId())
-                        .withAsin(unAuthRequest.getAsin())
-                        .withCustomerId(claims.get("email"))
+                        .withId(path.get("id"))
+                        .withAsin(path.get("asin"))
+                        .withCustomerId(unAuthRequest.getCustomerId())
                         .build());
             },
             (request, serviceComponent) ->

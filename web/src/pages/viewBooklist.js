@@ -37,10 +37,6 @@ import DataStore from "../util/DataStore";
      mount() {
          document.getElementById('add-book').addEventListener('click', this.addBook);
          document.getElementById('books').addEventListener('click', this.remove);
-//         var removeButtons = document.getElementsByClassName('button remove-book');
-//         for(let b of removeButtons) {
-//            b.addEventListener("click", this.remove)
-//         }
 
          this.header.addHeaderToPage();
 
@@ -80,16 +76,16 @@ import DataStore from "../util/DataStore";
                return;
            }
 
-           let bookHtml = '<table><tr><th>Title</th><th>Author</th><th>Genre</th><th>Asin</th><th>Remove Book</th></tr>';
+           let bookHtml = '<table id="book-table"><tr><th>Title</th><th>Author</th><th>Genre</th><th>Asin</th><th>Remove Book</th></tr>';
            let book;
            for (book of books) {
                bookHtml += `
-               <tr>
+               <tr id="${book.asin + booklist.id}">
                    <td>${book.title}</td>
                    <td>${book.author}</td>
                    <td>${book.genre}</td>
                    <td>${book.asin}</td>
-                   <td><button data-asin="${book.asin}" data-id="${booklist.id}" class="button remove-book">Remove</button></td>
+                   <td><button data-asin="${book.asin}" data-booklist-id="${booklist.id}" class="button remove-book">Remove</button></td>
                </tr>`;
            }
            document.getElementById('books').innerHTML = bookHtml;
@@ -122,17 +118,33 @@ import DataStore from "../util/DataStore";
 
                  document.getElementById('add-book').innerText = 'Add Book';
                  document.getElementById("add-book-form").reset();
+
+                 location.reload();
+//                 document.getElementById(book-table).append()
          }
 
          /**
           * when remove button is clicked, removes book from booklist.
           */
-          remove(e) {
-                console.log('remove button clicked', e.target.dataset.asin, e.target.dataset.id);
-                this.client.removeBookFromBooklist(e.target.dataset.id, e.target.dataset.asin, (error) => {
+          async remove(e) {
+                const removeButton = e.target;
+                if (!removeButton.classList.contains("remove-book")) {
+                    return;
+                }
+
+//                const bookAsin = removeButton.dataset.asin;
+                removeButton.innerText = "Removing...";
+
+                const errorMessageDisplay = document.getElementById('error-message');
+                errorMessageDisplay.innerText = ``;
+                errorMessageDisplay.classList.add('hidden');
+
+                await this.client.removeBookFromBooklist(removeButton.dataset.booklistId, removeButton.dataset.asin, (error) => {
                    errorMessageDisplay.innerText = `Error: ${error.message}`;
                    errorMessageDisplay.classList.remove('hidden');
                });
+
+                document.getElementById(removeButton.dataset.asin + removeButton.dataset.booklistId).remove()
           }
 }
 

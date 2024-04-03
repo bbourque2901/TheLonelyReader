@@ -21,7 +21,7 @@ public class Book {
     private String genre;
     private Integer rating;
     private String comments;
-    private boolean currentlyReading;
+    private Boolean currentlyReading;
     private Integer percentComplete;
 
     @DynamoDBHashKey(attributeName = "asin")
@@ -80,11 +80,11 @@ public class Book {
 
     @DynamoDBAttribute(attributeName = "currentlyReading")
     @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.BOOL)
-    public boolean isCurrentlyReading() {
+    public Boolean isCurrentlyReading() {
         return currentlyReading;
     }
 
-    public void setCurrentlyReading(boolean currentlyReading) {
+    public void setCurrentlyReading(Boolean currentlyReading) {
         this.currentlyReading = currentlyReading;
     }
 

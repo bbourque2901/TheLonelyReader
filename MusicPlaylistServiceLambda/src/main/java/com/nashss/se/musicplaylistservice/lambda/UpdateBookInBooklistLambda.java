@@ -18,6 +18,7 @@ public class UpdateBookInBooklistLambda
                                     .withCustomerId(unauthenticatedRequest.getCustomerId())
                                     .withAsin(unauthenticatedRequest.getAsin())
                                     .withCurrentlyReading(unauthenticatedRequest.isCurrentlyReading())
+                                    .withRating(unauthenticatedRequest.getRating())
                                     .build());
                 },
                 (request, serviceComponent) ->

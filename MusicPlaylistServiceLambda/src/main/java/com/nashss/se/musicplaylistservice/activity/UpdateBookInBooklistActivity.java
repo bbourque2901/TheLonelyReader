@@ -76,6 +76,12 @@ public class UpdateBookInBooklistActivity {
         } catch (NullPointerException e) {
             //can log here
         }
+        //tries to update rating, leaves alone if null
+        try {
+            book.setRating(updateBookInBooklistRequest.getRating());
+        } catch (NullPointerException e) {
+            //can log here
+        }
         List<Booklist> results = booklistDao.getAllBooklistsForUser(updateBookInBooklistRequest.getCustomerId());
         for (Booklist booklist : results) {
             List<Book> currentBooklist = booklist.getBooks();

@@ -7,12 +7,14 @@ public class UpdateBookInBooklistRequest {
     private final boolean currentlyReading;
     private final int percentComplete;
     private final String customerId;
+    private final Integer rating;
 
-    public UpdateBookInBooklistRequest(String asin, boolean currentlyReading, int percentComplete, String customerId) {
+    public UpdateBookInBooklistRequest(String asin, boolean currentlyReading, int percentComplete, String customerId, Integer rating) {
         this.asin = asin;
         this.currentlyReading = currentlyReading;
         this.percentComplete = percentComplete;
         this.customerId = customerId;
+        this.rating = rating;
     }
 
     public String getAsin() {
@@ -31,6 +33,10 @@ public class UpdateBookInBooklistRequest {
         return customerId;
     }
 
+    public Integer getRating() {
+        return rating;
+    }
+
     @Override
     public String toString() {
         return "UpdateBookInBooklistRequest{" +
@@ -38,6 +44,7 @@ public class UpdateBookInBooklistRequest {
                 ", isCurrentlyReading='" + currentlyReading + '\'' +
                 ", percentComplete='" + percentComplete + '\'' +
                 ", customerId='" + customerId + '\'' +
+                ", rating='" + rating + '\'' +
                 '}';
     }
     //CHECKSTYLE:OFF:Builder
@@ -51,6 +58,7 @@ public class UpdateBookInBooklistRequest {
         private boolean currentlyReading;
         private int percentComplete;
         private String customerId;
+        private Integer rating;
         public Builder withAsin(String asin) {
             this.asin = asin;
             return this;
@@ -67,7 +75,11 @@ public class UpdateBookInBooklistRequest {
             this.customerId = customerId;
             return this;
         }
-        public UpdateBookInBooklistRequest build() { return new UpdateBookInBooklistRequest(asin, currentlyReading, percentComplete, customerId); }
+        public Builder withRating(Integer rating){
+            this.rating = rating;
+            return this;
+        }
+        public UpdateBookInBooklistRequest build() { return new UpdateBookInBooklistRequest(asin, currentlyReading, percentComplete, customerId, rating); }
     }
 
 }

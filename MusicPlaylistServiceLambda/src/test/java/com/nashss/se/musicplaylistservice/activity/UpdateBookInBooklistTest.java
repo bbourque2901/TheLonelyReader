@@ -16,8 +16,7 @@ import org.mockito.Mock;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.openMocks;
 
 public class UpdateBookInBooklistTest {
@@ -155,5 +154,78 @@ public class UpdateBookInBooklistTest {
         assertEquals("111", savedBook.getAsin());
         assertTrue(savedBook.isCurrentlyReading());
         assertEquals(25, savedBook.getPercentComplete());
+    }
+    @Test
+    public void handleRequest_updateOnlyRating_updatesOnlyOneAttribute() {
+        //Given
+        UpdateBookInBooklistRequest request = UpdateBookInBooklistRequest.builder()
+                .withAsin("111")
+                .withCustomerId("expectedCustomerId")
+                .withRating(7)
+                .build();
+        when(bookDao.getBook("111")).thenReturn(book1);
+        when(booklistDao.getAllBooklistsForUser("expectedCustomerId")).thenReturn(List.of(booklist1));
+        //when
+        UpdateBookInBooklistResult result = updateBookInBooklistActivity.handleRequest(request);
+
+        ArgumentCaptor<Booklist> captor = ArgumentCaptor.forClass(Booklist.class);
+        verify(booklistDao).saveBooklist(captor.capture());
+        Booklist savedBooklist = captor.getValue();
+        Book savedBook = savedBooklist.getBooks().get(5);
+        //then
+        assertEquals("111", result.getBookModel().getAsin());
+        assertFalse(result.getBookModel().isCurrentlyReading());
+        assertEquals(7, result.getBookModel().getRating());
+
+        assertEquals("111", savedBook.getAsin());
+        assertFalse(savedBook.isCurrentlyReading());
+        assertEquals(7, savedBook.getRating());
+    }
+    @Test
+    public void handleRequest_updateAllThreeAttributes_updatesInBothBooklists() {
+        //Given
+        Booklist booklist2 = new Booklist();
+        booklist2.setBooks(List.of(book1));
+        booklist2.setCustomerId("expectedCustomerId");
+        booklist2.setId("SecondBookListId");
+
+        UpdateBookInBooklistRequest request = UpdateBookInBooklistRequest.builder()
+                .withAsin("111")
+                .withCustomerId("expectedCustomerId")
+                .withRating(7)
+                .withCurrentlyReading(true)
+                .withPercentComplete(50)
+                .build();
+
+        when(bookDao.getBook("111")).thenReturn(book1);
+        when(booklistDao.getAllBooklistsForUser("expectedCustomerId")).thenReturn(List.of(booklist1, booklist2));
+
+        //when
+        UpdateBookInBooklistResult result = updateBookInBooklistActivity.handleRequest(request);
+
+        ArgumentCaptor<Booklist> captor = ArgumentCaptor.forClass(Booklist.class);
+        verify(booklistDao, times(2)).saveBooklist(captor.capture());
+        List<Booklist> capturedLists = captor.getAllValues();
+        Booklist savedBooklist = capturedLists.get(0);
+        Book savedBook = savedBooklist.getBooks().get(5);
+        Booklist savedBooklist2 = capturedLists.get(1);
+        Book savedBook2 = savedBooklist2.getBooks().get(0);
+
+        //then
+        assertEquals("111", result.getBookModel().getAsin());
+        assertTrue(result.getBookModel().isCurrentlyReading());
+        assertEquals(50, result.getBookModel().getPercentComplete());
+        assertEquals(7, result.getBookModel().getRating());
+
+        assertEquals("111", savedBook.getAsin());
+        assertTrue(savedBook.isCurrentlyReading());
+        assertEquals(7, savedBook.getRating());
+        assertEquals(50, savedBook.getPercentComplete());
+
+        assertEquals("SecondBookListId", savedBooklist2.getId());
+        assertEquals("111", savedBook2.getAsin());
+        assertTrue(savedBook2.isCurrentlyReading());
+        assertEquals(7, savedBook2.getRating());
+        assertEquals(50, savedBook2.getPercentComplete());
     }
     }

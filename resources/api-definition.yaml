@@ -354,19 +354,9 @@ paths:
           required: true
           schema:
             type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                asin:
-                  type: string
-                id:
-                  type: string
 
       responses:
-        "200":
+        "204":
           description: the book
           content:
             application/json:

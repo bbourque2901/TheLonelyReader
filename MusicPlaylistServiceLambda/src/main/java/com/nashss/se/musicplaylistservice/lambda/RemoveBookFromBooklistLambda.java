@@ -11,15 +11,22 @@ public class RemoveBookFromBooklistLambda
         implements RequestHandler<AuthenticatedLambdaRequest<RemoveBookFromBooklistRequest>, LambdaResponse> {
     @Override
     public LambdaResponse handleRequest(AuthenticatedLambdaRequest<RemoveBookFromBooklistRequest> inpt, Context ctxt) {
-        return super.runActivity(() -> {
-            RemoveBookFromBooklistRequest unauthenticatedRequest = inpt.fromBody(RemoveBookFromBooklistRequest.class);
-            return inpt.fromUserClaims(claims ->
-                    RemoveBookFromBooklistRequest.builder()
-                            .withId(unauthenticatedRequest.getId())
-                            .withAsin(unauthenticatedRequest.getAsin())
-                            .withCustomerId(claims.get("email"))
-                            .build());
-        }, (request, serviceComponent) ->
-                serviceComponent.provideRemoveBookFromBooklistActivity().handleRequest(request));
+        return super.runActivity(
+            () -> {
+                RemoveBookFromBooklistRequest unAuthRequest = inpt.fromPath(path ->
+                        RemoveBookFromBooklistRequest.builder()
+                                .withId(path.get("id"))
+                                .withAsin(path.get("asin"))
+                                .build());
+                return inpt.fromUserClaims(claims ->
+                     RemoveBookFromBooklistRequest.builder()
+                        .withId(unAuthRequest.getId())
+                        .withAsin(unAuthRequest.getAsin())
+                        .withCustomerId(claims.get("email"))
+                        .build());
+            },
+            (request, serviceComponent) ->
+                    serviceComponent.provideRemoveBookFromBooklistActivity().handleRequest(request)
+        );
     }
 }

@@ -97,6 +97,7 @@ public class AddBookToBooklistActivity {
                 throw new GoogleBookAPISearchException("Error with request to Google Book API", e);
             }
         }
+        bookDao.saveBook(bookToAdd);
 
         List<Book> books = booklist.getBooks();
         books.add(bookToAdd);

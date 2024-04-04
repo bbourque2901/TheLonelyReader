@@ -60,6 +60,7 @@ export default class Header extends BindingClass {
         const menu = document.createElement('div');
         menu.classList.add('menu');
         menu.appendChild(menuList);
+
         return menu;
     }
 //viewbooklist header button

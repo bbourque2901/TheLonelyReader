@@ -5,21 +5,34 @@ import com.nashss.se.musicplaylistservice.activity.results.RemoveBookFromBooklis
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class RemoveBookFromBooklistLambda
         extends LambdaActivityRunner<RemoveBookFromBooklistRequest, RemoveBookFromBooklistResult>
         implements RequestHandler<AuthenticatedLambdaRequest<RemoveBookFromBooklistRequest>, LambdaResponse> {
+
+    private final Logger log = LogManager.getLogger();
+
     @Override
     public LambdaResponse handleRequest(AuthenticatedLambdaRequest<RemoveBookFromBooklistRequest> inpt, Context ctxt) {
-        return super.runActivity(() -> {
-            RemoveBookFromBooklistRequest unauthenticatedRequest = inpt.fromBody(RemoveBookFromBooklistRequest.class);
-            return inpt.fromUserClaims(claims ->
-                    RemoveBookFromBooklistRequest.builder()
-                            .withId(unauthenticatedRequest.getId())
-                            .withAsin(unauthenticatedRequest.getAsin())
-                            .withCustomerId(claims.get("email"))
-                            .build());
-        }, (request, serviceComponent) ->
-                serviceComponent.provideRemoveBookFromBooklistActivity().handleRequest(request));
+        return super.runActivity(
+            () -> {
+                log.error("INPUT!!:: " + inpt.toString());
+                RemoveBookFromBooklistRequest unAuthRequest = inpt.fromUserClaims(claims ->
+                        RemoveBookFromBooklistRequest.builder()
+                                .withCustomerId(claims.get("email"))
+                                .build());
+
+                 return inpt.fromPath(path ->
+                     RemoveBookFromBooklistRequest.builder()
+                        .withId(path.get("id"))
+                        .withAsin(path.get("asin"))
+                        .withCustomerId(unAuthRequest.getCustomerId())
+                        .build());
+            },
+            (request, serviceComponent) ->
+                    serviceComponent.provideRemoveBookFromBooklistActivity().handleRequest(request)
+        );
     }
 }

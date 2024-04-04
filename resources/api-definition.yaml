@@ -336,6 +336,7 @@ paths:
                         percentComplete:
                           type: integer
 
+  /booklists/{id}/books/{asin}:
     delete:
       tags:
         - Books
@@ -347,19 +348,15 @@ paths:
           required: true
           schema:
             type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                asin:
-                  type: string
-                id:
-                  type: string
+        - name: asin
+          in: path
+          description: unique identifier of book
+          required: true
+          schema:
+            type: string
 
       responses:
-        "200":
+        "204":
           description: the book
           content:
             application/json:
@@ -386,6 +383,8 @@ paths:
                           type: boolean
                         percentComplete:
                           type: integer
+        "404":
+          description: "Book or Booklist not found"
 
   /books/search:
     get:

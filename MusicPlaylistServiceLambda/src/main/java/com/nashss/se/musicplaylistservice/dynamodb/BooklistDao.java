@@ -6,6 +6,7 @@ import com.nashss.se.musicplaylistservice.exceptions.BooklistNotFoundException;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.nashss.se.musicplaylistservice.exceptions.UserNotFoundException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -137,6 +138,9 @@ public class BooklistDao {
      */
     public List<Booklist> getAllBooklistsForUser(String userId) {
         DynamoDBScanExpression dynamoDBScanExpression = new DynamoDBScanExpression();
+        if (userId == null) {
+            throw new UserNotFoundException("Could not find user with id " + userId);
+        }
 
         Map<String, AttributeValue> valueMap = new HashMap<>();
         valueMap.put(":userId", new AttributeValue().withS(userId));

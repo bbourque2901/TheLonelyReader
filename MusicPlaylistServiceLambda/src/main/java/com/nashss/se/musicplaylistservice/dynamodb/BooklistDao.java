@@ -2,11 +2,11 @@ package com.nashss.se.musicplaylistservice.dynamodb;
 
 import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;
 import com.nashss.se.musicplaylistservice.exceptions.BooklistNotFoundException;
+import com.nashss.se.musicplaylistservice.exceptions.UserNotFoundException;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.nashss.se.musicplaylistservice.exceptions.UserNotFoundException;
 
 import java.util.HashMap;
 import java.util.List;

@@ -426,3 +426,38 @@ paths:
                     type: boolean
                   percentComplete:
                     type: integer
+
+  /booklists/{customerId}:
+    get:
+      tags:
+        - Booklists
+      summary: Get a list of booklists (GetUserBooklistsLambda)
+      parameters:
+        - name: customerId
+          in: path
+          description: ID of customer to retrieve booklists
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: a list of booklists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  booklists:
+                    type: array
+                    items:
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                        customerId:
+                          type: string
+                        bookCount:
+                          type: integer
+                        tags:
+                          type: array

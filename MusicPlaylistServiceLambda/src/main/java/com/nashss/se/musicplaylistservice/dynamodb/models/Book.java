@@ -24,6 +24,7 @@ public class Book {
     private String comments;
     private Boolean currentlyReading;
     private Integer percentComplete;
+    private Integer pageCount;
 
     @DynamoDBHashKey(attributeName = "asin")
     public String getAsin() {
@@ -63,7 +64,7 @@ public class Book {
 
     @DynamoDBAttribute(attributeName = "thumbnail")
     public String getThumbnail() {
-        return genre;
+        return thumbnail;
     }
 
     public void setThumbnail(String thumbnail) {
@@ -107,6 +108,15 @@ public class Book {
         this.percentComplete = percentComplete;
     }
 
+    @DynamoDBAttribute(attributeName = "pageCount")
+    public Integer getPageCount() {
+        return pageCount;
+    }
+
+    public void setPageCount(Integer pageCount) {
+        this.pageCount = pageCount;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(asin, title, author);
@@ -138,6 +148,7 @@ public class Book {
                 ", comments='" + comments + '\'' +
                 ", currentlyReading='" + currentlyReading + '\'' +
                 ", percentageComplete='" + percentComplete + '\'' +
+                ", pageCount='" + pageCount + '\'' +
                 '}';
     }
 

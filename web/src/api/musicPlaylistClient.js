@@ -16,7 +16,8 @@ export default class MusicPlaylistClient extends BindingClass {
         super();
 
         const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getBooklist',
-        'getBooklistBooks', 'createBooklist', 'search', 'removeBookFromBooklist', 'removeBooklist'];
+        'getBooklistBooks', 'createBooklist', 'search', 'removeBookFromBooklist', 'removeBooklist',
+        'getUserBooklists'];
 
         this.bindClassMethods(methodsToBind, this);
 
@@ -98,6 +99,21 @@ export default class MusicPlaylistClient extends BindingClass {
         try {
             const response = await this.axiosClient.get(`booklists/${id}/books`);
             return response.data.books;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
+    }
+
+    /**
+     * Get the booklists of a given user.
+     * @param customerId Unique identifier for a user
+     * @param errorCallback (Optional) A function to execute if the call fails.
+     * @returns The list of booklists associated with a user.
+     */
+    async getUserBooklists(customerId, errorCallback) {
+        try {
+            const response = await this.axiosClient.get(`/booklists/{$customerId}`);
+            return response.data.booklists;
         } catch (error) {
             this.handleError(error, errorCallback)
         }

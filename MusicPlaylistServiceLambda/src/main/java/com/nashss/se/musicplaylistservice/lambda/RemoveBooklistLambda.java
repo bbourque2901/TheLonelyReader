@@ -18,15 +18,22 @@ public class RemoveBooklistLambda
     @Override
     public LambdaResponse handleRequest(AuthenticatedLambdaRequest<RemoveBooklistRequest> input, Context context) {
         log.info("handleRequest");
-        return super.runActivity(() -> {
-            RemoveBooklistRequest unauthenticatedRequest = input.fromBody(RemoveBooklistRequest.class);
-            return input.fromUserClaims(claims ->
-                    RemoveBooklistRequest.builder()
-                            .withId(unauthenticatedRequest.getId())
-                            .withCustomerId(claims.get("email"))
-                            .build());
-        }, (request, serviceComponent) ->
-                serviceComponent.provideRemoveBooklistActivity().handleRequest(request));
+        return super.runActivity(
+            ()  -> {
+                log.error("INPUT!!:: " + input.toString());
+                RemoveBooklistRequest unAuthRequest = input.fromUserClaims(claims ->
+                        RemoveBooklistRequest.builder()
+                               .withCustomerId(claims.get("email"))
+                               .build());
 
+                return input.fromPath(path ->
+                        RemoveBooklistRequest.builder()
+                                .withId(path.get("id"))
+                                .withCustomerId(unAuthRequest.getCustomerId())
+                                .build());
+            },
+            (request, serviceComponent) ->
+                        serviceComponent.provideRemoveBooklistActivity().handleRequest(request)
+        );
     }
 }

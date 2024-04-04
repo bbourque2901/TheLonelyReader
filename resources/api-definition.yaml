@@ -220,7 +220,7 @@ paths:
                 id:
                   type: string
       responses:
-        "200":
+        "204":
           description: BooklistResponse
           content:
             application/json:
@@ -241,6 +241,8 @@ paths:
                       type: string
         "500":
           description: "Invalid input parameters"
+        "404":
+          description: "Booklist not found"
 
   /booklists/{id}/books:
     get:

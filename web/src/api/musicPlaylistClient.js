@@ -16,7 +16,7 @@ export default class MusicPlaylistClient extends BindingClass {
         super();
 
         const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getBooklist',
-        'getBooklistBooks', 'createBooklist', 'search', 'removeBookFromBooklist', 'deleteBooklist'];
+        'getBooklistBooks', 'createBooklist', 'search', 'removeBookFromBooklist', 'removeBooklist'];
 
         this.bindClassMethods(methodsToBind, this);
 
@@ -196,19 +196,27 @@ export default class MusicPlaylistClient extends BindingClass {
     }
 
     /**
-         * Gets the booklist for the given ID.
-         * @param id Unique identifier for a booklist
-         * @param errorCallback (Optional) A function to execute if the call fails.
-         * @returns The booklist's metadata.
-         */
-        async deleteBooklist(id, errorCallback) {
-            try {
-                const response = await this.axiosClient.delete(`booklists/${id}`);
-                return response.data.booklist;
-            } catch (error) {
-                this.handleError(error, errorCallback)
-            }
-        }
+          * removes a booklist.
+          * @param id The id of the booklist.
+          * @returns The list of books on a booklist.
+          */
+         async removeBooklist(id, errorCallback) {
+             try {
+                 console.log('delete endpoint called with id ' + id);
+                 const token = await this.getTokenOrThrow("Only authenticated users can remove a booklist.");
+                 const response = await this.axiosClient.delete(`booklists/${id}`, {
+                     headers: {
+                         Authorization: `Bearer ${token}`
+                       },
+                       data: {
+                         id: id
+                       }
+                     });
+                 return response.data.booklists;
+             } catch (error) {
+                 this.handleError(error, errorCallback)
+             }
+         }
 
     /**
      * Helper method to log the error and run any error functions.

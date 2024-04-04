@@ -3,8 +3,8 @@ import Header from '../components/header';
 import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
 
-const SEARCH_CRITERIA_KEY = 'search-books-criteria';
-const SEARCH_RESULTS_KEY = 'search-books-results';
+const SEARCH_BOOKS_CRITERIA_KEY = 'search-books-criteria';
+const SEARCH_BOOKS_RESULTS_KEY = 'search-books-results';
 const EMPTY_DATASTORE_STATE = {
     [SEARCH_BOOKS_CRITERIA_KEY]: '',
     [SEARCH_BOOKS_RESULTS_KEY]: [],
@@ -104,9 +104,7 @@ const EMPTY_DATASTORE_STATE = {
         for (const res of searchResults) {
             html += `
             <tr>
-                <td>
-                    <a href="book.html?id=${res.asin}">${res.asin}</a>
-                </td>
+                <td>${res.asin}</td>
                 <td>${res.title}</td>
                 <td>${res.author}</td>
                 <td>${res.genre}</td>

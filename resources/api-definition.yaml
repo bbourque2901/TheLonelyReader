@@ -427,7 +427,7 @@ paths:
                   percentComplete:
                     type: integer
 
-  /booklists/{customerId}:
+  /userBooklists/{customerId}:
     get:
       tags:
         - Booklists

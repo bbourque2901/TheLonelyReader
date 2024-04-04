@@ -448,7 +448,7 @@ Resources:
         MusicPlaylistService:
           Type: Api
           Properties:
-            Path: /booklists/{customerId}
+            Path: /userBooklists/{customerId}
             Method: get
 
   #-----------------------------------------------------

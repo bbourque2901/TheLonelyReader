@@ -25,11 +25,7 @@ public class RemoveBookFromBooklistLambda
                                 .build());
 
                 return inpt.fromPath(path ->
-<<<<<<< HEAD
                         RemoveBookFromBooklistRequest.builder()
-=======
-                      RemoveBookFromBooklistRequest.builder()
->>>>>>> main
                                 .withId(path.get("id"))
                                 .withAsin(path.get("asin"))
                                 .withCustomerId(unAuthRequest.getCustomerId())

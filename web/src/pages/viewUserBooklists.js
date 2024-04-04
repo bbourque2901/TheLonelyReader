@@ -18,7 +18,7 @@ import DataStore from "../util/DataStore";
   */
  async clientLoaded() {
      const urlParams = new URLSearchParams(window.location.search);
-     const customerId = urlParams.get('customerId');
+     const customerId = urlParams.get('email');
      document.getElementById('booklists').innerText = "Loading Lists ...";
      const booklists = await this.client.getUserBooklists(customerId);
      this.dataStore.set('booklists', booklists);

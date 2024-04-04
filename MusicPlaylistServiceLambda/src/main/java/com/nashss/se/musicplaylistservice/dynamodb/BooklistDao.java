@@ -127,4 +127,23 @@ public class BooklistDao {
 
         return booklist;
     }
+
+    /**
+     * Perform a search (via a "scan") of the booklist table for booklists matching the userId.
+     *
+     * Only the customer id is searched.
+     * @param userId a string of the customerid.
+     * @return a List of Booklist objects that match the search criteria.
+     */
+    public List<Booklist> getAllBooklistsForUser(String userId) {
+        DynamoDBScanExpression dynamoDBScanExpression = new DynamoDBScanExpression();
+
+        Map<String, AttributeValue> valueMap = new HashMap<>();
+        valueMap.put(":userId", new AttributeValue().withS(userId));
+
+        dynamoDBScanExpression.setExpressionAttributeValues(valueMap);
+        dynamoDBScanExpression.setFilterExpression("customerId = :userId");
+
+        return this.dynamoDBMapper.scan(Booklist.class, dynamoDBScanExpression);
+    }
 }

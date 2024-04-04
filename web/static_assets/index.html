@@ -3,13 +3,13 @@
 
 <head>
     <script type="text/javascript" src="assets/searchBooklists.js"></script>
+    <script type="text/javascript" src="assets/searchBooks.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
-    </head>
+</head>
 
-    <body class="background">
+<body class="background">
 
     <header class="header" id="header"></header>
-
     <div class="card">
         <h2>Search Booklists</h2>
         <form class="card-content" id="search-booklists-form">
@@ -22,14 +22,35 @@
         </form>
         <p class="button-group">
             <a href="#" class="button" id="search-btn">Search</a>
-            <a href="createBooklist.html" class="button">New Booklist</a>
         </p>
     </div>
+
     <div class="card hidden" id='search-results-container'>
         <h3>Results for <span id="search-criteria-display"></span></h3>
         <div id="search-results-display">
         </div>
     </div>
+
+    <div class="card">
+        <h4>Search Books</h4>
+        <form class="card-content" id="search-books-form">
+            <p class="form-field">
+                <label>Search by title or asin</label>
+                <input type="text" class="validated-field" id="search-books-criteria" placeholder="Title or Asin" autofocus>
+                <sub>Search is case-sensitive.</sub>
+            </p>
+        </form>
+        <p class="button-group">
+            <a href="#" class="button" id="search-books-btn">Search</a>
+        </p>
+    </div>
+
+    <div class="card hidden" id='search-books-results-container'>
+        <h5>Results for <span id="search-books-criteria-display"></span></h5>
+        <div id="search-books-results-display">
+        </div>
+    </div>
+
 </body>
 
 </html>

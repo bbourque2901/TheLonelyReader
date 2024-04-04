@@ -16,7 +16,8 @@ export default class MusicPlaylistClient extends BindingClass {
         super();
 
         const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getBooklist',
-        'getBooklistBooks', 'createBooklist', 'search', 'removeBookFromBooklist', 'removeBooklist'];
+        'getBooklistBooks', 'createBooklist', 'search', 'removeBookFromBooklist', 'searchBooks', 'removeBooklist'];
+
 
         this.bindClassMethods(methodsToBind, this);
 
@@ -151,6 +152,9 @@ export default class MusicPlaylistClient extends BindingClass {
     }
 
     /**
+<<<<<<< HEAD
+     * Search for a booklist.
+=======
      * removes a book from a booklist.
      * @param id The id of the booklist to add a book to.
      * @param asin The asin that uniquely identifies the book.
@@ -178,6 +182,7 @@ export default class MusicPlaylistClient extends BindingClass {
 
     /**
      * Search for a book.
+>>>>>>> main
      * @param criteria A string containing search criteria to pass to the API.
      * @returns The booklists that match the search criteria.
      */
@@ -196,6 +201,25 @@ export default class MusicPlaylistClient extends BindingClass {
     }
 
     /**
+<<<<<<< HEAD
+     * Search for a book.
+     * @param criteria A string containing search criteria to pass to the API.
+     * @returns The books that match the search criteria.
+     */
+    async searchBooks(criteria, errorCallback) {
+        try {
+            const queryParams = new URLSearchParams({ q: criteria })
+            const queryString = queryParams.toString();
+
+            const response = await this.axiosClient.get(`books/search?${queryString}`);
+
+            return response.data.books;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
+
+    }
+=======
           * removes a booklist.
           * @param id The id of the booklist.
           * @returns The list of books on a booklist.
@@ -217,6 +241,7 @@ export default class MusicPlaylistClient extends BindingClass {
                  this.handleError(error, errorCallback)
              }
          }
+>>>>>>> main
 
     /**
      * Helper method to log the error and run any error functions.

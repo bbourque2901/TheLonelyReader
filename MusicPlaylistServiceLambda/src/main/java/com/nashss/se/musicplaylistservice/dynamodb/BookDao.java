@@ -100,21 +100,21 @@ public class BookDao {
             Map<String, AttributeValue> valueMap = new HashMap<>();
             String valueMapNamePrefix = ":c";
 
-            StringBuilder nameFilterExpression = new StringBuilder();
+            StringBuilder titleFilterExpression = new StringBuilder();
             StringBuilder asinFilterExpression = new StringBuilder();
 
             for (int i = 0; i < criteria.length; i++) {
                 valueMap.put(valueMapNamePrefix + i,
                         new AttributeValue().withS(criteria[i]));
-                nameFilterExpression.append(
-                        filterExpressionPart("bookName", valueMapNamePrefix, i));
+                titleFilterExpression.append(
+                        filterExpressionPart("title", valueMapNamePrefix, i));
                 asinFilterExpression.append(
                         filterExpressionPart("asin", valueMapNamePrefix, i));
             }
 
             dynamoDBScanExpression.setExpressionAttributeValues(valueMap);
             dynamoDBScanExpression.setFilterExpression(
-                    "(" + nameFilterExpression + ") or (" + asinFilterExpression + ")");
+                    "(" + titleFilterExpression + ") or (" + asinFilterExpression + ")");
         }
 
         return this.dynamoDBMapper.scan(Book.class, dynamoDBScanExpression);

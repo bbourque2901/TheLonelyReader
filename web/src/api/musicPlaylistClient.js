@@ -212,6 +212,24 @@ export default class MusicPlaylistClient extends BindingClass {
     }
 
     /**
+     * Search for a book.
+     * @param criteria A string containing search criteria to pass to the API.
+     * @returns The books that match the search criteria.
+     */
+    async searchBooks(criteria, errorCallback) {
+        try {
+            const queryParams = new URLSearchParams({ q: criteria })
+            const queryString = queryParams.toString();
+
+            const response = await this.axiosClient.get(`books/search?${queryString}`);
+
+            return response.data.books;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
+
+    }
+         /**
           * removes a booklist.
           * @param id The id of the booklist.
           * @returns The list of books on a booklist.

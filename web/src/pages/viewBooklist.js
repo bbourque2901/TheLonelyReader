@@ -132,7 +132,6 @@ import DataStore from "../util/DataStore";
                     return;
                 }
 
-//                const bookAsin = removeButton.dataset.asin;
                 removeButton.innerText = "Removing...";
 
                 const errorMessageDisplay = document.getElementById('error-message');

@@ -410,8 +410,6 @@ Resources:
           Properties:
             Path: /booklists/{id}
             Method: delete
-            Auth:
-              Authorizer: 'NONE'
 
   RemoveBookFromBooklistLambda:
     Type: AWS::Serverless::Function

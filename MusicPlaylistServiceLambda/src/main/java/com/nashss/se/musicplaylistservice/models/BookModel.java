@@ -9,13 +9,13 @@ public class BookModel {
     private final String author;
 
     private final String genre;
-    private final int rating;
+    private final Integer rating;
     private final String comments;
-    private final boolean currentlyReading;
-    private final int percentComplete;
+    private final Boolean currentlyReading;
+    private final Integer percentComplete;
 
-    private BookModel(String asin, String title, String author, String genre, int rating,
-                      String comments, boolean currentlyReading, int percentComplete) {
+    private BookModel(String asin, String title, String author, String genre, Integer rating,
+                      String comments, Boolean currentlyReading, Integer percentComplete) {
         this.asin = asin;
         this.title = title;
         this.author = author;
@@ -42,7 +42,7 @@ public class BookModel {
         return genre;
     }
 
-    public int getRating() {
+    public Integer getRating() {
         return rating;
     }
 
@@ -50,11 +50,11 @@ public class BookModel {
         return comments;
     }
 
-    public boolean isCurrentlyReading() {
+    public Boolean isCurrentlyReading() {
         return currentlyReading;
     }
 
-    public int getPercentComplete() {
+    public Integer getPercentComplete() {
         return percentComplete;
     }
 
@@ -85,10 +85,10 @@ public class BookModel {
         private String title;
         private String author;
         private String genre;
-        private int rating;
+        private Integer rating;
         private String comments;
-        private boolean currentlyReading;
-        private int percentComplete;
+        private Boolean currentlyReading;
+        private Integer percentComplete;
 
         public Builder withAsin(String asin) {
             this.asin = asin;
@@ -110,7 +110,7 @@ public class BookModel {
             return this;
         }
 
-        public Builder withRating(int rating) {
+        public Builder withRating(Integer rating) {
             this.rating = rating;
             return this;
         }
@@ -120,12 +120,12 @@ public class BookModel {
             return this;
         }
 
-        public Builder withCurrentlyReading(boolean currentlyReading) {
+        public Builder withCurrentlyReading(Boolean currentlyReading) {
             this.currentlyReading = currentlyReading;
             return this;
         }
 
-        public Builder withPercentComplete(int percentComplete) {
+        public Builder withPercentComplete(Integer percentComplete) {
             this.percentComplete = percentComplete;
             return this;
         }

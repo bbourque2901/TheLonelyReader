@@ -1,5 +1,9 @@
 package com.nashss.se.musicplaylistservice.activity.requests;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+
+@JsonDeserialize(builder = RemoveBooklistRequest.Builder.class)
 public class RemoveBooklistRequest {
 
     private final String id;
@@ -29,6 +33,7 @@ public class RemoveBooklistRequest {
     //CHECKSTYLE:OFF:Builder
     public static Builder builder() { return new Builder(); }
 
+    @JsonPOJOBuilder
     public static class Builder {
         private String id;
         private String customerId;

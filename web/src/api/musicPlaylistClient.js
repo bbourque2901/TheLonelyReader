@@ -16,7 +16,8 @@ export default class MusicPlaylistClient extends BindingClass {
         super();
 
         const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getBooklist',
-        'getBooklistBooks', 'createBooklist', 'search', 'removeBookFromBooklist', 'searchBooks'];
+        'getBooklistBooks', 'createBooklist', 'search', 'removeBookFromBooklist', 'searchBooks', 'removeBooklist'];
+
 
         this.bindClassMethods(methodsToBind, this);
 
@@ -200,6 +201,7 @@ export default class MusicPlaylistClient extends BindingClass {
     }
 
     /**
+<<<<<<< HEAD
      * Search for a book.
      * @param criteria A string containing search criteria to pass to the API.
      * @returns The books that match the search criteria.
@@ -217,6 +219,29 @@ export default class MusicPlaylistClient extends BindingClass {
         }
 
     }
+=======
+          * removes a booklist.
+          * @param id The id of the booklist.
+          * @returns The list of books on a booklist.
+          */
+         async removeBooklist(id, errorCallback) {
+             try {
+                 console.log('delete endpoint called with id ' + id);
+                 const token = await this.getTokenOrThrow("Only authenticated users can remove a booklist.");
+                 const response = await this.axiosClient.delete(`booklists/${id}`, {
+                     headers: {
+                         Authorization: `Bearer ${token}`
+                       },
+                       data: {
+                         id: id
+                       }
+                     });
+                 return response.data.booklists;
+             } catch (error) {
+                 this.handleError(error, errorCallback)
+             }
+         }
+>>>>>>> main
 
     /**
      * Helper method to log the error and run any error functions.

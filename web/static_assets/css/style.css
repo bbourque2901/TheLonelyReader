@@ -6,6 +6,12 @@
     --error-color: #D4A841; /*orange */
 }
 
+/* fixing weird bug where the booklist name wouldn't show up */
+#search-results-display a {
+    color: #A789CF;
+    text-decoration: none;
+}
+
 .background {
     background-color: var(--primary-color);
     margin: 0;

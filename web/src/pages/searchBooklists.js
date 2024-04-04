@@ -19,7 +19,7 @@ class SearchBooklists extends BindingClass {
     constructor() {
         super();
 
-        this.bindClassMethods(['mount', 'search', 'displaySearchResults', 'getHTMLForSearchResults'], this);
+        this.bindClassMethods(['mount', 'search', 'displaySearchResults', 'getHTMLForSearchResults', 'remove'], this);
 
         // Create a enw datastore with an initial "empty" state.
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
@@ -36,11 +36,13 @@ class SearchBooklists extends BindingClass {
             // Wire up the form's 'submit' event and the button's 'click' event to the search method.
             document.getElementById('search-booklists-form').addEventListener('submit', this.search);
             document.getElementById('search-btn').addEventListener('click', this.search);
+            document.getElementById('search-results-display').addEventListener("click", this.remove);
 
             this.header.addHeaderToPage();
 
             this.client = new MusicPlaylistClient();
         }
+
 
         /**
              * Uses the client to perform the search,
@@ -103,15 +105,16 @@ class SearchBooklists extends BindingClass {
                 return '<h4>No results found</h4>';
             }
 
-            let html = '<table><tr><th>Name</th><th>Book Count</th><th>Tags</th></tr>';
+            let html = '<table><tr><th>Name</th><th>Book Count</th><th>Tags</th><th>Remove Booklist</th></tr>';
             for (const res of searchResults) {
                 html += `
-                <tr>
+                <tr id= "${res.id}">
                     <td>
                         <a href="booklist.html?id=${res.id}">${res.name}</a>
                     </td>
                     <td>${res.bookCount}</td>
                     <td>${res.tags?.join(', ')}</td>
+                    <td><button data-id="${res.id}" class="button remove-booklist">Remove ${res.name}</button></td>
                 </tr>`;
             }
             html += '</table>';
@@ -119,7 +122,29 @@ class SearchBooklists extends BindingClass {
             return html;
         }
 
-    }
+       /**
+         * when remove button is clicked, removes booklist.
+         */
+         async remove(e) {
+               const removeButton = e.target;
+               if (!removeButton.classList.contains('remove-booklist')) {
+                    return;
+               }
+
+               removeButton.innerText = "Removing...";
+
+             const errorMessageDisplay = document.getElementById('error-message');
+             errorMessageDisplay.innerText = ``;
+             errorMessageDisplay.classList.add('hidden');
+
+             await this.client.removeBooklist(removeButton.dataset.id, (error) => {
+               errorMessageDisplay.innerText = `Error: ${error.message}`;
+               errorMessageDisplay.classList.remove('hidden');
+             });
+
+                 document.getElementById(removeButton.dataset.id).remove()
+              }
+}
 
 /**
  * Main method to run when the page contents have loaded.

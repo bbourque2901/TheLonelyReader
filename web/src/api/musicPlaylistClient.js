@@ -214,7 +214,7 @@ export default class MusicPlaylistClient extends BindingClass {
         }
 
     }
-
+         /**
           * removes a booklist.
           * @param id The id of the booklist.
           * @returns The list of books on a booklist.

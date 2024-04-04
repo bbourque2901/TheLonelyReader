@@ -152,9 +152,6 @@ export default class MusicPlaylistClient extends BindingClass {
     }
 
     /**
-<<<<<<< HEAD
-     * Search for a booklist.
-=======
      * removes a book from a booklist.
      * @param id The id of the booklist to add a book to.
      * @param asin The asin that uniquely identifies the book.
@@ -182,7 +179,6 @@ export default class MusicPlaylistClient extends BindingClass {
 
     /**
      * Search for a book.
->>>>>>> main
      * @param criteria A string containing search criteria to pass to the API.
      * @returns The booklists that match the search criteria.
      */
@@ -201,7 +197,6 @@ export default class MusicPlaylistClient extends BindingClass {
     }
 
     /**
-<<<<<<< HEAD
      * Search for a book.
      * @param criteria A string containing search criteria to pass to the API.
      * @returns The books that match the search criteria.
@@ -219,7 +214,7 @@ export default class MusicPlaylistClient extends BindingClass {
         }
 
     }
-=======
+
           * removes a booklist.
           * @param id The id of the booklist.
           * @returns The list of books on a booklist.
@@ -241,7 +236,6 @@ export default class MusicPlaylistClient extends BindingClass {
                  this.handleError(error, errorCallback)
              }
          }
->>>>>>> main
 
     /**
      * Helper method to log the error and run any error functions.

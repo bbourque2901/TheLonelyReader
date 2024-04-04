@@ -1,5 +1,5 @@
 import MusicPlaylistClient from '../api/musicPlaylistClient';
-import Header from '../components/header';
+
 import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
 
@@ -21,7 +21,7 @@ const EMPTY_DATASTORE_STATE = {
 
         // Create a enw datastore with an initial "empty" state.
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
-        this.header = new Header(this.dataStore);
+
         this.dataStore.addChangeListener(this.displaySearchResults);
         console.log("searchBooks constructor");
     }
@@ -34,7 +34,7 @@ const EMPTY_DATASTORE_STATE = {
         document.getElementById('search-books-form').addEventListener('submit', this.search);
         document.getElementById('search-books-btn').addEventListener('click', this.search);
 
-        this.header.addHeaderToPage();
+
 
         this.client = new MusicPlaylistClient();
     }

@@ -6,6 +6,7 @@ import com.nashss.se.musicplaylistservice.activity.requests.GetUserBooklistsRequ
 import com.nashss.se.musicplaylistservice.activity.results.GetBooklistResult;
 import com.nashss.se.musicplaylistservice.activity.results.GetUserBooklistsResult;
 import com.nashss.se.musicplaylistservice.dynamodb.BooklistDao;
+import com.nashss.se.musicplaylistservice.dynamodb.models.Book;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;
 import com.nashss.se.musicplaylistservice.test.helper.BooklistTestHelper;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,8 +15,7 @@ import org.mockito.Mock;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -35,8 +35,10 @@ public class GetUserBooklistsActivityTest {
     public void handleRequest_savedBooklistsFound_returnsListOfBooklistModelInResult() {
         // GIVEN
         Booklist booklist1 = BooklistTestHelper.generateBooklistWithNBooks(5);
-        Booklist booklist2 = BooklistTestHelper.generateBooklistWithNBooks(3);
-        List<Booklist> expectedBooklists = List.of(booklist1, booklist1);
+        Booklist booklist2 = BooklistTestHelper.generateBooklistWithNBooks(10);
+
+
+        List<Booklist> expectedBooklists = List.of(booklist1, booklist2);
 
         when(booklistDao.getAllBooklistsForUser(booklist1.getCustomerId())).thenReturn(expectedBooklists);
 
@@ -49,6 +51,8 @@ public class GetUserBooklistsActivityTest {
 
         // THEN
         assertTrue(result.getBooklists().size() == 2);
-
+        assertNotNull(result);
+        assertEquals(result.getBooklists().get(0).getBookCount(), booklist1.getBookCount());
+        assertEquals(result.getBooklists().get(1).getBookCount(), booklist2.getBookCount());
     }
 }

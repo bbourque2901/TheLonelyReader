@@ -3,6 +3,7 @@
 
 <head>
     <script type="text/javascript" src="assets/searchBooklists.js"></script>
+    <script type="text/javascript" src="assets/searchBooks.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     </head>
 
@@ -21,7 +22,6 @@
         </form>
         <p class="button-group">
             <a href="#" class="button" id="search-btn">Search</a>
-            <a href="createBooklist.html" class="button">New Booklist</a>
         </p>
     </div>
     <div class="card hidden" id='search-results-container'>
@@ -29,6 +29,26 @@
         <div id="search-results-display">
         </div>
     </div>
+    <div class="card">
+        <h4>Search Books</h4>
+        <form class="card-content" id="search=books-form">
+            <p class="form-field">
+                <label>Search by title or asin</label>
+                <input type="text" class="validated-field" id="search-book-criteria" placeholder="Title or Asin" autofocus>
+                <sub>Search is case-sensitive and must match exactly.</sub>
+            </p>
+        </form>
+        <p class="button-group">
+            <a href="#" class="button" id="search-books-btn">Search</a>
+        </p>
+    </div>
+
+    <div class="card hidden" id='search-books-results-container'>
+        <h5>Results for <span id="search-books-criteria-display"></span></h5>
+        <div id="search-books-results-display">
+        </div>
+    </div>
+
 </body>
 
 </html>

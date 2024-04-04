@@ -49,5 +49,6 @@ public class GetUserBooklistsActivityTest {
 
         // THEN
         assertTrue(result.getBooklists().size() == 2);
+
     }
 }

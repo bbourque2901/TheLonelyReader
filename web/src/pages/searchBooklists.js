@@ -19,7 +19,7 @@ class SearchBooklists extends BindingClass {
     constructor() {
         super();
 
-        this.bindClassMethods(['mount', 'search', 'displaySearchResults', 'getHTMLForSearchResults'], this);
+        this.bindClassMethods(['delete','mount', 'search', 'displaySearchResults', 'getHTMLForSearchResults'], this);
 
         // Create a enw datastore with an initial "empty" state.
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
@@ -36,10 +36,20 @@ class SearchBooklists extends BindingClass {
             // Wire up the form's 'submit' event and the button's 'click' event to the search method.
             document.getElementById('search-booklists-form').addEventListener('submit', this.search);
             document.getElementById('search-btn').addEventListener('click', this.search);
+            document.getElementById('search-results-display').addEventListener("click", this.delete);
+            var buttons = document.getElementsByClassName('button delete');
+            for(let b of buttons) {
+            b.addEventListener("click", this.delete)
+            }
 
             this.header.addHeaderToPage();
 
             this.client = new MusicPlaylistClient();
+        }
+
+        delete(e) {
+        console.log('delete button clicked',e.target.dataset.id);
+        this.client.deleteBooklist(e.target.dataset.id, console.error)
         }
 
         /**
@@ -103,7 +113,7 @@ class SearchBooklists extends BindingClass {
                 return '<h4>No results found</h4>';
             }
 
-            let html = '<table><tr><th>Name</th><th>Book Count</th><th>Tags</th></tr>';
+            let html = '<table><tr><th>Name</th><th>Book Count</th><th>Tags</th><th>Remove Booklist</th></tr>';
             for (const res of searchResults) {
                 html += `
                 <tr>
@@ -112,6 +122,7 @@ class SearchBooklists extends BindingClass {
                     </td>
                     <td>${res.bookCount}</td>
                     <td>${res.tags?.join(', ')}</td>
+                    <td><button data-id="${res.id}" class="button delete">Remove ${res.name}</button></td>
                 </tr>`;
             }
             html += '</table>';

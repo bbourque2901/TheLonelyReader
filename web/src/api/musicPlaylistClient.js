@@ -15,7 +15,7 @@ export default class MusicPlaylistClient extends BindingClass {
     constructor(props = {}) {
         super();
 
-        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getBooklist', 'getBooklistBooks', 'createBooklist', 'search'];
+        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getBooklist', 'getBooklistBooks', 'createBooklist', 'search', 'deleteBooklist'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -166,6 +166,21 @@ export default class MusicPlaylistClient extends BindingClass {
         }
 
     }
+
+    /**
+         * Gets the booklist for the given ID.
+         * @param id Unique identifier for a booklist
+         * @param errorCallback (Optional) A function to execute if the call fails.
+         * @returns The booklist's metadata.
+         */
+        async deleteBooklist(id, errorCallback) {
+            try {
+                const response = await this.axiosClient.delete(`booklists/${id}`);
+                return response.data.booklist;
+            } catch (error) {
+                this.handleError(error, errorCallback)
+            }
+        }
 
     /**
      * Helper method to log the error and run any error functions.

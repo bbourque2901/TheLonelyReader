@@ -75,6 +75,14 @@ public class BookDao {
     }
 
     /**
+     * Saves a book to the Book DynamoDB table.
+     * @param book the Book object to be saved
+     */
+    public void saveBook(Book book) {
+        this.dynamoDBMapper.save(book);
+    }
+
+    /**
      * Perform a search (via a "scan") of the book table for books matching the given criteria.
      *
      * Both "bookName" and "tags" attributes are searched.
@@ -111,7 +119,6 @@ public class BookDao {
 
         return this.dynamoDBMapper.scan(Book.class, dynamoDBScanExpression);
     }
-
 
     /**
      * Helper method for searchBooks method.

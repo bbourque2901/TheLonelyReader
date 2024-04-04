@@ -15,12 +15,14 @@ export default class MusicPlaylistClient extends BindingClass {
     constructor(props = {}) {
         super();
 
-        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getBooklist', 'getBooklistBooks', 'createBooklist', 'search', 'deleteBooklist'];
+        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getBooklist',
+        'getBooklistBooks', 'createBooklist', 'search', 'removeBookFromBooklist', 'deleteBooklist'];
+
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
         this.props = props;
-
+        
         axios.defaults.baseURL = process.env.API_BASE_URL;
         this.axiosClient = axios;
         this.clientLoaded();
@@ -133,7 +135,7 @@ export default class MusicPlaylistClient extends BindingClass {
      */
     async addBookToBooklist(id, asin, errorCallback) {
         try {
-            const token = await this.getTokenOrThrow("Only authenticated users can add a song to a playlist.");
+            const token = await this.getTokenOrThrow("Only authenticated users can add a book to a booklist.");
             const response = await this.axiosClient.post(`booklists/${id}/books`, {
                 id: id,
                 asin: asin
@@ -142,6 +144,32 @@ export default class MusicPlaylistClient extends BindingClass {
                     Authorization: `Bearer ${token}`
                 }
             });
+            return response.data.books;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
+    }
+
+    /**
+     * removes a book from a booklist.
+     * @param id The id of the booklist to add a book to.
+     * @param asin The asin that uniquely identifies the book.
+     * @returns The list of books on a booklist.
+     */
+    async removeBookFromBooklist(id, asin, errorCallback) {
+        try {
+            console.log('delete endpoint called with id ' + id);
+            console.log('delete endpoint called with asin ' + asin);
+            const token = await this.getTokenOrThrow("Only authenticated users can remove a book from a booklist.");
+            const response = await this.axiosClient.delete(`booklists/${id}/books/${asin}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                  },
+                  data: {
+                    id: id,
+                    asin: asin
+                  }
+                });
             return response.data.books;
         } catch (error) {
             this.handleError(error, errorCallback)

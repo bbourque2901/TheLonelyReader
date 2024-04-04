@@ -430,10 +430,9 @@ Resources:
         MusicPlaylistService:
           Type: Api
           Properties:
-            Path: /booklists/{id}/songs
+            Path: /booklists/{id}/books/{asin}
             Method: delete
-            Auth:
-              Authorizer: 'NONE'
+
   #-----------------------------------------------------
   # DynamoDB Configuration
   #-----------------------------------------------------

@@ -47,6 +47,9 @@ dependencies {
     implementation 'org.mockito:mockito-core:4.+'
     implementation "org.mockito:mockito-inline:4.+"
 
+    implementation 'com.google.apis:google-api-services-books:v1-rev20240214-2.0.0'
+    implementation 'com.google.api-client:google-api-client:2.4.0'
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }

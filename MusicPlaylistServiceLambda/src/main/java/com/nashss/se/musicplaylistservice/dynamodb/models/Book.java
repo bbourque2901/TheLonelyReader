@@ -19,6 +19,7 @@ public class Book {
     private String title;
     private String author;
     private String genre;
+    private String thumbnail;
     private Integer rating;
     private String comments;
     private Boolean currentlyReading;
@@ -58,6 +59,15 @@ public class Book {
 
     public void setGenre(String genre) {
         this.genre = genre;
+    }
+
+    @DynamoDBAttribute(attributeName = "thumbnail")
+    public String getThumbnail() {
+        return genre;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
     @DynamoDBAttribute(attributeName = "rating")
@@ -123,6 +133,7 @@ public class Book {
                 ", title=" + title +
                 ", author='" + author + '\'' +
                 ", genre='" + genre + '\'' +
+                ", thumbnail='" + thumbnail + '\'' +
                 ", rating='" + rating + '\'' +
                 ", comments='" + comments + '\'' +
                 ", currentlyReading='" + currentlyReading + '\'' +

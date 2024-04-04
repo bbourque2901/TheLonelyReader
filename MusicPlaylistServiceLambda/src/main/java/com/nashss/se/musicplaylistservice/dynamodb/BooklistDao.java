@@ -1,5 +1,6 @@
 package com.nashss.se.musicplaylistservice.dynamodb;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;
 import com.nashss.se.musicplaylistservice.exceptions.BooklistNotFoundException;
 import com.nashss.se.musicplaylistservice.exceptions.UserNotFoundException;
@@ -8,6 +9,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

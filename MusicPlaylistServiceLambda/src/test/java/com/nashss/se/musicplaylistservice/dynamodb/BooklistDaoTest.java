@@ -6,6 +6,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Book;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;
 import com.nashss.se.musicplaylistservice.exceptions.BooklistNotFoundException;
+import com.nashss.se.musicplaylistservice.exceptions.UserNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -106,5 +107,31 @@ public class BooklistDaoTest {
         verify(dynamoDBMapper).scan(eq(Booklist.class), scanExpCaptor.capture());
         assertNotNull(results);
         assertTrue(results.size() == 0);
+    }
+
+    @Test
+    public void getAllBooklistsForUser_withUserId_returnsListOfBooklists() {
+        // GIVEN
+        String testId = "testId";
+        when(dynamoDBMapper.scan(eq(Booklist.class), any(DynamoDBScanExpression.class))).thenReturn(pagScanList);
+
+        // WHEN
+        List<Booklist> results = booklistDao.getAllBooklistsForUser(testId);
+
+        // THEN
+        assertNotNull(results);
+        verify(dynamoDBMapper).scan(eq(Booklist.class), scanExpCaptor.capture());
+        assertTrue(!results.isEmpty());
+    }
+
+    @Test
+    public void getAllBooklistsForUser_withNullId_throwsUserNotFoundException() {
+        // GIVEN
+        String testId = null;
+        when(dynamoDBMapper.scan(eq(Booklist.class), any(DynamoDBScanExpression.class))).thenReturn(pagScanList);
+
+
+        // WHEN + THEN
+        assertThrows(UserNotFoundException.class, () -> booklistDao.getAllBooklistsForUser(testId));
     }
 }

@@ -13,8 +13,8 @@
 }
 
 .background {
-    background-image: url("images/flowers.png");
-    background-size: 500px;
+    background: url("images/flowers.png") var(--primary-color);
+    background-size: auto;
     margin: 0;
     counter-reset: section;
     font-family: "Helvetica Neue",Helvetica,sans-serif;

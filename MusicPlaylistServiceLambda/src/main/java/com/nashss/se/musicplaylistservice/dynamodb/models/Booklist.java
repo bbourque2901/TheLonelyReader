@@ -6,6 +6,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverted;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -18,7 +19,7 @@ public class Booklist {
     private String customerId;
     private Integer bookCount;
     private Set<String> tags;
-    private List<Book> books;
+    private List<Book> books = new ArrayList<>();
 
     @DynamoDBHashKey(attributeName = "id")
     public String getId() {
@@ -72,12 +73,26 @@ public class Booklist {
             this.tags = new HashSet<>(tags);
         }
     }
+
+    /**
+     * getter for the list of books.
+     * @return books
+     */
     @DynamoDBAttribute(attributeName = "bookList")
     @DynamoDBTypeConverted(converter = BookConverter.class)
     public List<Book> getBooks() {
         return books;
     }
+
+    /**
+     * setter for the list of books.
+     * ensures list can't be null
+     * @param books list of books
+     */
     public void setBooks(List<Book> books) {
+        if (books == null) {
+            this.books = new ArrayList<>();
+        }
         this.books = books;
     }
 

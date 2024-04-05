@@ -10,7 +10,6 @@ import com.nashss.se.musicplaylistservice.models.BooklistModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -44,11 +43,7 @@ public class GetUserBooklistsActivity {
         log.info("Recieved GetUserBooklistsRequest {}", getUserBooklistsRequest);
         String requestedCustomerId = getUserBooklistsRequest.getCustomerId();
         List<Booklist> userBooklists = booklistDao.getAllBooklistsForUser(requestedCustomerId);
-
-        List<BooklistModel> userBooklistsModels = new ArrayList<>();
-        for (Booklist booklist: userBooklists) {
-            userBooklistsModels.add(new ModelConverterCarbon().toBooklistModel(booklist));
-        }
+        List<BooklistModel> userBooklistsModels = new ModelConverterCarbon().toBookListModelList(userBooklists);
 
         return GetUserBooklistsResult.builder()
                 .withBooklists(userBooklistsModels)

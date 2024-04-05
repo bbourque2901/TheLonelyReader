@@ -43,12 +43,9 @@ import DataStore from "../util/DataStore";
    */
    addBooklistsToPage() {
         const booklists = this.dataStore.get('booklists');
+
         if (booklists == null) {
             return;
-        }
-
-        if (booklists === undefined || booklists.lenght == 0) {
-            return '<h4>No results found</h4>';
         }
 
         let booklistsHtml = '<table id="booklists-table"><tr><th>Name</th><th>Book Count</th><th>Tags</th><th>Booklist Id</th><th>Remove Booklist</th></tr>';

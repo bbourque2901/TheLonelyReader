@@ -113,12 +113,9 @@ export default class MusicPlaylistClient extends BindingClass {
     async getUserBooklists(customerId, errorCallback) {
         try {
             const token = await this.getTokenOrThrow("Only authenticated users can view their booklists.");
-            const response = await this.axiosClient.get(`userBooklists/${customerId}`, {
+            const response = await this.axiosClient.get(`userBooklists`, {
                 headers: {
                     Authorization: `Bearer ${token}`
-                  },
-                  data: {
-                    customerId: customerId
                   }
                 });
             return response.data.booklists;

@@ -1,5 +1,6 @@
 import MusicPlaylistClient from '../api/musicPlaylistClient';
 import BindingClass from "../util/bindingClass";
+import Header from '../components/header';
 import DataStore from "../util/DataStore";
 
 /**
@@ -8,9 +9,10 @@ import DataStore from "../util/DataStore";
   class ViewUserBooklists extends BindingClass {
      constructor() {
              super();
-             this.bindClassMethods(['clientLoaded', 'mount', 'addBooklistsToPage'], this);
+             this.bindClassMethods(['clientLoaded', 'mount', 'addBooklistsToPage', 'remove'], this);
              this.dataStore = new DataStore();
              console.log("viewUserBooklists constructor");
+             this.header = new Header(this.dataStore);
      }
 
  /**
@@ -22,14 +24,18 @@ import DataStore from "../util/DataStore";
      document.getElementById('booklists').innerText = "Loading Lists ...";
      const booklists = await this.client.getUserBooklists(customerId);
      this.dataStore.set('booklists', booklists);
+     this.addBooklistsToPage();
  }
 
  /**
   * Load the MusicPlaylistClient.
   */
   mount() {
+      document.getElementById('booklists').addEventListener("click", this.remove);
+
       this.client = new MusicPlaylistClient();
       this.clientLoaded();
+      this.header.addHeaderToPage();
   }
 
   /**
@@ -41,22 +47,48 @@ import DataStore from "../util/DataStore";
             return;
         }
 
-//        document.getElementById('booklist-name').innerText = booklist.name;
-//        document.getElementById('booklist-owner').innerText = booklist.customerId;
+        if (booklists.length === 0) {
+            return '<h4>No results found</h4>';
+        }
 
-        let booklistsHtml = '<table id="booklists-table"><tr><th>Name</th><th>Book Count</th><th>Tags</th><th>Booklist Id</th></tr>';
+        let booklistsHtml = '<table id="booklists-table"><tr><th>Name</th><th>Book Count</th><th>Tags</th><th>Booklist Id</th><th>Remove Booklist</th></tr>';
         let booklist;
         for (booklist of booklists) {
             booklistsHtml += `
-            <tr>
+            <tr id="${booklist.id}">
                 <td>${booklist.name}</td>
                 <td>${booklist.bookCount}</td>
                 <td>${booklist.tags}</td>
                 <td>${booklist.id}</td>
+                <td><button data-id="${booklist.id}" class="button remove-booklist">Remove ${booklist.name}</button></td>
             </tr>`;
         }
+        document.getElementById('booklist-owner').innerText = booklist.customerId;
         document.getElementById('booklists').innerHTML = booklistsHtml;
     }
+
+    /**
+     * when remove button is clicked, removes booklist.
+     */
+     async remove(e) {
+         const removeButton = e.target;
+         if (!removeButton.classList.contains('remove-booklist')) {
+              return;
+         }
+
+         removeButton.innerText = "Removing...";
+
+         const errorMessageDisplay = document.getElementById('error-message');
+         errorMessageDisplay.innerText = ``;
+         errorMessageDisplay.classList.add('hidden');
+
+         await this.client.removeBooklist(removeButton.dataset.id, (error) => {
+           errorMessageDisplay.innerText = `Error: ${error.message}`;
+           errorMessageDisplay.classList.remove('hidden');
+         });
+
+         document.getElementById(removeButton.dataset.id).remove()
+     }
 
 }
 

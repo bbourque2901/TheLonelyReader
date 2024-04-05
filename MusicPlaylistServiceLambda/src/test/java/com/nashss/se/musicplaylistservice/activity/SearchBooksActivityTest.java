@@ -1,10 +1,15 @@
 package com.nashss.se.musicplaylistservice.activity;
 
 
+import com.google.api.client.json.JsonFactory;
 import com.nashss.se.musicplaylistservice.activity.requests.SearchBooksRequest;
 import com.nashss.se.musicplaylistservice.activity.results.SearchBooksResult;
 import com.nashss.se.musicplaylistservice.dynamodb.BookDao;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Book;
+import com.nashss.se.musicplaylistservice.exceptions.BookNotFoundException;
+import com.nashss.se.musicplaylistservice.exceptions.GoogleBookAPISearchException;
+import com.nashss.se.musicplaylistservice.googlebookapi.Request;
+import com.nashss.se.musicplaylistservice.googlebookapi.helper.VolumeInfoHelper;
 import com.nashss.se.musicplaylistservice.models.BookModel;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -12,9 +17,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -59,9 +69,25 @@ public class SearchBooksActivityTest {
     }
 
     @Test
-    public void handleRequest_withNullCriteria_isIdenticalToEmptyCriteria() {
+    public void handleRequest_withNullCriteria_throwsGoogleBookAPISearchException() {
         // GIVEN
         String criteria = null;
+        ArgumentCaptor<String[]> criteriaArray = ArgumentCaptor.forClass(String[].class);
+
+        when(bookDao.searchBooks(criteriaArray.capture())).thenReturn(List.of());
+
+        SearchBooksRequest request = SearchBooksRequest.builder()
+                .withCriteria(criteria)
+                .build();
+
+        // WHEN + THEN
+        assertThrows(GoogleBookAPISearchException.class, () -> searchBooksActivity.handleRequest(request));
+    }
+
+    @Test
+    public void handleRequest_withCriteriaNotMatchingDynamoDB_queriesGoogleBookAPI() {
+        // GIVEN
+        String criteria = "game of thrones";
         ArgumentCaptor<String[]> criteriaArray = ArgumentCaptor.forClass(String[].class);
 
         when(bookDao.searchBooks(criteriaArray.capture())).thenReturn(List.of());
@@ -74,7 +100,15 @@ public class SearchBooksActivityTest {
         SearchBooksResult result = searchBooksActivity.handleRequest(request);
 
         // THEN
-        assertEquals(0, criteriaArray.getValue().length, "Criteria Array should be empty");
+        assertEquals(5, result.getBooks().size());
+
+        List<BookModel> books = result.getBooks();
+        for (BookModel book : books) {
+            System.out.printf(
+                    "Asin: %s \n Title: %s \n Author: %s \n Genre: %s \n Page Count: %s \n Thumbnail: %s \n%n",
+                    book.getAsin(), book.getTitle(), book.getAuthor(), book.getGenre(),
+                    book.getPageCount(), book.getThumbnail());
+        }
     }
 
     private static Book newBook(String asin, String title, String author, String genre) {

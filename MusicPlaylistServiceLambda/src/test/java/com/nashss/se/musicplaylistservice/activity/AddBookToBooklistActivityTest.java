@@ -132,7 +132,7 @@ public class AddBookToBooklistActivityTest {
     }
 
     @Test
-    public void handleRequest_similarSearches_returnSameBookFromAPI() throws Exception {
+    public void handleRequest_similarSearches_returnSameBookFromAPI() {
         // GIVEN - A booklist and two requests with similar search terms to query to the Google Book API
         Booklist booklist = BooklistTestHelper.generateBooklist();
         String booklistId = booklist.getId();
@@ -171,7 +171,7 @@ public class AddBookToBooklistActivityTest {
     }
 
     @Test
-    public void handleRequest_bookExistsInDynamoDB_returnsExistingBook() throws Exception {
+    public void handleRequest_bookExistsInDynamoDB_returnsExistingBook() {
         // GIVEN - A booklist and a request for an existing book in DynamoDB
         Booklist booklist = BooklistTestHelper.generateBooklist();
         String booklistId = booklist.getId();

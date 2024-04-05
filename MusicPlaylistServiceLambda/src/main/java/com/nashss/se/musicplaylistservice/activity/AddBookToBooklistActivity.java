@@ -7,6 +7,7 @@ import com.nashss.se.musicplaylistservice.dynamodb.BookDao;
 import com.nashss.se.musicplaylistservice.dynamodb.BooklistDao;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Book;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;
+import com.nashss.se.musicplaylistservice.exceptions.DuplicateBookException;
 import com.nashss.se.musicplaylistservice.exceptions.GoogleBookAPISearchException;
 import com.nashss.se.musicplaylistservice.googlebookapi.Request;
 import com.nashss.se.musicplaylistservice.googlebookapi.helper.VolumeInfoHelper;
@@ -92,15 +93,19 @@ public class AddBookToBooklistActivity {
                     bookToAdd = bookDao.getBook(helper.getIsbn(volumes.get(0).getVolumeInfo()));
                 } else {
                     bookToAdd = googleBookApi.deserializeVolumeToBook(googleBookApi.extractAttributes(volumes, 0));
+                    bookDao.saveBook(bookToAdd);
                 }
             } catch (Exception e) {
                 throw new GoogleBookAPISearchException("Error with request to Google Book API", e);
             }
         }
-        bookDao.saveBook(bookToAdd);
 
         List<Book> books = booklist.getBooks();
-        books.add(bookToAdd);
+        if (books.contains(bookToAdd)) {
+            throw new DuplicateBookException(String.format("%s is already in your booklist!", bookToAdd.getTitle()));
+        } else {
+            books.add(bookToAdd);
+        }
 
         booklist.setBooks(books);
         booklist.setBookCount(books.size());

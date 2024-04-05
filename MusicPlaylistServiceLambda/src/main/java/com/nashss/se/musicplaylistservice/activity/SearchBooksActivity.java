@@ -1,10 +1,16 @@
 package com.nashss.se.musicplaylistservice.activity;
 
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.services.books.v1.model.Volume;
 import com.nashss.se.musicplaylistservice.activity.requests.SearchBooksRequest;
 import com.nashss.se.musicplaylistservice.activity.results.SearchBooksResult;
 import com.nashss.se.musicplaylistservice.converters.ModelConverterCarbon;
 import com.nashss.se.musicplaylistservice.dynamodb.BookDao;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Book;
+import com.nashss.se.musicplaylistservice.exceptions.GoogleBookAPISearchException;
+import com.nashss.se.musicplaylistservice.googlebookapi.Request;
+import com.nashss.se.musicplaylistservice.googlebookapi.helper.VolumeInfoHelper;
 import com.nashss.se.musicplaylistservice.models.BookModel;
 
 import org.apache.logging.log4j.LogManager;
@@ -26,6 +32,8 @@ public class SearchBooksActivity {
 
     private final Logger log = LogManager.getLogger();
     private final BookDao bookDao;
+    private Request googleBookApi;
+    private VolumeInfoHelper helper;
 
     /**
      * Instantiates a new SearchBooksActivity object.
@@ -54,6 +62,21 @@ public class SearchBooksActivity {
 
         List<Book> results = bookDao.searchBooks(criteriaArray);
         List<BookModel> bookModels = new ArrayList<>();
+        if (results == null || results.isEmpty()) {
+            results = new ArrayList<>();
+            try {
+                JsonFactory jsonFactory = GsonFactory.getDefaultInstance();
+                googleBookApi = new Request();
+                helper = new VolumeInfoHelper();
+                List<Volume> volumes = googleBookApi.queryBooks(jsonFactory, searchBooksRequest.getCriteria());
+                for (int i = 0; i < 5; i++) {
+                    results.add(googleBookApi.deserializeVolumeToBook(googleBookApi.extractAttributes(volumes, i)));
+                }
+            } catch (Exception e) {
+                throw new GoogleBookAPISearchException("Error with request to Google Book API");
+            }
+        }
+
         for (Book book : results) {
             bookModels.add(new ModelConverterCarbon().toBookModel(book));
         }

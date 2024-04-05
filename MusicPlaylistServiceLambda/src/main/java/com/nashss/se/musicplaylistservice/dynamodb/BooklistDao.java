@@ -26,7 +26,6 @@ public class BooklistDao {
      *
      * @param dynamoDBMapper the {@link DynamoDBMapper} used to interact with the booklists table
      */
-
     @Inject
     public BooklistDao(DynamoDBMapper dynamoDBMapper) {
         this.dynamoDBMapper = dynamoDBMapper;

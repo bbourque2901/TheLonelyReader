@@ -100,10 +100,13 @@ const EMPTY_DATASTORE_STATE = {
             return '<h4>No results found</h4>';
         }
 
-        let html = '<table><tr><th>Asin</th><th>Title</th><th>Author</th><th>Genre</th></tr>';
+        let html = '<table><tr><th></th><th>Asin</th><th>Title</th><th>Author</th><th>Genre</th></tr>';
         for (const res of searchResults) {
             html += `
             <tr>
+                <td>
+                    <img src=${res.thumbnail} />
+                </td>
                 <td>${res.asin}</td>
                 <td>${res.title}</td>
                 <td>${res.author}</td>

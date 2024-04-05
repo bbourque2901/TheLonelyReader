@@ -55,16 +55,20 @@ import DataStore from "../util/DataStore";
         let booklist;
         for (booklist of booklists) {
             booklistsHtml += `
-            <tr id="${booklist.id}">
-                <td>${booklist.name}</td>
+            <tr id= "${booklist.id}">
+                <td>
+                    <a href="booklist.html?id=${booklist.id}">${booklist.name}</a>
+                </td>
                 <td>${booklist.bookCount}</td>
-                <td>${booklist.tags}</td>
+                <td>${booklist.tags?.join(', ')}</td>
                 <td>${booklist.id}</td>
                 <td><button data-id="${booklist.id}" class="button remove-booklist">Remove ${booklist.name}</button></td>
             </tr>`;
         }
-        document.getElementById('booklist-owner').innerText = booklist.customerId;
+
         document.getElementById('booklists').innerHTML = booklistsHtml;
+
+        document.getElementById('booklist-owner').innerText = booklist.customerId;
     }
 
     /**

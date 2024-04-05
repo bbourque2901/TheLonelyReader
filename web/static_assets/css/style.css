@@ -12,6 +12,12 @@
     text-decoration: none;
 }
 
+/* fixing weird bug where the booklist name wouldn't show up on viewUserBooklists*/
+#booklists-table a {
+    color: #A789CF;
+    text-decoration: none;
+}
+
 .background {
     background-color: var(--primary-color);
     margin: 0;

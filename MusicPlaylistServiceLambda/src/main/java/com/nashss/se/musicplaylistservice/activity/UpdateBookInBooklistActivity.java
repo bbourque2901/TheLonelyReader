@@ -6,8 +6,10 @@ import com.nashss.se.musicplaylistservice.converters.ModelConverter;
 import com.nashss.se.musicplaylistservice.converters.ModelConverterCarbon;
 import com.nashss.se.musicplaylistservice.dynamodb.BookDao;
 import com.nashss.se.musicplaylistservice.dynamodb.BooklistDao;
+import com.nashss.se.musicplaylistservice.dynamodb.CommentDao;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Book;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;
+import com.nashss.se.musicplaylistservice.dynamodb.models.Comment;
 import com.nashss.se.musicplaylistservice.metrics.MetricsPublisher;
 import com.nashss.se.musicplaylistservice.models.BooklistModel;
 import org.apache.logging.log4j.LogManager;
@@ -27,6 +29,7 @@ public class UpdateBookInBooklistActivity {
     private final BooklistDao booklistDao;
     private final BookDao bookDao;
     private final MetricsPublisher metricsPublisher;
+    private final CommentDao commentDao;
 
     /**
      * Instantiates a new UpdateBooklist object.
@@ -36,10 +39,11 @@ public class UpdateBookInBooklistActivity {
      * @param metricsPublisher MetricsPublisher to publish metrics.
      */
     @Inject
-    public UpdateBookInBooklistActivity(BooklistDao booklistDao, BookDao bookDao, MetricsPublisher metricsPublisher) {
+    public UpdateBookInBooklistActivity(BooklistDao booklistDao, BookDao bookDao, MetricsPublisher metricsPublisher, CommentDao commentDao) {
         this.booklistDao = booklistDao;
         this.bookDao = bookDao;
         this.metricsPublisher = metricsPublisher;
+        this.commentDao = commentDao;
     }
 
     /**
@@ -56,7 +60,7 @@ public class UpdateBookInBooklistActivity {
      * If the request tries to update the customer ID,
      * this should throw an InvalidAttributeChangeException
      *
-     * @param updateBookInBooklistRequest request object containing the playlist ID, playlist name, and customer ID
+     * @param updateBookInBooklistRequest request object containing the booklist ID, booklist name, and customer ID
      *                              associated with it
      * @return updateBookInBooklistResult result object containing the API defined {@link BookModel}
      */
@@ -79,6 +83,23 @@ public class UpdateBookInBooklistActivity {
         //tries to update rating, leaves alone if null
         try {
             book.setRating(updateBookInBooklistRequest.getRating());
+        } catch (NullPointerException e) {
+            //can log here
+        }
+        //tries to update comment, leaves alone if null
+        try {
+            String commentText = updateBookInBooklistRequest.getCommentText();
+            commentDao.saveCommentForBook(updateBookInBooklistRequest.getAsin(), commentText);
+
+            //Retrieve book and add comment to comment list
+            Book bookWithComment = bookDao.getBook(updateBookInBooklistRequest.getAsin());
+            Comment comment = new Comment();
+            comment.setAsin(updateBookInBooklistRequest.getAsin());
+            comment.setCommentText(commentText);
+            bookWithComment.getComments().add(comment);
+
+            //Save updated book w comment
+            bookDao.saveBook(bookWithComment);
         } catch (NullPointerException e) {
             //can log here
         }

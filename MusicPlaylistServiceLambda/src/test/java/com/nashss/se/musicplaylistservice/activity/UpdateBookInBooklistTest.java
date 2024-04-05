@@ -4,6 +4,7 @@ import com.nashss.se.musicplaylistservice.activity.requests.UpdateBookInBooklist
 import com.nashss.se.musicplaylistservice.activity.results.UpdateBookInBooklistResult;
 import com.nashss.se.musicplaylistservice.dynamodb.BooklistDao;
 import com.nashss.se.musicplaylistservice.dynamodb.BookDao;
+import com.nashss.se.musicplaylistservice.dynamodb.CommentDao;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Book;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;
 import com.nashss.se.musicplaylistservice.metrics.MetricsPublisher;
@@ -26,6 +27,8 @@ public class UpdateBookInBooklistTest {
     @Mock
     private BookDao bookDao;
     @Mock
+    private CommentDao commentDao;
+    @Mock
     private MetricsPublisher metricsPublisher;
     private UpdateBookInBooklistActivity updateBookInBooklistActivity;
     @Captor
@@ -36,7 +39,7 @@ public class UpdateBookInBooklistTest {
     @BeforeEach
     public void setup() {
         openMocks(this);
-        updateBookInBooklistActivity = new UpdateBookInBooklistActivity(booklistDao, bookDao, metricsPublisher);
+        updateBookInBooklistActivity = new UpdateBookInBooklistActivity(booklistDao, bookDao, metricsPublisher, commentDao);
         // GIVEN
         String expectedId = "expectedId";
         String expectedName = "expectedName";
@@ -227,5 +230,56 @@ public class UpdateBookInBooklistTest {
         assertTrue(savedBook2.isCurrentlyReading());
         assertEquals(7, savedBook2.getRating());
         assertEquals(50, savedBook2.getPercentComplete());
+    }
+
+    @Test
+    public void handleRequest_updateAllAttributesWithComment_updatesInBothBooklists() {
+        // Given
+        Booklist booklist2 = new Booklist();
+        booklist2.setBooks(List.of(book1));
+        booklist2.setCustomerId("expectedCustomerId");
+        booklist2.setId("SecondBookListId");
+
+        UpdateBookInBooklistRequest request = UpdateBookInBooklistRequest.builder()
+                .withAsin("111")
+                .withCustomerId("expectedCustomerId")
+                .withRating(7)
+                .withCurrentlyReading(true)
+                .withPercentComplete(50)
+                .withCommentText("Great book!")
+                .build();
+
+        when(bookDao.getBook("111")).thenReturn(book1);
+        when(booklistDao.getAllBooklistsForUser("expectedCustomerId")).thenReturn(List.of(booklist1, booklist2));
+
+        // When
+        UpdateBookInBooklistResult result = updateBookInBooklistActivity.handleRequest(request);
+
+        ArgumentCaptor<Booklist> captor = ArgumentCaptor.forClass(Booklist.class);
+        verify(booklistDao, times(2)).saveBooklist(captor.capture());
+        List<Booklist> capturedLists = captor.getAllValues();
+        Booklist savedBooklist = capturedLists.get(0);
+        Book savedBook = savedBooklist.getBooks().get(5);
+        Booklist savedBooklist2 = capturedLists.get(1);
+        Book savedBook2 = savedBooklist2.getBooks().get(0);
+
+        // Then
+        assertEquals("111", result.getBookModel().getAsin());
+        assertTrue(result.getBookModel().isCurrentlyReading());
+        assertEquals(50, result.getBookModel().getPercentComplete());
+        assertEquals(7, result.getBookModel().getRating());
+
+        assertEquals("111", savedBook.getAsin());
+        assertTrue(savedBook.isCurrentlyReading());
+        assertEquals(7, savedBook.getRating());
+        assertEquals(50, savedBook.getPercentComplete());
+        assertEquals("Great book!", savedBook.getComments().get(0).getCommentText());
+
+        assertEquals("SecondBookListId", savedBooklist2.getId());
+        assertEquals("111", savedBook2.getAsin());
+        assertTrue(savedBook2.isCurrentlyReading());
+        assertEquals(7, savedBook2.getRating());
+        assertEquals(50, savedBook2.getPercentComplete());
+        assertEquals("Great book!", savedBook2.getComments().get(0).getCommentText());
     }
     }

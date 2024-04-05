@@ -8,13 +8,15 @@ public class UpdateBookInBooklistRequest {
     private final int percentComplete;
     private final String customerId;
     private final Integer rating;
+    private final String commentText;
 
-    public UpdateBookInBooklistRequest(String asin, boolean currentlyReading, int percentComplete, String customerId, Integer rating) {
+    public UpdateBookInBooklistRequest(String asin, boolean currentlyReading, int percentComplete, String customerId, Integer rating, String commentText) {
         this.asin = asin;
         this.currentlyReading = currentlyReading;
         this.percentComplete = percentComplete;
         this.customerId = customerId;
         this.rating = rating;
+        this.commentText = commentText;
     }
 
     public String getAsin() {
@@ -36,6 +38,7 @@ public class UpdateBookInBooklistRequest {
     public Integer getRating() {
         return rating;
     }
+    public String getCommentText() { return commentText; }
 
     @Override
     public String toString() {
@@ -45,6 +48,7 @@ public class UpdateBookInBooklistRequest {
                 ", percentComplete='" + percentComplete + '\'' +
                 ", customerId='" + customerId + '\'' +
                 ", rating='" + rating + '\'' +
+                ", commentText='" + commentText + '\'' +
                 '}';
     }
     //CHECKSTYLE:OFF:Builder
@@ -59,6 +63,7 @@ public class UpdateBookInBooklistRequest {
         private int percentComplete;
         private String customerId;
         private Integer rating;
+        private String commentText;
         public Builder withAsin(String asin) {
             this.asin = asin;
             return this;
@@ -79,7 +84,11 @@ public class UpdateBookInBooklistRequest {
             this.rating = rating;
             return this;
         }
-        public UpdateBookInBooklistRequest build() { return new UpdateBookInBooklistRequest(asin, currentlyReading, percentComplete, customerId, rating); }
+        public Builder withCommentText(String commentText) {
+            this.commentText = commentText;
+            return this;
+        }
+        public UpdateBookInBooklistRequest build() { return new UpdateBookInBooklistRequest(asin, currentlyReading, percentComplete, customerId, rating, commentText); }
     }
 
 }

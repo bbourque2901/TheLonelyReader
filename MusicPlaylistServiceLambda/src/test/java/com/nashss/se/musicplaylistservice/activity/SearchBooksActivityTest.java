@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -87,7 +88,7 @@ public class SearchBooksActivityTest {
 
         // these can be any attributes for this test
         book.setRating(5);
-        book.setComments("bla bla bla");
+        book.setComments(new ArrayList<>());
         book.setCurrentlyReading(true);
         book.setPercentComplete(50);
 

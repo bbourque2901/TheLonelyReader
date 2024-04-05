@@ -9,7 +9,8 @@ public class UpdateBookInBooklistLambda
         implements RequestHandler<AuthenticatedLambdaRequest<UpdateBookInBooklistRequest>, LambdaResponse> {
 
     @Override
-    public LambdaResponse handleRequest(AuthenticatedLambdaRequest<UpdateBookInBooklistRequest> input, Context context) {
+    public LambdaResponse handleRequest(AuthenticatedLambdaRequest<UpdateBookInBooklistRequest> input,
+                                        Context context) {
         return super.runActivity(
                 () -> {
                     UpdateBookInBooklistRequest unauthenticatedRequest = input.fromBody(UpdateBookInBooklistRequest.class);

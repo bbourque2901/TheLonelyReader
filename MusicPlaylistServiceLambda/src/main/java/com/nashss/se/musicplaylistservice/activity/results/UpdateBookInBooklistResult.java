@@ -4,8 +4,12 @@ import com.nashss.se.musicplaylistservice.models.BookModel;
 
 public class UpdateBookInBooklistResult {
     private final BookModel bookModel;
-    private UpdateBookInBooklistResult(BookModel bookModel) { this.bookModel = bookModel; }
-    public BookModel getBookModel() { return bookModel; }
+    private UpdateBookInBooklistResult(BookModel bookModel) {
+        this.bookModel = bookModel;
+    }
+    public BookModel getBookModel() {
+        return bookModel;
+    }
     @Override
     public String toString() {
         return "UpdateBookInBooklistResult{" +

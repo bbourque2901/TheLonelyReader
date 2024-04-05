@@ -7,15 +7,17 @@ public class BookModel {
     private final String asin;
     private final String title;
     private final String author;
-
     private final String genre;
     private final Integer rating;
     private final String comments;
     private final Boolean currentlyReading;
     private final Integer percentComplete;
+    private final String thumbnail;
+    private final Integer pageCount;
 
     private BookModel(String asin, String title, String author, String genre, Integer rating,
-                      String comments, Boolean currentlyReading, Integer percentComplete) {
+                      String comments, Boolean currentlyReading, Integer percentComplete,
+                      String thumbnail, Integer pageCount) {
         this.asin = asin;
         this.title = title;
         this.author = author;
@@ -24,6 +26,8 @@ public class BookModel {
         this.comments = comments;
         this.currentlyReading = currentlyReading;
         this.percentComplete = percentComplete;
+        this.thumbnail = thumbnail;
+        this.pageCount = pageCount;
     }
 
     public String getAsin() {
@@ -58,6 +62,14 @@ public class BookModel {
         return percentComplete;
     }
 
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public Integer getPageCount() {
+        return pageCount;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -89,6 +101,8 @@ public class BookModel {
         private String comments;
         private Boolean currentlyReading;
         private Integer percentComplete;
+        private String thumbnail;
+        private Integer pageCount;
 
         public Builder withAsin(String asin) {
             this.asin = asin;
@@ -130,8 +144,19 @@ public class BookModel {
             return this;
         }
 
+        public Builder withThumbnail(String thumbnail) {
+            this.thumbnail = thumbnail;
+            return this;
+        }
+
+        public Builder withPageCount(Integer pageCount) {
+            this.pageCount = pageCount;
+            return this;
+        }
+
         public BookModel build() {
-            return new BookModel(asin, title, author, genre, rating, comments, currentlyReading, percentComplete);
+            return new BookModel(asin, title, author, genre, rating, comments, currentlyReading, percentComplete,
+                    thumbnail, pageCount);
         }
     }
 }

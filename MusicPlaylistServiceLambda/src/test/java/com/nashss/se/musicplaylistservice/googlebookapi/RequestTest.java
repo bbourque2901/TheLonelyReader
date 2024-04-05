@@ -23,15 +23,15 @@ public class RequestTest {
         this.helper = new VolumeInfoHelper();
     }
 
-//    @Test
-//    public void testGoogleBookApi() throws GeneralSecurityException, IOException {
-//        String searchTerm = "game of thrones";
-//
-//        List<Volume> volumes = googleBookApi.queryBooks(jsonFactory, searchTerm);
-//        for (int i = 0; i < volumes.size(); i++) {
-//            System.out.println("Result " + (i + 1) + " of " + volumes.size());
-//            helper.viewVolumeFromList(volumes, i);
-//            System.out.println(googleBookApi.extractAttributes(volumes, i) + '\n');
-//        }
-//    }
+    @Test
+    public void testGoogleBookApi() throws GeneralSecurityException, IOException {
+        String searchTerm = "game of thrones";
+
+        List<Volume> volumes = googleBookApi.queryBooks(jsonFactory, searchTerm);
+        for (int i = 0; i < volumes.size(); i++) {
+            System.out.println("Result " + (i + 1) + " of " + volumes.size());
+            helper.viewVolumeFromList(volumes, i);
+            System.out.println(googleBookApi.extractAttributes(volumes, i) + '\n');
+        }
+    }
 }

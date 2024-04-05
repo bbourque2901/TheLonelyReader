@@ -47,7 +47,7 @@ import DataStore from "../util/DataStore";
             return;
         }
 
-        if (booklists.length === 0) {
+        if (booklists === undefined || booklists.lenght == 0) {
             return '<h4>No results found</h4>';
         }
 

@@ -9,7 +9,7 @@ import DataStore from '../util/DataStore';
 class UpdateBook extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['mount', 'submit', 'populateBook', 'redirectToBooklist'], this);
+        this.bindClassMethods(['mount', 'clientLoaded', 'submit', 'populateBook', 'redirectToBooklist'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.redirectToBooklist);
         this.header = new Header(this.dataStore);
@@ -25,6 +25,24 @@ class UpdateBook extends BindingClass {
         this.header.addHeaderToPage();
 
         this.client = new MusicPlaylistClient();
+    }
+
+    /**
+     * Once the client is loaded, get the book metadata.
+     */
+    clientLoaded() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const title = urlParams.get('book-title');
+        document.getElementById('book-title').innerText = "Loading Title ...";
+//      PROBABLY NEED TO ADD A BACKEND METHOD TO GET THE BOOK?
+//        const urlParams = new URLSearchParams(window.location.search);
+//        const booklistId = urlParams.get('id');
+//        document.getElementById('booklist-name').innerText = "Loading Booklist ...";
+//        const booklist = await this.client.getBooklist(booklistId);
+//        this.dataStore.set('booklist', booklist);
+//        document.getElementById('books').innerText = "(loading books...)";
+//        const books = await this.client.getBooklistBooks(booklistId);
+//        this.dataStore.set('books', books);
     }
 
     /**

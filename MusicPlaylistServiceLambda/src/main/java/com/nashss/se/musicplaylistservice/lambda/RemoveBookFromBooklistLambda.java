@@ -24,7 +24,7 @@ public class RemoveBookFromBooklistLambda
                                 .withCustomerId(claims.get("email"))
                                 .build());
 
-                 return inpt.fromPath(path ->
+                return inpt.fromPath(path ->
                      RemoveBookFromBooklistRequest.builder()
                         .withId(path.get("id"))
                         .withAsin(path.get("asin"))

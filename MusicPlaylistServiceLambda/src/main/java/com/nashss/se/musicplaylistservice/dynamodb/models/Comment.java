@@ -1,9 +1,16 @@
 package com.nashss.se.musicplaylistservice.dynamodb.models;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexRangeKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
 import java.util.Objects;
 
+/**
+ * Represents a Comment in the Comments table.
+ */
 @DynamoDBTable(tableName = "Comments")
 public class Comment {
 
@@ -36,6 +43,9 @@ public class Comment {
         return customerId;
     }
 
+    /**
+     * setter for the customerId for a comment.
+     */
     public void setCustomerId() {
         this.customerId = customerId;
     }
@@ -60,10 +70,17 @@ public class Comment {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Comment comment = (Comment) o;
-        return Objects.equals(commentId, comment.commentId) && Objects.equals(asin, comment.asin) && Objects.equals(customerId, comment.customerId) && Objects.equals(percentComplete, comment.percentComplete) && Objects.equals(commentText, comment.commentText);
+        return Objects.equals(commentId, comment.commentId) && Objects.equals(asin, comment.asin) &&
+                Objects.equals(customerId, comment.customerId) &&
+                Objects.equals(percentComplete, comment.percentComplete) &&
+                Objects.equals(commentText, comment.commentText);
     }
 
     @Override

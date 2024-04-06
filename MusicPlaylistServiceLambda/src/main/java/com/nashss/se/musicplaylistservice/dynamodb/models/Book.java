@@ -81,6 +81,10 @@ public class Book {
         this.rating = rating;
     }
 
+    /**
+     * getter for the comments for a book.
+     * @return comments
+     */
     @DynamoDBAttribute(attributeName = "comments")
     public List<Comment> getComments() {
         if (comments == null) {

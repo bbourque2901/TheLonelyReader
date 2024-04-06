@@ -2,7 +2,7 @@ package com.nashss.se.musicplaylistservice.activity;
 
 import com.nashss.se.musicplaylistservice.activity.requests.UpdateBookInBooklistRequest;
 import com.nashss.se.musicplaylistservice.activity.results.UpdateBookInBooklistResult;
-import com.nashss.se.musicplaylistservice.converters.ModelConverter;
+
 import com.nashss.se.musicplaylistservice.converters.ModelConverterCarbon;
 import com.nashss.se.musicplaylistservice.dynamodb.BookDao;
 import com.nashss.se.musicplaylistservice.dynamodb.BooklistDao;
@@ -11,13 +11,13 @@ import com.nashss.se.musicplaylistservice.dynamodb.models.Book;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Comment;
 import com.nashss.se.musicplaylistservice.metrics.MetricsPublisher;
-import com.nashss.se.musicplaylistservice.models.BooklistModel;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Inject;
 
 public class UpdateBookInBooklistActivity {
     /**
@@ -36,10 +36,12 @@ public class UpdateBookInBooklistActivity {
      *
      * @param booklistDao BooklistDao to access the booklist table.
      * @param bookDao BookDao to access the book table.
+     * @param commentDao Commentdao class to access comment table
      * @param metricsPublisher MetricsPublisher to publish metrics.
      */
     @Inject
-    public UpdateBookInBooklistActivity(BooklistDao booklistDao, BookDao bookDao, MetricsPublisher metricsPublisher, CommentDao commentDao) {
+    public UpdateBookInBooklistActivity(BooklistDao booklistDao, BookDao bookDao, MetricsPublisher metricsPublisher,
+                                        CommentDao commentDao) {
         this.booklistDao = booklistDao;
         this.bookDao = bookDao;
         this.metricsPublisher = metricsPublisher;
@@ -72,19 +74,19 @@ public class UpdateBookInBooklistActivity {
         try {
             book.setCurrentlyReading(updateBookInBooklistRequest.isCurrentlyReading());
         } catch (NullPointerException e) {
-            //can log here
+            log.error("Error setting 'currentlyReading' attribute: {}", e.getMessage());
         }
         //tries to update percent complete, leaves alone if null
         try {
             book.setPercentComplete(updateBookInBooklistRequest.getPercentComplete());
         } catch (NullPointerException e) {
-            //can log here
+            log.error("Error setting 'percentComplete' attribute: {}", e.getMessage());
         }
         //tries to update rating, leaves alone if null
         try {
             book.setRating(updateBookInBooklistRequest.getRating());
         } catch (NullPointerException e) {
-            //can log here
+            log.error("Error setting 'rating' attribute: {}", e.getMessage());
         }
         //tries to update comment, leaves alone if null
         try {
@@ -100,7 +102,7 @@ public class UpdateBookInBooklistActivity {
             //Save updated book w comment
             bookDao.saveBook(book);
         } catch (NullPointerException e) {
-            //can log here
+            log.error("Error saving comment for book: {}", e.getMessage());
         }
         List<Booklist> results = booklistDao.getAllBooklistsForUser(updateBookInBooklistRequest.getCustomerId());
         for (Booklist booklist : results) {

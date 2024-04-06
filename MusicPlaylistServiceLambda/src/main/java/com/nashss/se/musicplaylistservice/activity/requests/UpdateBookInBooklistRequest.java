@@ -10,7 +10,18 @@ public class UpdateBookInBooklistRequest {
     private final Integer rating;
     private final String commentText;
 
-    public UpdateBookInBooklistRequest(String asin, boolean currentlyReading, int percentComplete, String customerId, Integer rating, String commentText) {
+    /**
+     * Request for a new UpdateBookInBooklist object.
+     *
+     * @param asin asin of the book being updated
+     * @param currentlyReading currentlyReading status of book
+     * @param percentComplete percentComplete of book
+     * @param customerId customerId of customer
+     * @param rating rating of book
+     * @param commentText commentText of book
+     */
+    public UpdateBookInBooklistRequest(String asin, boolean currentlyReading, int percentComplete, String customerId,
+                                       Integer rating, String commentText) {
         this.asin = asin;
         this.currentlyReading = currentlyReading;
         this.percentComplete = percentComplete;
@@ -38,7 +49,9 @@ public class UpdateBookInBooklistRequest {
     public Integer getRating() {
         return rating;
     }
-    public String getCommentText() { return commentText; }
+    public String getCommentText() {
+        return commentText;
+    }
 
     @Override
     public String toString() {

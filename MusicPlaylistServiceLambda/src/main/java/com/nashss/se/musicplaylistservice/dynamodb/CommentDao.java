@@ -1,23 +1,32 @@
 package com.nashss.se.musicplaylistservice.dynamodb;
 
+import com.nashss.se.musicplaylistservice.dynamodb.models.Comment;
+
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.nashss.se.musicplaylistservice.dynamodb.models.Comment;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
+/**
+ * Accesses data for a comment using {@link Comment} to represent the model in DynamoDB.
+ */
 @Singleton
 public class CommentDao {
 
     private final DynamoDBMapper dynamoDBMapper;
 
+    /**
+     * Instantiates an CommentDao object.
+     *
+     * @param dynamoDBMapper the {@link DynamoDBMapper} used to interact with the comment_table table
+     */
     @Inject
     public CommentDao(DynamoDBMapper dynamoDBMapper) {
         this.dynamoDBMapper = dynamoDBMapper;

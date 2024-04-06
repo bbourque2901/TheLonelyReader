@@ -2,6 +2,7 @@ package com.nashss.se.musicplaylistservice.dynamodb;
 
 import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;
 import com.nashss.se.musicplaylistservice.exceptions.BooklistNotFoundException;
+import com.nashss.se.musicplaylistservice.exceptions.UserNotFoundException;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
@@ -26,7 +27,6 @@ public class BooklistDao {
      *
      * @param dynamoDBMapper the {@link DynamoDBMapper} used to interact with the booklists table
      */
-
     @Inject
     public BooklistDao(DynamoDBMapper dynamoDBMapper) {
         this.dynamoDBMapper = dynamoDBMapper;
@@ -137,6 +137,9 @@ public class BooklistDao {
      */
     public List<Booklist> getAllBooklistsForUser(String userId) {
         DynamoDBScanExpression dynamoDBScanExpression = new DynamoDBScanExpression();
+        if (userId == null) {
+            throw new UserNotFoundException("Could not find user with id " + userId);
+        }
 
         Map<String, AttributeValue> valueMap = new HashMap<>();
         valueMap.put(":userId", new AttributeValue().withS(userId));

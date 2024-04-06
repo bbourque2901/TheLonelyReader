@@ -1,4 +1,5 @@
 package com.nashss.se.musicplaylistservice.lambda;
+
 import com.nashss.se.musicplaylistservice.activity.requests.UpdateBookInBooklistRequest;
 import com.nashss.se.musicplaylistservice.activity.results.UpdateBookInBooklistResult;
 
@@ -8,13 +9,16 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 
 public class UpdateBookInBooklistLambda
         extends LambdaActivityRunner<UpdateBookInBooklistRequest, UpdateBookInBooklistResult>
-        implements RequestHandler<AuthenticatedLambdaRequest<UpdateBookInBooklistRequest>, LambdaResponse> {
+        implements RequestHandler<AuthenticatedLambdaRequest<UpdateBookInBooklistRequest>,
+        LambdaResponse> {
 
     @Override
-    public LambdaResponse handleRequest(AuthenticatedLambdaRequest<UpdateBookInBooklistRequest> input, Context contxt) {
+    public LambdaResponse handleRequest(AuthenticatedLambdaRequest<UpdateBookInBooklistRequest> input,
+                                        Context context) {
         return super.runActivity(
             () -> {
-                UpdateBookInBooklistRequest unauthenticatedRequest = input.fromBody(UpdateBookInBooklistRequest.class);
+                UpdateBookInBooklistRequest unauthenticatedRequest =
+                        input.fromBody(UpdateBookInBooklistRequest.class);
                 return input.fromUserClaims(claims ->
                         UpdateBookInBooklistRequest.builder()
                                 .withCustomerId(unauthenticatedRequest.getCustomerId())
@@ -27,7 +31,5 @@ public class UpdateBookInBooklistLambda
             (request, serviceComponent) ->
                         serviceComponent.provideUpdateBookInBooklistActivity().handleRequest(request)
        );
-
-
     }
 }

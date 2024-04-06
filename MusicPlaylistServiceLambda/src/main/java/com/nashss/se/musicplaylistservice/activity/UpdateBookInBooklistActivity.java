@@ -74,19 +74,19 @@ public class UpdateBookInBooklistActivity {
         try {
             book.setCurrentlyReading(updateBookInBooklistRequest.isCurrentlyReading());
         } catch (NullPointerException e) {
-            log.error("Error setting 'currentlyReading' attribute: {}", e.getMessage());
+            System.out.println(e);
         }
         //tries to update percent complete, leaves alone if null
         try {
             book.setPercentComplete(updateBookInBooklistRequest.getPercentComplete());
         } catch (NullPointerException e) {
-            log.error("Error setting 'percentComplete' attribute: {}", e.getMessage());
+            System.out.println(e);
         }
         //tries to update rating, leaves alone if null
         try {
             book.setRating(updateBookInBooklistRequest.getRating());
         } catch (NullPointerException e) {
-            log.error("Error setting 'rating' attribute: {}", e.getMessage());
+            System.out.println(e);
         }
         //tries to update comment, leaves alone if null
         try {
@@ -102,7 +102,7 @@ public class UpdateBookInBooklistActivity {
             //Save updated book w comment
             bookDao.saveBook(book);
         } catch (NullPointerException e) {
-            log.error("Error saving comment for book: {}", e.getMessage());
+            System.out.println(e);
         }
         List<Booklist> results = booklistDao.getAllBooklistsForUser(updateBookInBooklistRequest.getCustomerId());
         for (Booklist booklist : results) {

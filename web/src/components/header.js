@@ -60,15 +60,16 @@ export default class Header extends BindingClass {
         const menu = document.createElement('div');
         menu.classList.add('menu');
         menu.appendChild(menuList);
+
         return menu;
     }
 //viewbooklist header button
     createViewBooklistLink() {
         const viewBooklistLink = document.createElement('a');
-        viewBooklistLink.href = 'booklist.html';
+        viewBooklistLink.href = 'userBooklists.html';
         const viewBooklist = document.createElement('li');
         viewBooklist.classList.add('nav');
-        viewBooklist.innerText = 'View Booklist';
+        viewBooklist.innerText = 'My Booklists';
         viewBooklistLink.appendChild(viewBooklist);
         return viewBooklistLink;
     }

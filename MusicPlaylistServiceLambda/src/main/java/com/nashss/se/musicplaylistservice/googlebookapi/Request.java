@@ -79,8 +79,16 @@ public class Request {
         } else {
             book.setGenre("");
         }
-        book.setThumbnail(helper.getThumbnail(volumeInfo));
-        //book.setPageCount(Integer.parseInt(helper.getPageCount(volumeInfo)));
+        if (!helper.getThumbnail(volumeInfo).isEmpty()) {
+            book.setThumbnail(helper.getThumbnail(volumeInfo));
+        } else {
+            book.setThumbnail("");
+        }
+        if (!helper.getPageCount(volumeInfo).isEmpty()) {
+            book.setPageCount(Integer.parseInt(helper.getPageCount(volumeInfo)));
+        } else {
+            book.setPageCount(0);
+        }
 
         ObjectMapper mapper = new ObjectMapper();
 

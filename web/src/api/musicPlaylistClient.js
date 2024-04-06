@@ -16,7 +16,8 @@ export default class MusicPlaylistClient extends BindingClass {
         super();
 
         const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getBooklist',
-        'getBooklistBooks', 'createBooklist', 'search', 'removeBookFromBooklist', 'removeBooklist'];
+        'getBooklistBooks', 'createBooklist', 'search', 'removeBookFromBooklist', 'removeBooklist',
+        'getUserBooklists'];
 
         this.bindClassMethods(methodsToBind, this);
 
@@ -98,6 +99,26 @@ export default class MusicPlaylistClient extends BindingClass {
         try {
             const response = await this.axiosClient.get(`booklists/${id}/books`);
             return response.data.books;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
+    }
+
+    /**
+     * Get the booklists of a given user.
+     * @param customerId Unique identifier for a user
+     * @param errorCallback (Optional) A function to execute if the call fails.
+     * @returns The list of booklists associated with a user.
+     */
+    async getUserBooklists(customerId, errorCallback) {
+        try {
+            const token = await this.getTokenOrThrow("Only authenticated users can view their booklists.");
+            const response = await this.axiosClient.get(`userBooklists`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                  }
+                });
+            return response.data.booklists;
         } catch (error) {
             this.handleError(error, errorCallback)
         }
@@ -196,6 +217,24 @@ export default class MusicPlaylistClient extends BindingClass {
     }
 
     /**
+     * Search for a book.
+     * @param criteria A string containing search criteria to pass to the API.
+     * @returns The books that match the search criteria.
+     */
+    async searchBooks(criteria, errorCallback) {
+        try {
+            const queryParams = new URLSearchParams({ q: criteria })
+            const queryString = queryParams.toString();
+
+            const response = await this.axiosClient.get(`books/search?${queryString}`);
+
+            return response.data.books;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
+
+    }
+         /**
           * removes a booklist.
           * @param id The id of the booklist.
           * @returns The list of books on a booklist.

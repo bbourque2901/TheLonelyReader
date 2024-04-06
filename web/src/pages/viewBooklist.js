@@ -76,11 +76,15 @@ import DataStore from "../util/DataStore";
                return;
            }
 
-           let bookHtml = '<table id="book-table"><tr><th>Title</th><th>Author</th><th>Genre</th><th>Asin</th><th>Remove Book</th></tr>';
+           let bookHtml = '<table id="book-table"><tr><th></th><th>Title</th><th>Author</th><th>Genre</th><th>ISBN</th><th>Remove Book</th></tr>';
            let book;
            for (book of books) {
                bookHtml += `
                <tr id="${book.asin + booklist.id}">
+                   <td>
+                        <img src=${book.thumbnail} class="bookImage">
+                        <figcaption><b>${book.percentComplete} of ${book.pageCount}</b></figcaption>
+                   </td>
                    <td>${book.title}</td>
                    <td>${book.author}</td>
                    <td>${book.genre}</td>
@@ -132,7 +136,6 @@ import DataStore from "../util/DataStore";
                     return;
                 }
 
-//                const bookAsin = removeButton.dataset.asin;
                 removeButton.innerText = "Removing...";
 
                 const errorMessageDisplay = document.getElementById('error-message');

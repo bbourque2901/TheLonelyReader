@@ -92,14 +92,13 @@ public class UpdateBookInBooklistActivity {
             commentDao.saveCommentForBook(updateBookInBooklistRequest.getAsin(), commentText);
 
             //Retrieve book and add comment to comment list
-            Book bookWithComment = bookDao.getBook(updateBookInBooklistRequest.getAsin());
             Comment comment = new Comment();
             comment.setAsin(updateBookInBooklistRequest.getAsin());
             comment.setCommentText(commentText);
-            bookWithComment.getComments().add(comment);
+            book.getComments().add(comment);
 
             //Save updated book w comment
-            bookDao.saveBook(bookWithComment);
+            bookDao.saveBook(book);
         } catch (NullPointerException e) {
             //can log here
         }

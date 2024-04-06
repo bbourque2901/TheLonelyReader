@@ -54,6 +54,7 @@ public class ModelConverterCarbon {
                 .withCurrentlyReading(book.isCurrentlyReading())
                 .withPercentComplete(book.getPercentComplete())
                 .withRating(book.getRating())
+                .withComments(book.getComments())
                 .build();
     }
 

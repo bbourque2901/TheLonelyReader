@@ -282,4 +282,35 @@ public class UpdateBookInBooklistTest {
         assertEquals(50, savedBook2.getPercentComplete());
         assertEquals("Great book!", savedBook2.getComments().get(0).getCommentText());
     }
+
+    @Test
+    public void handleRequest_testAddMultipleCommentsToBook_updatesAttribute() {
+        // Given
+        String asin = "123";
+        Book book = new Book();
+        book.setAsin(asin);
+        when(bookDao.getBook(eq(asin))).thenReturn(book);
+
+        UpdateBookInBooklistRequest request1 = UpdateBookInBooklistRequest.builder()
+                .withAsin(asin)
+                .withCustomerId("CustomerID")
+                .withCommentText("First comment")
+                .build();
+
+        UpdateBookInBooklistRequest request2 = UpdateBookInBooklistRequest.builder()
+                .withAsin(asin)
+                .withCustomerId("CustomerID")
+                .withCommentText("Second comment")
+                .build();
+
+        // When
+        updateBookInBooklistActivity.handleRequest(request1);
+        updateBookInBooklistActivity.handleRequest(request2);
+
+        // Then
+        verify(commentDao, times(2)).saveCommentForBook(eq(asin), anyString());
+        assertEquals(2, book.getComments().size());
+        assertEquals("First comment", book.getComments().get(0).getCommentText());
+        assertEquals("Second comment", book.getComments().get(1).getCommentText());
+    }
     }

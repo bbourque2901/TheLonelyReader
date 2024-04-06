@@ -16,7 +16,6 @@ public class Booklist {
     private Integer bookCount;
     private Set<String> tags;
     private List<Book> books;
-    private Map<Book, List<Comment>> bookComments;
 
     @DynamoDBHashKey(attributeName = "id")
     public String getId() {
@@ -79,14 +78,6 @@ public class Booklist {
         this.books = books;
     }
 
-    public Map<Book, List<Comment>> getBookComments() {
-        return bookComments;
-    }
-
-    public void setBookComments(Map<Book, List<Comment>> bookComments) {
-        this.bookComments = bookComments;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -102,12 +93,11 @@ public class Booklist {
                 Objects.equals(customerId, bookList.customerId) &&
                 Objects.equals(bookCount, bookList.bookCount) &&
                 Objects.equals(tags, bookList.tags) &&
-                Objects.equals(books, bookList.books) &&
-                Objects.equals(bookComments, bookList.bookComments);
+                Objects.equals(books, bookList.books);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, customerId, bookCount, tags, books, bookComments);
+        return Objects.hash(id, name, customerId, bookCount, tags, books);
     }
 }

@@ -9,7 +9,17 @@ public class UpdateBookInBooklistRequest {
     private final String customerId;
     private final Integer rating;
 
-    public UpdateBookInBooklistRequest(String asin, boolean currentlyReading, int percentComplete, String customerId, Integer rating) {
+    /**
+     * Instantiates a new UpdateBookInBooklistRequest object.
+     *
+     * @param asin asin.
+     * @param currentlyReading currentlyReading.
+     * @param percentComplete percentComplete.
+     * @param customerId customerId.
+     * @param rating rating.
+     */
+    public UpdateBookInBooklistRequest(String asin, boolean currentlyReading,
+                                       int percentComplete, String customerId, Integer rating) {
         this.asin = asin;
         this.currentlyReading = currentlyReading;
         this.percentComplete = percentComplete;

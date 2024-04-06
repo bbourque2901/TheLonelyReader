@@ -9,7 +9,7 @@ import DataStore from '../util/DataStore';
 class UpdateBook extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['mount', 'submit', 'redirectToBooklist'], this);
+        this.bindClassMethods(['mount', 'submit', 'populateBook', 'redirectToBooklist'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.redirectToBooklist);
         this.header = new Header(this.dataStore);
@@ -25,6 +25,21 @@ class UpdateBook extends BindingClass {
         this.header.addHeaderToPage();
 
         this.client = new MusicPlaylistClient();
+    }
+
+    /**
+     * Add the book info to the page.
+     */
+    populateBook() {
+        let book = this.dataStore.get('book');
+
+        let titleHtml = '<table id="title"><tr><th>Title</th></tr>';
+        titleHtml += `
+        <tr id="book.title">
+            <td>${book.title}</td>
+        </tr>`;
+        document.getElementById('book').innerHTML = titleHtml;
+
     }
 
     /**

@@ -9,7 +9,8 @@ import DataStore from "../util/DataStore";
  class ViewBooklist extends BindingClass {
     constructor() {
             super();
-            this.bindClassMethods(['clientLoaded', 'mount', 'addBooklistToPage', 'addBooksToPage', 'addBook', 'remove'], this);
+            this.bindClassMethods(['clientLoaded', 'mount', 'addBooklistToPage', 'addBooksToPage', 'addBook', 'remove',
+            'redirectToUpdateBook'], this);
             this.dataStore = new DataStore();
             this.dataStore.addChangeListener(this.addBooklistToPage);
             this.dataStore.addChangeListener(this.addBooksToPage);
@@ -37,6 +38,7 @@ import DataStore from "../util/DataStore";
      mount() {
          document.getElementById('add-book').addEventListener('click', this.addBook);
          document.getElementById('books').addEventListener('click', this.remove);
+         document.getElementById('books').addEventListener('click', this.redirectToUpdateBook);
 
          this.header.addHeaderToPage();
 
@@ -76,7 +78,7 @@ import DataStore from "../util/DataStore";
                return;
            }
 
-           let bookHtml = '<table id="book-table"><tr><th></th><th>Title</th><th>Author</th><th>Genre</th><th>ISBN</th><th>Remove Book</th></tr>';
+           let bookHtml = '<table id="book-table"><tr><th></th><th>Title</th><th>Author</th><th>Genre</th><th>Rating</th><th>Comments</th><th>ISBN</th><th>Update Book</th><th>Remove Book</th></tr>';
            let book;
            for (book of books) {
                bookHtml += `
@@ -88,7 +90,10 @@ import DataStore from "../util/DataStore";
                    <td>${book.title}</td>
                    <td>${book.author}</td>
                    <td>${book.genre}</td>
+                   <td>${book.rating}</td>
+                   <td>${book.comments?.join(', ')}</td>
                    <td>${book.asin}</td>
+                   <td><button data-asin="${book.asin}" data-booklist-id="${booklist.id}" class="button update-book">Update</button></td>
                    <td><button data-asin="${book.asin}" data-booklist-id="${booklist.id}" class="button remove-book">Remove</button></td>
                </tr>`;
            }
@@ -149,6 +154,23 @@ import DataStore from "../util/DataStore";
 
                 document.getElementById(removeButton.dataset.asin + removeButton.dataset.booklistId).remove()
           }
+
+          /**
+            * when update button is clicked, redirects to update book page.
+            */
+            async redirectToUpdateBook(e) {
+                  const updateButton = e.target;
+                  if (!updateButton.classList.contains("update-book")) {
+                      return;
+                  }
+
+                  updateButton.innerText = "Loading...";
+                  console.log("update button clicked and now will redirect");
+
+                  if (updateButton != null) {
+                      window.location.href = `/updateBook.html?id=${updateButton.dataset.booklistId}`;
+                  }
+            }
 }
 
  /**

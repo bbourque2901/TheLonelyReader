@@ -388,6 +388,53 @@ paths:
         "404":
           description: "Book or Booklist not found"
 
+    put:
+      tags:
+        - Books
+      summary: update user's book attributes (rating, comments, currentlyReading, percentComplete) in a booklist (UpdateBookInBooklistLambda)
+      parameters:
+        - name: id
+          in: path
+          description: ID of booklist to return
+          required: true
+          schema:
+            type: string
+        - name: asin
+          in: path
+          description: unique identifier of book
+          required: true
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: the book
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  books:
+                    type: array
+                    items:
+                      properties:
+                        asin:
+                          type: string
+                        title:
+                          type: string
+                        author:
+                          type: string
+                        genre:
+                          type: string
+                        rating:
+                          type: integer
+                        comments:
+                          type: string
+                        currentlyReading:
+                          type: boolean
+                        percentComplete:
+                          type: integer
+
   /books/search:
     get:
       tags:

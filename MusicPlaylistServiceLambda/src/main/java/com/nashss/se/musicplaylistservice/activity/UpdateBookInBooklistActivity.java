@@ -2,20 +2,20 @@ package com.nashss.se.musicplaylistservice.activity;
 
 import com.nashss.se.musicplaylistservice.activity.requests.UpdateBookInBooklistRequest;
 import com.nashss.se.musicplaylistservice.activity.results.UpdateBookInBooklistResult;
-import com.nashss.se.musicplaylistservice.converters.ModelConverter;
 import com.nashss.se.musicplaylistservice.converters.ModelConverterCarbon;
 import com.nashss.se.musicplaylistservice.dynamodb.BookDao;
 import com.nashss.se.musicplaylistservice.dynamodb.BooklistDao;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Book;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;
 import com.nashss.se.musicplaylistservice.metrics.MetricsPublisher;
-import com.nashss.se.musicplaylistservice.models.BooklistModel;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 public class UpdateBookInBooklistActivity {
     /**
@@ -68,19 +68,19 @@ public class UpdateBookInBooklistActivity {
         try {
             book.setCurrentlyReading(updateBookInBooklistRequest.isCurrentlyReading());
         } catch (NullPointerException e) {
-            //can log here
+            System.out.println(e);
         }
         //tries to update percent complete, leaves alone if null
         try {
             book.setPercentComplete(updateBookInBooklistRequest.getPercentComplete());
         } catch (NullPointerException e) {
-            //can log here
+            System.out.println(e);
         }
         //tries to update rating, leaves alone if null
         try {
             book.setRating(updateBookInBooklistRequest.getRating());
         } catch (NullPointerException e) {
-            //can log here
+            System.out.println(e);
         }
         List<Booklist> results = booklistDao.getAllBooklistsForUser(updateBookInBooklistRequest.getCustomerId());
         for (Booklist booklist : results) {

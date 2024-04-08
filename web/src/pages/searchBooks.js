@@ -17,7 +17,7 @@ const EMPTY_DATASTORE_STATE = {
     constructor() {
         super();
 
-        this.bindClassMethods(['mount', 'search', 'displaySearchResults', 'getHTMLForSearchResults'], this);
+        this.bindClassMethods(['mount', 'search', 'displaySearchResults', 'getHTMLForSearchResults', 'add'], this);
 
         // Create a enw datastore with an initial "empty" state.
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
@@ -33,8 +33,7 @@ const EMPTY_DATASTORE_STATE = {
         // Wire up the form's 'submit' event and the button's 'click' event to the search method.
         document.getElementById('search-books-form').addEventListener('submit', this.search);
         document.getElementById('search-books-btn').addEventListener('click', this.search);
-
-
+        document.getElementById('search-books-results-container').addEventListener('click', this.add);
 
         this.client = new MusicPlaylistClient();
     }
@@ -100,7 +99,7 @@ const EMPTY_DATASTORE_STATE = {
             return '<h4>No results found</h4>';
         }
 
-        let html = '<table><tr><th></th><th>ISBN</th><th>Title</th><th>Author</th><th>Genre</th></tr>';
+        let html = '<table><tr><th></th><th>ISBN</th><th>Title</th><th>Author</th><th>Genre</th><th>Add Book</th></tr>';
         for (const res of searchResults) {
             html += `
             <tr>
@@ -111,6 +110,9 @@ const EMPTY_DATASTORE_STATE = {
                 <td>${res.title}</td>
                 <td>${res.author}</td>
                 <td>${res.genre}</td>
+                <td>
+                    <button data-title="${res.title}" data-booklist-id="sSKYZ" class="button add-book">Add to Booklist</button>
+                </td>
             </tr>`;
         }
         html += '</table>';
@@ -118,6 +120,45 @@ const EMPTY_DATASTORE_STATE = {
         return html;
     }
 
+//    /* When the user clicks on the button,
+//    toggle between hiding and showing the dropdown content */
+//    myFunction() {
+//      document.getElementById("myDropdown").classList.toggle("show");
+//    }
+//
+//    // Close the dropdown menu if the user clicks outside of it
+//    window.onclick = function(event) {
+//      if (!event.target.matches('.dropbtn')) {
+//        var dropdowns = document.getElementsByClassName("dropdown-content");
+//        var i;
+//        for (i = 0; i < dropdowns.length; i++) {
+//          var openDropdown = dropdowns[i];
+//          if (openDropdown.classList.contains('show')) {
+//            openDropdown.classList.remove('show');
+//          }
+//        }
+//      }
+//    }
+
+    async add(e) {
+       const addButton = e.target;
+       if (!addButton.classList.contains("add-book")) {
+           return;
+       }
+
+       addButton.innerText = "Adding...";
+
+       const errorMessageDisplay = document.getElementById('error-message');
+       errorMessageDisplay.innerText = ``;
+       errorMessageDisplay.classList.add('hidden');
+
+       await this.client.addBookToBooklist(addButton.dataset.booklistId, addButton.dataset.title, (error) => {
+           errorMessageDisplay.innerText = `Error: ${error.message}`;
+           errorMessageDisplay.classList.remove('hidden');
+       });
+
+       document.getElementById(addButton.dataset.title + addButton.dataset.booklistId).add();
+    }
  }
 
  /**

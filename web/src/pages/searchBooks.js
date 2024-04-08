@@ -122,9 +122,9 @@ const EMPTY_DATASTORE_STATE = {
 
 //    /* When the user clicks on the button,
 //    toggle between hiding and showing the dropdown content */
-//    myFunction() {
-//      document.getElementById("myDropdown").classList.toggle("show");
-//    }
+    async myFunction() {
+      document.getElementById("myDropdown").classList.toggle("show");
+    }
 //
 //    // Close the dropdown menu if the user clicks outside of it
 //    window.onclick = function(event) {
@@ -156,6 +156,8 @@ const EMPTY_DATASTORE_STATE = {
            errorMessageDisplay.innerText = `Error: ${error.message}`;
            errorMessageDisplay.classList.remove('hidden');
        });
+
+       addButton.innerText = "Add Again";
 
        document.getElementById(addButton.dataset.title + addButton.dataset.booklistId).add();
     }

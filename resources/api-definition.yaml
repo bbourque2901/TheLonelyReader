@@ -391,7 +391,7 @@ paths:
     put:
       tags:
         - Books
-      summary: update user's book attributes (rating, comments, currentlyReading, percentComplete) in a booklist (UpdateBookInBooklistLambda)
+      summary: update user's book attributes in a booklist (UpdateBookInBooklistLambda)
       parameters:
         - name: id
           in: path

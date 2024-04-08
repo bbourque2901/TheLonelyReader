@@ -168,7 +168,7 @@ import DataStore from "../util/DataStore";
                   console.log("update button clicked and now will redirect");
 
                   if (updateButton != null) {
-                      window.location.href = `/updateBook.html?id=${updateButton.dataset.booklistId}`;
+                      window.location.href = `/updateBook.html?id=${updateButton.dataset.booklistId}&asin=${updateButton.dataset.asin}`;
                   }
             }
 }

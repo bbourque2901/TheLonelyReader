@@ -7,11 +7,17 @@ import DataStore from '../util/DataStore';
  * Logic needed for the update book page of the website.
  */
 class UpdateBook extends BindingClass {
+
+    urlParams = new URLSearchParams(window.location.search);
+    id = this.urlParams.get('id');
+    asin = this.urlParams.get('asin');
+
     constructor() {
         super();
         this.bindClassMethods(['mount', 'clientLoaded', 'submit', 'addBookToPage', 'redirectToBooklist'], this);
         this.dataStore = new DataStore();
-        this.dataStore.addChangeListener(this.redirectToBooklist);
+//        this.dataStore.addChangeListener(this.redirectToBooklist);
+        this.dataStore.addChangeListener(this.addBookToPage);
         this.header = new Header(this.dataStore);
         console.log("updateBook constructor");
     }
@@ -25,21 +31,16 @@ class UpdateBook extends BindingClass {
         this.header.addHeaderToPage();
 
         this.client = new MusicPlaylistClient();
+        this.clientLoaded();
     }
 
     /**
      * Once the client is loaded, get the book metadata.
      */
     async clientLoaded() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const title = urlParams.get('book-title');
-        document.getElementById('book-title').innerText = "Loading Title ...";
-        const id = document.getElementById('booklist-id').value;
-        const asin = document.getElementById('book-asin').value;
-        const book = await this.client.getBookFromBooklist(id, asin);
+        document.getElementById('title').innerText = "Loading Title ...";
+        const book = await this.client.getBookFromBooklist(this.id, this.asin);
         this.dataStore.set('book', book);
-        const booklist = this.client.getBooklist(id);
-        this.dataStore.set('booklist', booklist);
     }
 
     /**
@@ -51,7 +52,7 @@ class UpdateBook extends BindingClass {
             return;
         }
 
-        document.getElementById('thumbnail').innerText = book.thumbnail;
+        document.getElementById('thumbnail').innerHTML = `<img src="${book.thumbnail}" alt="Image not found">`;
         document.getElementById('title').innerText = book.title;
         document.getElementById('author').innerText = book.author;
         document.getElementById('genre').innerText = book.genre;
@@ -74,8 +75,6 @@ class UpdateBook extends BindingClass {
         updateButton.innerText = 'Loading...';
 
         const commentsText = document.getElementById('comments').value;
-        const id = document.getElementById('booklist-id').value;
-        const asin = document.getElementById('asin').value;
 
         let comments;
         if (commentsText.length < 1) {
@@ -84,25 +83,24 @@ class UpdateBook extends BindingClass {
             comments = commentsText.split(/\s*,\s*/);
         }
 
-        const book = await this.client.updateBookInBooklist(id, asin, (error) => {
+        const book = await this.client.updateBookInBooklist(this.id, this.asin, (error) => {
             updateButton.innerText = origButtonText;
             console.log("update button clicked on updateBook page");
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');
         });
         this.dataStore.set('book', book);
-        this.dataStore.set('booklist', booklist);
     }
 
     /**
      * When the book is updated in the datastore, redirect back to the booklist page.
      */
     redirectToBooklist() {
-        const book = this.dataStore.get('book');
-        const booklist = this.dataStore.get('booklist');
+//        const book = this.dataStore.get('book');
+//        const booklist = this.dataStore.get('booklist');
         const id = document.getElementById('booklist-id').value;
         if (book != null) {
-            window.location.href = `/booklist.html?id=${id}`;
+            window.location.href = `/booklist.html?id=${this.id}`;
         }
     }
 }

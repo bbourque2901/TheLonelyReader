@@ -21,11 +21,12 @@ public class UpdateBookInBooklistLambda
                         input.fromBody(UpdateBookInBooklistRequest.class);
                 return input.fromUserClaims(claims ->
                         UpdateBookInBooklistRequest.builder()
-                                .withCustomerId(unauthenticatedRequest.getCustomerId())
+                                .withCustomerId(claims.get("email"))
                                 .withAsin(unauthenticatedRequest.getAsin())
                                 .withCurrentlyReading(unauthenticatedRequest.isCurrentlyReading())
                                 .withRating(unauthenticatedRequest.getRating())
                                 .withCommentText(unauthenticatedRequest.getCommentText())
+                                .withPercentComplete(unauthenticatedRequest.getPercentComplete())
                                 .build());
             },
             (request, serviceComponent) ->

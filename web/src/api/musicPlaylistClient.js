@@ -17,7 +17,7 @@ export default class MusicPlaylistClient extends BindingClass {
 
         const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getBooklist',
         'getBooklistBooks', 'createBooklist', 'search', 'removeBookFromBooklist', 'removeBooklist',
-        'getUserBooklists', 'updateBookInBooklist'];
+        'getUserBooklists', 'updateBookInBooklist', 'getBookFromBooklist'];
 
         this.bindClassMethods(methodsToBind, this);
 
@@ -119,6 +119,22 @@ export default class MusicPlaylistClient extends BindingClass {
                   }
                 });
             return response.data.booklists;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
+    }
+
+    /**
+     * Get the book from a booklist of a given user.
+     * @param id Unique identifier for a booklist
+     * @param asin Unique identifier for a book
+     * @param errorCallback (Optional) A function to execute if the call fails.
+     * @returns The specified book within a booklist.
+     */
+    async getBookFromBooklist(id, asin, errorCallback) {
+        try {
+            const response = await this.axiosClient.get(`booklists/${id}/books/${asin}`);
+            return response.data.book;
         } catch (error) {
             this.handleError(error, errorCallback)
         }

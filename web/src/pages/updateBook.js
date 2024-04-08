@@ -9,7 +9,7 @@ import DataStore from '../util/DataStore';
 class UpdateBook extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['mount', 'clientLoaded', 'submit', 'populateBook', 'redirectToBooklist'], this);
+        this.bindClassMethods(['mount', 'clientLoaded', 'submit', 'addBookToPage', 'redirectToBooklist'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.redirectToBooklist);
         this.header = new Header(this.dataStore);
@@ -20,7 +20,7 @@ class UpdateBook extends BindingClass {
      * Add the header to the page and load the MusicPlaylistClient.
      */
     mount() {
-        document.getElementById('update').addEventListener('click', this.submit);
+        document.getElementById('update-book').addEventListener('click', this.submit);
 
         this.header.addHeaderToPage();
 
@@ -30,34 +30,32 @@ class UpdateBook extends BindingClass {
     /**
      * Once the client is loaded, get the book metadata.
      */
-    clientLoaded() {
+    async clientLoaded() {
         const urlParams = new URLSearchParams(window.location.search);
         const title = urlParams.get('book-title');
         document.getElementById('book-title').innerText = "Loading Title ...";
-//      PROBABLY NEED TO ADD A BACKEND METHOD TO GET THE BOOK?
-//        const urlParams = new URLSearchParams(window.location.search);
-//        const booklistId = urlParams.get('id');
-//        document.getElementById('booklist-name').innerText = "Loading Booklist ...";
-//        const booklist = await this.client.getBooklist(booklistId);
-//        this.dataStore.set('booklist', booklist);
-//        document.getElementById('books').innerText = "(loading books...)";
-//        const books = await this.client.getBooklistBooks(booklistId);
-//        this.dataStore.set('books', books);
+        const id = document.getElementById('booklist-id').value;
+        const asin = document.getElementById('book-asin').value;
+        const book = await this.client.getBookFromBooklist(id, asin);
+        this.dataStore.set('book', book);
+        const booklist = this.client.getBooklist(id);
+        this.dataStore.set('booklist', booklist);
     }
 
     /**
-     * Add the book info to the page.
+     * When the book is updated in the datastore, update the book metadata on the page.
      */
-    populateBook() {
-        let book = this.dataStore.get('book');
+    addBookToPage() {
+        const book = this.dataStore.get('book');
+        if (book == null) {
+            return;
+        }
 
-        let titleHtml = '<table id="title"><tr><th>Title</th></tr>';
-        titleHtml += `
-        <tr id="book.title">
-            <td>${book.title}</td>
-        </tr>`;
-        document.getElementById('book').innerHTML = titleHtml;
-
+        document.getElementById('thumbnail').innerText = book.thumbnail;
+        document.getElementById('title').innerText = book.title;
+        document.getElementById('author').innerText = book.author;
+        document.getElementById('genre').innerText = book.genre;
+        document.getElementById('asin').innerText = book.asin;
     }
 
     /**
@@ -71,13 +69,13 @@ class UpdateBook extends BindingClass {
         errorMessageDisplay.innerText = ``;
         errorMessageDisplay.classList.add('hidden');
 
-        const updateButton = document.getElementById('update');
+        const updateButton = document.getElementById('update-book');
         const origButtonText = updateButton.innerText;
         updateButton.innerText = 'Loading...';
 
         const commentsText = document.getElementById('comments').value;
         const id = document.getElementById('booklist-id').value;
-        const asin = document.getElementById('book-asin').value;
+        const asin = document.getElementById('asin').value;
 
         let comments;
         if (commentsText.length < 1) {
@@ -87,12 +85,13 @@ class UpdateBook extends BindingClass {
         }
 
         const book = await this.client.updateBookInBooklist(id, asin, (error) => {
-            createButton.innerText = origButtonText;
+            updateButton.innerText = origButtonText;
             console.log("update button clicked on updateBook page");
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');
         });
         this.dataStore.set('book', book);
+        this.dataStore.set('booklist', booklist);
     }
 
     /**
@@ -100,8 +99,10 @@ class UpdateBook extends BindingClass {
      */
     redirectToBooklist() {
         const book = this.dataStore.get('book');
+        const booklist = this.dataStore.get('booklist');
+        const id = document.getElementById('booklist-id').value;
         if (book != null) {
-            window.location.href = `/booklist.html?id=${booklist.id}`;
+            window.location.href = `/booklist.html?id=${id}`;
         }
     }
 }

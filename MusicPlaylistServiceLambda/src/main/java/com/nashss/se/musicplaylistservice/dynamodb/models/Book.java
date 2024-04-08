@@ -22,11 +22,11 @@ public class Book {
     private String author;
     private String genre;
     private String thumbnail;
-    private Integer rating;
-    private List<Comment> comments;
+    private Integer rating = 0;
+    private List<Comment> comments = new ArrayList<>();
     private Boolean currentlyReading;
     private Integer percentComplete;
-    private Integer pageCount;
+    private Integer pageCount = 0;
 
     @DynamoDBHashKey(attributeName = "asin")
     public String getAsin() {

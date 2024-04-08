@@ -435,6 +435,55 @@ paths:
                         percentComplete:
                           type: integer
 
+    get:
+      tags:
+        - Books
+      summary: Get a book from a booklist (GetBookFromBooklistLambda)
+      parameters:
+        - name: id
+          in: path
+          description: ID of booklist to find book in
+          required: true
+          schema:
+            type: string
+        - name: asin
+          in: path
+          description: unique identifier of book
+          required: true
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: the book
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  books:
+                    type: array
+                    items:
+                      properties:
+                        asin:
+                          type: string
+                        title:
+                          type: string
+                        author:
+                          type: string
+                        genre:
+                          type: string
+                        rating:
+                          type: integer
+                        comments:
+                          type: string
+                        currentlyReading:
+                          type: boolean
+                        percentComplete:
+                          type: integer
+        "404":
+          description: "Book or Booklist not found"
+
   /books/search:
     get:
       tags:

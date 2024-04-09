@@ -26,7 +26,6 @@ public class UpdateBookInBooklistLambda
                                 .withAsin(unauthenticatedRequest.getAsin())
                                 .withCurrentlyReading(unauthenticatedRequest.isCurrentlyReading())
                                 .withRating(unauthenticatedRequest.getRating())
-                                .withCommentText(unauthenticatedRequest.getCommentText())
                                 .withPercentComplete(unauthenticatedRequest.getPercentComplete())
                                 .build());
             },

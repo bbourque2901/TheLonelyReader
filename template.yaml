@@ -495,7 +495,7 @@ Resources:
         MusicPlaylistService:
           Type: Api
           Properties:
-            Path: /booklists/{id}/books/{asin}
+            Path: booklists/${id}/books/{currentlyReading}/{percentComplete}/{rating}
             Method: get
 
   #-----------------------------------------------------

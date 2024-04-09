@@ -8,7 +8,6 @@
 </head>
 
 <body class="background">
-
     <header class="header" id="header"></header>
     <div class="card">
         <h2>Search Booklists</h2>
@@ -32,12 +31,11 @@
     </div>
 
     <div class="card">
-        <h4>Search Books</h4>
+        <h2>Search Books</h2>
         <form class="card-content" id="search-books-form">
             <p class="form-field">
-                <label>Search by title or asin</label>
-                <input type="text" class="validated-field" id="search-books-criteria" placeholder="Title or Asin" autofocus>
-                <sub>Search is case-sensitive.</sub>
+                <label>Search by Title or ISBN</label>
+                <input type="text" class="validated-field" id="search-books-criteria" placeholder="Harry Potter" autofocus>
             </p>
         </form>
         <p class="button-group">
@@ -46,7 +44,7 @@
     </div>
 
     <div class="card hidden" id='search-books-results-container'>
-        <h5>Results for <span id="search-books-criteria-display"></span></h5>
+        <h3>Results for <span id="search-books-criteria-display"></span></h3>
         <div id="search-books-results-display">
         </div>
     </div>

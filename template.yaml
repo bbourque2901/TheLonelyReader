@@ -530,7 +530,7 @@ Resources:
   CommentTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: Comments
+      TableName: "Comments"
       AttributeDefinitions:
         - AttributeName: "commentId"
           AttributeType: "S"
@@ -549,8 +549,8 @@ Resources:
             - AttributeName: "asin"
               KeyType: "RANGE"
           Projection:
-            ProjectionType: ALL
-      BillingMode: PAY_PER_REQUEST
+            ProjectionType: "ALL"
+      BillingMode: "PAY_PER_REQUEST"
 
         # The outputs defined below will be printed
         #  to the screen after a successful deploy

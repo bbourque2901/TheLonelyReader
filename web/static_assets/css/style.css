@@ -19,7 +19,10 @@
 }
 
 .background {
-    background-color: var(--primary-color);
+    background: url("flowers.png") var(--primary-color);
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
     margin: 0;
     counter-reset: section;
     font-family: "Helvetica Neue",Helvetica,sans-serif;
@@ -37,7 +40,8 @@
     align-items: center;
     background-color: var(--tertiary-color);
     color: var(--secondary-color);
-    padding: 20px 20px;
+    padding: 10px 20px;
+    height: 50px;
 }
 
 .button {
@@ -64,8 +68,6 @@
     color: var(--secondary-color);
 }
 .menu_list {
-    font-size: 25px;
-    line-height: 30px;
     text-decoration: none;
     list-style: none;
     margin: 0 20px;
@@ -80,6 +82,10 @@
     background-color: var(--secondary-color);
     margin: 20px;
     padding: 10px 20px;
+}
+
+.chart-content {
+    height: 400px;
 }
 
 .error {

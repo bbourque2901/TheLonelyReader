@@ -1,10 +1,8 @@
 package com.nashss.se.musicplaylistservice.dynamodb.models;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperFieldModel;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTyped;
+import com.nashss.se.musicplaylistservice.converters.CommentConverter;
+
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +21,7 @@ public class Book {
     private String genre;
     private String thumbnail;
     private Integer rating;
-    private List<Comment> comments;
+    private List<Comment> comments = new ArrayList<>();
     private Boolean currentlyReading;
     private Integer percentComplete;
     private Integer pageCount;
@@ -87,14 +85,20 @@ public class Book {
      * @return comments
      */
     @DynamoDBAttribute(attributeName = "comments")
+    @DynamoDBTypeConverted(converter = CommentConverter.class)
     public List<Comment> getComments() {
-        if (comments == null) {
-            comments = new ArrayList<>();
-        }
         return comments;
     }
 
+    /**
+     * setter for the list of comments.
+     * ensures list can't be null
+     * @param comments list of comments
+     */
     public void setComments(List<Comment> comments) {
+        if (comments == null) {
+            this.comments = new ArrayList<>();
+        }
         this.comments = comments;
     }
 

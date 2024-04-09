@@ -217,10 +217,11 @@ export default class MusicPlaylistClient extends BindingClass {
      * @param asin The asin that uniquely identifies the book.
      * @returns The list of books on a booklist.
      */
-    async updateBookInBooklist(id, asin, errorCallback) {
+    async updateBookInBooklist(id, asin, currentlyReading, percentComplete, rating, errorCallback) {
+        console.log(id, asin, currentlyReading, percentComplete, rating);
         try {
             const token = await this.getTokenOrThrow("Only authenticated users can update attributes for a book.");
-            const response = await this.axiosClient.put(`booklists/${id}/books/${asin}/${currentlyReading}/${percentComplete}/${rating}`, {
+            const response = await this.axiosClient.put(`booklists/${id}/books/${asin}`, {
                 id: id,
                 asin: asin,
                 currentlyReading: currentlyReading,

@@ -16,7 +16,6 @@ class UpdateBook extends BindingClass {
         super();
         this.bindClassMethods(['mount', 'clientLoaded', 'submit', 'addBookToPage', 'redirectToBooklist'], this);
         this.dataStore = new DataStore();
-//        this.dataStore.addChangeListener(this.redirectToBooklist);
         this.dataStore.addChangeListener(this.addBookToPage);
         this.header = new Header(this.dataStore);
         console.log("updateBook constructor");
@@ -74,25 +73,26 @@ class UpdateBook extends BindingClass {
         const origButtonText = updateButton.innerText;
         updateButton.innerText = 'Loading...';
 
-        const book = await this.client.updateBookInBooklist(this.id, this.asin, (error) => {
+        const curr = document.getElementById('currently-reading').value;
+        const rating = document.getElementById('rating').value;
+        const perc = document.getElementById('percent-complete').value;
+
+        const book = await this.client.updateBookInBooklist(this.id, this.asin, curr, perc, rating, (error) => {
             updateButton.innerText = origButtonText;
             console.log("update button clicked on updateBook page");
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');
         });
         this.dataStore.set('book', book);
+        this.redirectToBooklist(this.id);
     }
 
     /**
      * When the book is updated in the datastore, redirect back to the booklist page.
      */
-    redirectToBooklist() {
-//        const book = this.dataStore.get('book');
-//        const booklist = this.dataStore.get('booklist');
-        const id = document.getElementById('booklist-id').value;
-        if (book != null) {
-            window.location.href = `/booklist.html?id=${this.id}`;
-        }
+    redirectToBooklist(id) {
+         window.location.href = `/booklist.html?id=${id}`;
+
     }
 }
 

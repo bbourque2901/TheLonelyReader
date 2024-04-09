@@ -21,7 +21,6 @@ public class Book {
     private String genre;
     private String thumbnail;
     private Integer rating;
-    private List<Comment> comments = new ArrayList<>();
     private Boolean currentlyReading;
     private Integer percentComplete;
     private Integer pageCount;
@@ -80,28 +79,6 @@ public class Book {
         this.rating = rating;
     }
 
-    /**
-     * getter for the comments for a book.
-     * @return comments
-     */
-    @DynamoDBAttribute(attributeName = "comments")
-    @DynamoDBTypeConverted(converter = CommentConverter.class)
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    /**
-     * setter for the list of comments.
-     * ensures list can't be null
-     * @param comments list of comments
-     */
-    public void setComments(List<Comment> comments) {
-        if (comments == null) {
-            this.comments = new ArrayList<>();
-        }
-        this.comments = comments;
-    }
-
     @DynamoDBAttribute(attributeName = "currentlyReading")
     @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.BOOL)
     public Boolean isCurrentlyReading() {
@@ -158,7 +135,6 @@ public class Book {
                 ", genre='" + genre + '\'' +
                 ", thumbnail='" + thumbnail + '\'' +
                 ", rating='" + rating + '\'' +
-                ", comments='" + comments + '\'' +
                 ", currentlyReading='" + currentlyReading + '\'' +
                 ", percentageComplete='" + percentComplete + '\'' +
                 ", pageCount='" + pageCount + '\'' +

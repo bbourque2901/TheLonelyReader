@@ -88,22 +88,7 @@ public class UpdateBookInBooklistActivity {
         } catch (NullPointerException e) {
             System.out.println(e);
         }
-        //tries to update comment, leaves alone if null
-        try {
-            String commentText = updateBookInBooklistRequest.getCommentText();
-            commentDao.saveCommentForBook(updateBookInBooklistRequest.getAsin(), commentText);
 
-            //Retrieve book and add comment to comment list
-            Comment comment = new Comment();
-            comment.setAsin(updateBookInBooklistRequest.getAsin());
-            comment.setCommentText(commentText);
-            book.getComments().add(comment);
-
-            //Save updated book w comment
-            bookDao.saveBook(book);
-        } catch (NullPointerException e) {
-            System.out.println(e);
-        }
         List<Booklist> results = booklistDao.getAllBooklistsForUser(updateBookInBooklistRequest.getCustomerId());
         for (Booklist booklist : results) {
             List<Book> currentBooklist = booklist.getBooks();

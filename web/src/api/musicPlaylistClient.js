@@ -133,7 +133,12 @@ export default class MusicPlaylistClient extends BindingClass {
      */
     async getBookFromBooklist(id, asin, errorCallback) {
         try {
-            const response = await this.axiosClient.get(`booklists/${id}/books/${asin}`);
+            const token = await this.getTokenOrThrow("Only authenticated users can view their booklists.");
+            const response = await this.axiosClient.get(`booklists/${id}/books/${asin}`, {
+                 headers: {
+                     Authorization: `Bearer ${token}`
+                   }
+                 });
             return response.data.book;
         } catch (error) {
             this.handleError(error, errorCallback)

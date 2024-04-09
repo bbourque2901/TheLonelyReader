@@ -4,10 +4,12 @@ public class GetBookFromBooklistRequest {
 
     private final String booklistId;
     private final String bookAsin;
+    private final String customerId;
 
-    private GetBookFromBooklistRequest(String booklistId, String bookAsin) {
+    private GetBookFromBooklistRequest(String booklistId, String bookAsin, String customerId) {
         this.booklistId = booklistId;
         this.bookAsin = bookAsin;
+        this.customerId = customerId;
     }
 
     public String getBooklistId() {
@@ -18,6 +20,10 @@ public class GetBookFromBooklistRequest {
         return bookAsin;
     }
 
+    public String getCustomerId() {
+        return customerId;
+    }
+
     //CHECKSTYLE:OFF:Builder
     public static Builder builder() {
         return new Builder();
@@ -26,6 +32,7 @@ public class GetBookFromBooklistRequest {
     public static class Builder {
         private String booklistId;
         private String bookAsin;
+        private String customerId;
 
         public Builder withBooklistId(String booklistId) {
             this.booklistId = booklistId;
@@ -37,8 +44,13 @@ public class GetBookFromBooklistRequest {
             return this;
         }
 
+        public Builder withCustomerId(String customerId) {
+            this.customerId = customerId;
+            return this;
+        }
+
         public GetBookFromBooklistRequest build() {
-            return new GetBookFromBooklistRequest(booklistId, bookAsin);
+            return new GetBookFromBooklistRequest(booklistId, bookAsin, customerId);
         }
     }
 }

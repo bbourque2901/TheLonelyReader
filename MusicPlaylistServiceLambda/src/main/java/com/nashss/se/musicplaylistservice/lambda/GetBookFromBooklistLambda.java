@@ -18,11 +18,18 @@ public class GetBookFromBooklistLambda
     @Override
     public LambdaResponse handleRequest(AuthenticatedLambdaRequest<GetBookFromBooklistRequest> input, Context context) {
         return super.runActivity(
-            () -> input.fromPath(path ->
-                    GetBookFromBooklistRequest.builder()
-                            .withBooklistId(path.get("id"))
-                            .withBookAsin(path.get("asin"))
-                            .build()),
+            () -> {
+                GetBookFromBooklistRequest authReq = input.fromUserClaims(claims ->
+                        GetBookFromBooklistRequest.builder()
+                                .withCustomerId(claims.get("email"))
+                                .build());
+                return input.fromPath(path ->
+                        GetBookFromBooklistRequest.builder()
+                                .withBooklistId(path.get("id"))
+                                .withBookAsin(path.get("asin"))
+                                .withCustomerId(authReq.getCustomerId())
+                                .build());
+            },
             (request, serviceComponent) ->
                     serviceComponent.provideGetBookFromBooklistActivity().handleRequest(request)
             );

@@ -121,7 +121,6 @@ public class SearchBooksActivityTest {
 
         // these can be any attributes for this test
         book.setRating(5);
-        book.setComments(new ArrayList<>());
         book.setCurrentlyReading(true);
         book.setPercentComplete(50);
 

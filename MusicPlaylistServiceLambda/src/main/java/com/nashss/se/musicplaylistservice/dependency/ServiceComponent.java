@@ -2,6 +2,8 @@ package com.nashss.se.musicplaylistservice.dependency;
 //CHECKSTYLE:OFF
 import com.nashss.se.musicplaylistservice.activity.*;
 
+import com.nashss.se.musicplaylistservice.activity.results.GetBookFromBooklistActivity;
+
 import dagger.Component;
 
 import javax.inject.Singleton;
@@ -120,4 +122,10 @@ public interface ServiceComponent {
      * @return GetUserBooklistsActivity
      */
     GetUserBooklistsActivity provideGetUserBooklistsActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return GetBookFromBooklistActivity
+     */
+    GetBookFromBooklistActivity provideGetBookFromBooklistActivity();
 }

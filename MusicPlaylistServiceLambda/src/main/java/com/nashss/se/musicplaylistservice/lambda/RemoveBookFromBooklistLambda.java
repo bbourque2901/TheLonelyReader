@@ -18,7 +18,6 @@ public class RemoveBookFromBooklistLambda
     public LambdaResponse handleRequest(AuthenticatedLambdaRequest<RemoveBookFromBooklistRequest> inpt, Context ctxt) {
         return super.runActivity(
             () -> {
-                log.error("INPUT!!:: " + inpt.toString());
                 RemoveBookFromBooklistRequest unAuthRequest = inpt.fromUserClaims(claims ->
                         RemoveBookFromBooklistRequest.builder()
                                 .withCustomerId(claims.get("email"))

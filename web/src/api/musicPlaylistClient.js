@@ -17,7 +17,7 @@ export default class MusicPlaylistClient extends BindingClass {
 
         const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getBooklist',
         'getBooklistBooks', 'createBooklist', 'search', 'removeBookFromBooklist', 'removeBooklist',
-        'getUserBooklists', 'updateBooklistName'];
+        'getUserBooklists', 'updateBookInBooklist', 'getBookFromBooklist', 'updateBooklistName'];
 
         this.bindClassMethods(methodsToBind, this);
 
@@ -125,6 +125,27 @@ export default class MusicPlaylistClient extends BindingClass {
     }
 
     /**
+     * Get the book from a booklist of a given user.
+     * @param id Unique identifier for a booklist
+     * @param asin Unique identifier for a book
+     * @param errorCallback (Optional) A function to execute if the call fails.
+     * @returns The specified book within a booklist.
+     */
+    async getBookFromBooklist(id, asin, errorCallback) {
+        try {
+            const token = await this.getTokenOrThrow("Only authenticated users can view their booklists.");
+            const response = await this.axiosClient.get(`booklists/${id}/books/${asin}`, {
+                 headers: {
+                     Authorization: `Bearer ${token}`
+                   }
+                 });
+            return response.data.book;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
+    }
+
+    /**
      * Create a new booklist owned by the current user.
      * @param name The name of the booklist to create.
      * @param tags Metadata tags to associate with a booklist.
@@ -173,14 +194,12 @@ export default class MusicPlaylistClient extends BindingClass {
 
     /**
      * removes a book from a booklist.
-     * @param id The id of the booklist to add a book to.
+     * @param id The id of the booklist to remove the book from.
      * @param asin The asin that uniquely identifies the book.
      * @returns The list of books on a booklist.
      */
     async removeBookFromBooklist(id, asin, errorCallback) {
         try {
-            console.log('delete endpoint called with id ' + id);
-            console.log('delete endpoint called with asin ' + asin);
             const token = await this.getTokenOrThrow("Only authenticated users can remove a book from a booklist.");
             const response = await this.axiosClient.delete(`booklists/${id}/books/${asin}`, {
                 headers: {
@@ -191,6 +210,33 @@ export default class MusicPlaylistClient extends BindingClass {
                     asin: asin
                   }
                 });
+            return response.data.books;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
+    }
+
+    /**
+     * updates user's attributes for a book in a booklist.
+     * @param id The id of the booklist to add a book to.
+     * @param asin The asin that uniquely identifies the book.
+     * @returns The list of books on a booklist.
+     */
+    async updateBookInBooklist(id, asin, currentlyReading, percentComplete, rating, errorCallback) {
+        console.log(id, asin, currentlyReading, percentComplete, rating);
+        try {
+            const token = await this.getTokenOrThrow("Only authenticated users can update attributes for a book.");
+            const response = await this.axiosClient.put(`booklists/${id}/books/${asin}`, {
+                id: id,
+                asin: asin,
+                currentlyReading: currentlyReading,
+                percentComplete: percentComplete,
+                rating: rating
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             return response.data.books;
         } catch (error) {
             this.handleError(error, errorCallback)

@@ -78,7 +78,7 @@ import DataStore from "../util/DataStore";
                return;
            }
 
-           let bookHtml = '<table id="book-table"><tr><th></th><th>Title</th><th>Author</th><th>Genre</th><th>Rating</th><th>ISBN</th><th>Update Book</th><th>Remove Book</th></tr>';
+           let bookHtml = '<table id="book-table"><tr><th></th><th>Title</th><th>Author</th><th>Genre</th><th>Rating</th><th>ISBN</th><th>Currently Reading</th><th>Update Book</th><th>Remove Book</th></tr>';
            let book;
            for (book of books) {
                bookHtml += `
@@ -92,6 +92,7 @@ import DataStore from "../util/DataStore";
                    <td>${book.genre}</td>
                    <td>${book.rating}</td>
                    <td>${book.asin}</td>
+                   <td><input type="checkbox" ${book.currentlyReading ? 'checked' : ''} disabled></td>
                    <td><button data-asin="${book.asin}" data-booklist-id="${booklist.id}" class="button update-book">Update</button></td>
                    <td><button data-asin="${book.asin}" data-booklist-id="${booklist.id}" class="button remove-book">Remove</button></td>
                </tr>`;

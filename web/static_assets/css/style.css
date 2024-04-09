@@ -104,6 +104,11 @@
     flex-direction: column;
 }
 
+.card-content .check-box {
+    max-width: 200px;
+    flex-direction: column;
+}
+
 .tags {
     display: flex;
     flex-direction: row;
@@ -183,7 +188,7 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Lists_and_Counters/Using_CS
 /* table styles */ 
 
 th, td {
-    padding: 15px;
+    padding: 10px;
     text-align: left;
 }
 

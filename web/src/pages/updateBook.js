@@ -73,7 +73,8 @@ class UpdateBook extends BindingClass {
         const origButtonText = updateButton.innerText;
         updateButton.innerText = 'Loading...';
 
-        const curr = document.getElementById('currently-reading').value;
+        const currCheckBox = document.getElementById('currently-reading');
+        const curr = currCheckBox.checked ? true : false;
         const rating = document.getElementById('rating').value;
         const perc = document.getElementById('percent-complete').value;
 

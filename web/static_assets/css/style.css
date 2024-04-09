@@ -81,15 +81,36 @@
     padding: 20px;
     color: var(--secondary-color);
 }
+/* Create two unequal columns that floats next to each other */
+.column {
+  float: left;
+  padding: 10px;
+}
+
+.left {
+  width: 70%;
+}
+
+.right {
+  width: 30%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
 
 .card {
     color: var(--primary-color);
     background-color: var(--secondary-color);
     margin: 20px;
     border-radius: 25px;
-    padding: 10px 20px;
+    padding: 20px;
     font-family: Palatino;
 }
+
 .upperCaseHeader { text-transform: uppercase}
 
 h1,h2,h3,h4,h5 { text-transform: uppercase; }

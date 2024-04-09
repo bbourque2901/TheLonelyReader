@@ -10,7 +10,7 @@ import DataStore from "../util/DataStore";
     constructor() {
             super();
             this.bindClassMethods(['clientLoaded', 'mount', 'addBooklistToPage', 'addBooksToPage', 'addBook', 'remove',
-            'redirectToUpdateBook'], this);
+                        'redirectToUpdateBook'], this);
             this.dataStore = new DataStore();
             this.dataStore.addChangeListener(this.addBooklistToPage);
             this.dataStore.addChangeListener(this.addBooksToPage);

@@ -97,30 +97,7 @@ import DataStore from "../util/DataStore";
            }
            document.getElementById('books').innerHTML = bookHtml;
        }
-       //logic to create genre map
-//       async createGenreMap() {
-//            await this.addBooksToPage();
-//            const genreMap = new Map();
-//            const books = this.dataStore.get('books')
-//            if (books == null) {
-//                           return;
-//                       }
-//            let book;
-//            for (book of books) {
-//               if (genreMap.has(book.genre)) {
-//                   let numberOfBooks = genreMap.get(book.genre)
-//                   genreMap.set(book.genre, numberOfBooks+1)
-//               } else {
-//               genreMap.set(book.genre, 1)
-//            }
-//            console.log(genreMap)
-////            this.dataStore.set('genreLabel', genreMap.keys());
-////            //genreLabel = genreMap.keys()
-////            this.dataStore.set('genreNumbers', genreMap.values());
-//            //genreNumbers = genreMap.values()
-//            //console.log(genreNumbers)
-//            }
-//       }
+
        //logic to create the chart
 
      async dummyChart() {
@@ -192,7 +169,6 @@ import DataStore from "../util/DataStore";
                  document.getElementById("add-book-form").reset();
 
                  location.reload();
-//                 document.getElementById(book-table).append()
          }
 
          /**

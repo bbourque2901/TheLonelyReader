@@ -27,6 +27,7 @@
     background-size: 400px 400px;
     margin: 0;
     counter-reset: section;
+    background-attachment: fixed;
     font-family: "Helvetica Neue",Helvetica,sans-serif;
 }
 
@@ -153,6 +154,10 @@ h1,h2,h3,h4,h5 { text-transform: uppercase; }
     flex-direction: column;
 }
 
+.card-content .check-box {
+    max-width: 200px;
+    flex-direction: column;
+}
 
 .tags {
     display: flex;
@@ -233,7 +238,7 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Lists_and_Counters/Using_CS
 /* table styles */ 
 
 th, td {
-    padding: 15px;
+    padding: 10px;
     text-align: left;
 }
 

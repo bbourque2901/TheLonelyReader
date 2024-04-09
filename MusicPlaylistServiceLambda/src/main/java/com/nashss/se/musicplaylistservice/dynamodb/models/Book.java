@@ -1,13 +1,7 @@
 package com.nashss.se.musicplaylistservice.dynamodb.models;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperFieldModel;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTyped;
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -23,7 +17,6 @@ public class Book {
     private String genre;
     private String thumbnail;
     private Integer rating;
-    private List<Comment> comments;
     private Boolean currentlyReading;
     private Integer percentComplete;
     private Integer pageCount;
@@ -82,22 +75,6 @@ public class Book {
         this.rating = rating;
     }
 
-    /**
-     * getter for the comments for a book.
-     * @return comments
-     */
-    @DynamoDBAttribute(attributeName = "comments")
-    public List<Comment> getComments() {
-        if (comments == null) {
-            comments = new ArrayList<>();
-        }
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
-
     @DynamoDBAttribute(attributeName = "currentlyReading")
     @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.BOOL)
     public Boolean isCurrentlyReading() {
@@ -154,7 +131,6 @@ public class Book {
                 ", genre='" + genre + '\'' +
                 ", thumbnail='" + thumbnail + '\'' +
                 ", rating='" + rating + '\'' +
-                ", comments='" + comments + '\'' +
                 ", currentlyReading='" + currentlyReading + '\'' +
                 ", percentageComplete='" + percentComplete + '\'' +
                 ", pageCount='" + pageCount + '\'' +

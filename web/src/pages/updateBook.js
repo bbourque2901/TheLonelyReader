@@ -74,15 +74,6 @@ class UpdateBook extends BindingClass {
         const origButtonText = updateButton.innerText;
         updateButton.innerText = 'Loading...';
 
-        const commentsText = document.getElementById('comments').value;
-
-        let comments;
-        if (commentsText.length < 1) {
-            comments = null;
-        } else {
-            comments = commentsText.split(/\s*,\s*/);
-        }
-
         const book = await this.client.updateBookInBooklist(this.id, this.asin, (error) => {
             updateButton.innerText = origButtonText;
             console.log("update button clicked on updateBook page");

@@ -11,8 +11,8 @@ env:
   # STUDENTS: Set these environment variables 
   API_BASE_URL: https://spqa7zyv0b.execute-api.us-east-2.amazonaws.com/Prod/
   COGNITO_DOMAIN: project-midstone-carbon
-  COGNITO_REDIRECT_SIGNIN: https://d2qwgoeol22c4v.cloudfront.net
-  COGNITO_REDIRECT_SIGNOUT: https://d2qwgoeol22c4v.cloudfront.net
+  COGNITO_REDIRECT_SIGNIN: https://d36zty1yu7gaep.cloudfront.net
+  COGNITO_REDIRECT_SIGNOUT: https://d36zty1yu7gaep.cloudfront.net
 
   COGNITO_USER_POOL_ID: ${{ secrets.COGNITO_USER_POOL_ID }}
   COGNITO_USER_POOL_CLIENT_ID: ${{ secrets.COGNITO_USER_POOL_CLIENT_ID }}

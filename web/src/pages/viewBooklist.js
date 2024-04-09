@@ -9,12 +9,14 @@ import DataStore from "../util/DataStore";
  class ViewBooklist extends BindingClass {
     constructor() {
             super();
-            this.bindClassMethods(['clientLoaded', 'mount', 'addBooklistToPage', 'addBooksToPage', 'addBook', 'remove'], this);
+            this.bindClassMethods(['clientLoaded', 'mount', 'addBooklistToPage', 'addBooksToPage', 'dummyChart', 'addBook', 'remove'], this);
             this.dataStore = new DataStore();
             this.dataStore.addChangeListener(this.addBooklistToPage);
             this.dataStore.addChangeListener(this.addBooksToPage);
+            this.dataStore.addChangeListener(this.dummyChart);
             this.header = new Header(this.dataStore);
             console.log("viewbooklist constructor");
+
     }
 
     /**
@@ -42,6 +44,7 @@ import DataStore from "../util/DataStore";
 
          this.client = new MusicPlaylistClient();
          this.clientLoaded();
+
 
      }
 
@@ -95,6 +98,48 @@ import DataStore from "../util/DataStore";
            document.getElementById('books').innerHTML = bookHtml;
        }
 
+       //logic to create the chart
+
+     async dummyChart() {
+        const genreMap = new Map();
+        const books = this.dataStore.get('books')
+        if (books == null) {
+                       return;
+                   }
+        let book;
+        for (book of books) {
+           if (genreMap.has(book.genre)) {
+               let numberOfBooks = genreMap.get(book.genre)
+               genreMap.set(book.genre, numberOfBooks+1)
+           } else {
+           genreMap.set(book.genre, 1)
+        }
+        }
+        console.log(genreMap)
+        console.log(genreMap.values())
+        console.log(genreMap.keys())
+        const genreLabel = Array.from( genreMap.keys() );
+        const genreNumbers = Array.from( genreMap.values() );
+
+        let ctx = document.getElementById('myChart');
+
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: genreLabel,
+          datasets: [{
+            label: 'Number of Books in Genre',
+            data: genreNumbers,
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+          }
+        }
+      });
+
+    }
         /**
          * Method to run when the add book booklist submit button is pressed. Call the MusicPlaylistService to add a book to the
          * booklist.
@@ -124,7 +169,6 @@ import DataStore from "../util/DataStore";
                  document.getElementById("add-book-form").reset();
 
                  location.reload();
-//                 document.getElementById(book-table).append()
          }
 
          /**
@@ -157,6 +201,7 @@ import DataStore from "../util/DataStore";
   const main = async () => {
         const viewbooklist = new ViewBooklist();
         viewbooklist.mount();
+        viewbooklist.dummyChart();
   };
 
   window.addEventListener('DOMContentLoaded', main);

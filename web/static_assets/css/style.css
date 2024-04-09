@@ -111,9 +111,15 @@
     font-family: Palatino;
 }
 
+
 .upperCaseHeader { text-transform: uppercase}
 
 h1,h2,h3,h4,h5 { text-transform: uppercase; }
+
+.chart-content {
+    height: 400px;
+}
+
 
 .error {
     color: var(--error-color);

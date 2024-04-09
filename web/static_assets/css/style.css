@@ -94,6 +94,15 @@
 .right {
   width: 30%;
 }
+.row {
+display: flex;
+}
+
+.row:after {
+  content: "";
+  display: flex;
+  clear: both;
+}
 
 /* Clear floats after the columns */
 .row:after {

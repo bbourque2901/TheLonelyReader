@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html>
+<style>
+    {
+        box-sizing: border-box;
+    }
+</style>
 
 <head>
     <script type="text/javascript" src="assets/viewBooklist.js"></script>
@@ -8,32 +13,37 @@
 
 <body class="background">
 <header class="header" id="header"></header>
-<div class="card">
-    <h2 id="booklist-name"></h2>
-    <h3>Created by: <span id="booklist-owner"></span></h3>
-    <div class="tags" id="tags"></div>
-    <ol id="books"></ol>
-</div>
-<div class="card">
-    <h2>Add Book to Booklist</h2>
-    <form class="card-content" id="add-book-form">
-        <p class="hidden error" id="error-message"> </p>
-        <p class="form-field">
-            <label>Add book by Title or ISBN</label>
-            <input type="text" required class="validated-field" id="book-asin" placeholder="Harry Potter and the Chamber of Secrets" autofocus>
-        </p>
-    </form>
-    <a href="#" class="button" id="add-book">Add Book</a>
-</div>
-
-<div class="card">
-    <h2>Chart</h2>
-    <div class="chart-content">
-    <canvas id="myChart"></canvas>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div class="row">
+    <div class="column left">
+        <div class="card">
+            <h2 id="booklist-name"></h2>
+            <h3>Created by: <span id="booklist-owner"></span></h3>
+            <div class="tags" id="tags"></div>
+            <ol id="books"></ol>
+        </div>
     </div>
-</div>
+    <div class="column right">
+        <div class="card">
+            <h2>Add Book to Booklist</h2>
+            <form class="card-content" id="add-book-form">
+                <p class="hidden error" id="error-message"> </p>
+                <p class="form-field">
+                    <label>Add book by Title or ISBN</label>
+                    <input type="text" required class="validated-field" id="book-asin" placeholder="Harry Potter and the Chamber of Secrets" autofocus>
+                </p>
+            </form>
+            <a href="#" class="button" id="add-book">Add Book</a>
+        </div>
 
+        <div class="card">
+            <h2>Chart</h2>
+            <div class="chart-content">
+            <canvas id="myChart"></canvas>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            </div>
+        </div>
+    </div>
+</div>-->
 </body>
 
 </html>

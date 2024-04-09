@@ -40,7 +40,7 @@ export default class Header extends BindingClass {
 
         const imageButton = document.createElement('img');
         imageButton.src = "images/header.png";
-        imageButton.width = "500";
+        imageButton.width = "250";
         homeButton.appendChild(imageButton);
 
         const siteTitle = document.createElement('div');

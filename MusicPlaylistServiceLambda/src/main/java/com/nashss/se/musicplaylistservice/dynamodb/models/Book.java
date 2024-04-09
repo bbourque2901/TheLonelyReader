@@ -1,11 +1,7 @@
 package com.nashss.se.musicplaylistservice.dynamodb.models;
 
-import com.nashss.se.musicplaylistservice.converters.CommentConverter;
-
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /**

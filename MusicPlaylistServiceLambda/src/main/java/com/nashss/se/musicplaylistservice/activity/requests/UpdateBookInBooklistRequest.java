@@ -24,8 +24,8 @@ public class UpdateBookInBooklistRequest {
      * @param rating rating of book
      * @param commentText commentText of book
      */
-    public UpdateBookInBooklistRequest(String booklistId, String asin, boolean currentlyReading, int percentComplete, String customerId,
-                                       Integer rating, String commentText) {
+    public UpdateBookInBooklistRequest(String booklistId, String asin, boolean currentlyReading, int percentComplete,
+                                       String customerId, Integer rating, String commentText) {
         this.booklistId = booklistId;
         this.asin = asin;
         this.currentlyReading = currentlyReading;

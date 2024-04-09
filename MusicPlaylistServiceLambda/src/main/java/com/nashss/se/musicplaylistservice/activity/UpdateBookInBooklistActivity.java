@@ -9,7 +9,6 @@ import com.nashss.se.musicplaylistservice.dynamodb.BooklistDao;
 import com.nashss.se.musicplaylistservice.dynamodb.CommentDao;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Book;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;
-import com.nashss.se.musicplaylistservice.dynamodb.models.Comment;
 import com.nashss.se.musicplaylistservice.metrics.MetricsPublisher;
 
 import org.apache.logging.log4j.LogManager;

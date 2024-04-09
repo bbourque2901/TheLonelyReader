@@ -475,7 +475,7 @@ Resources:
         MusicPlaylistService:
           Type: Api
           Properties:
-            Path: /booklists/{id}/books/{asin}
+            Path: /booklists/${id}/books/{asin}/{currentlyReading}/{percentComplete}/{rating}
             Method: put
 
   GetBookFromBooklistLambda:
@@ -495,7 +495,7 @@ Resources:
         MusicPlaylistService:
           Type: Api
           Properties:
-            Path: booklists/${id}/books/{currentlyReading}/{percentComplete}/{rating}
+            Path: /booklists/${id}/books/{asin}
             Method: get
 
   #-----------------------------------------------------

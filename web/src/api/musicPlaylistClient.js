@@ -173,12 +173,9 @@ export default class MusicPlaylistClient extends BindingClass {
     async addBookToBooklist(id, asin, errorCallback) {
         try {
             const token = await this.getTokenOrThrow("Only authenticated users can add a book to a booklist.");
-            const response = await this.axiosClient.post(`booklists/${id}/books/{currentlyReading}/{percentComplete}/{rating}`, {
+            const response = await this.axiosClient.post(`booklists/${id}/books`, {
                 id: id,
-                asin: asin,
-                currentlyReading: currentlyReading,
-                percentComplete,
-                rating: rating
+                asin: asin
             }, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -223,9 +220,12 @@ export default class MusicPlaylistClient extends BindingClass {
     async updateBookInBooklist(id, asin, errorCallback) {
         try {
             const token = await this.getTokenOrThrow("Only authenticated users can update attributes for a book.");
-            const response = await this.axiosClient.put(`booklists/${id}/books/${asin}`, {
+            const response = await this.axiosClient.put(`booklists/${id}/books/${asin}/${currentlyReading}/${percentComplete}/${rating}`, {
                 id: id,
-                asin: asin
+                asin: asin,
+                currentlyReading: currentlyReading,
+                percentComplete: percentComplete,
+                rating: rating
             }, {
                 headers: {
                     Authorization: `Bearer ${token}`

@@ -1,6 +1,7 @@
-package com.nashss.se.musicplaylistservice.activity.results;
+package com.nashss.se.musicplaylistservice.activity;
 
 import com.nashss.se.musicplaylistservice.activity.requests.GetBookFromBooklistRequest;
+import com.nashss.se.musicplaylistservice.activity.results.GetBookFromBooklistResult;
 import com.nashss.se.musicplaylistservice.dynamodb.BooklistDao;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Book;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;

@@ -8,7 +8,6 @@ import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;
 import com.nashss.se.musicplaylistservice.exceptions.InvalidAttributeValueException;
 import com.nashss.se.musicplaylistservice.models.BookModel;
 import com.nashss.se.musicplaylistservice.models.BookOrder;
-import com.nashss.se.musicplaylistservice.models.SongOrder;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -57,9 +56,9 @@ public class GetBooklistBooksActivity {
         Booklist booklist = booklistDao.getBooklist(getBooklistBooksRequest.getId());
         List<BookModel> bookModels = new ModelConverterCarbon().toBookModelList(booklist.getBooks());
 
-        if (bookOrder.equals(SongOrder.REVERSED)) {
+        if (bookOrder.equals(BookOrder.REVERSED)) {
             Collections.reverse(bookModels);
-        } else if (bookOrder.equals(SongOrder.SHUFFLED)) {
+        } else if (bookOrder.equals(BookOrder.SHUFFLED)) {
             Collections.shuffle(bookModels);
         }
 

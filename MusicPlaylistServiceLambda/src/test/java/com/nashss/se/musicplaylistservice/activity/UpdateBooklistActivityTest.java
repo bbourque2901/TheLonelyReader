@@ -4,7 +4,7 @@ import com.nashss.se.musicplaylistservice.activity.requests.UpdateBooklistReques
 import com.nashss.se.musicplaylistservice.activity.results.UpdateBooklistResult;
 import com.nashss.se.musicplaylistservice.dynamodb.BooklistDao;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;
-import com.nashss.se.musicplaylistservice.exceptions.PlaylistNotFoundException;
+import com.nashss.se.musicplaylistservice.exceptions.BooklistNotFoundException;
 import com.nashss.se.musicplaylistservice.metrics.MetricsConstants;
 import com.nashss.se.musicplaylistservice.metrics.MetricsPublisher;
 import org.junit.jupiter.api.BeforeEach;
@@ -71,10 +71,10 @@ public class UpdateBooklistActivityTest {
                 .withCustomerId("customerId")
                 .build();
 
-        when(booklistDao.getBooklist(id)).thenThrow(new PlaylistNotFoundException());
+        when(booklistDao.getBooklist(id)).thenThrow(new BooklistNotFoundException());
 
         // THEN
-        assertThrows(PlaylistNotFoundException.class, () -> updateBooklistActivity.handleRequest(request));
+        assertThrows(BooklistNotFoundException.class, () -> updateBooklistActivity.handleRequest(request));
     }
 
     @Test

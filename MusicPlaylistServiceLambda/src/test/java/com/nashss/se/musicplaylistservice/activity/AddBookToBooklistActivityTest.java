@@ -1,32 +1,19 @@
 package com.nashss.se.musicplaylistservice.activity;
 
 import com.nashss.se.musicplaylistservice.activity.requests.AddBookToBooklistRequest;
-import com.nashss.se.musicplaylistservice.activity.requests.AddSongToPlaylistRequest;
 import com.nashss.se.musicplaylistservice.activity.results.AddBookToBooklistResult;
-import com.nashss.se.musicplaylistservice.activity.results.AddSongToPlaylistResult;
 import com.nashss.se.musicplaylistservice.converters.ModelConverterCarbon;
-import com.nashss.se.musicplaylistservice.dynamodb.AlbumTrackDao;
 import com.nashss.se.musicplaylistservice.dynamodb.BookDao;
 import com.nashss.se.musicplaylistservice.dynamodb.BooklistDao;
-import com.nashss.se.musicplaylistservice.dynamodb.PlaylistDao;
-import com.nashss.se.musicplaylistservice.dynamodb.models.AlbumTrack;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Book;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;
-import com.nashss.se.musicplaylistservice.dynamodb.models.Playlist;
 import com.nashss.se.musicplaylistservice.exceptions.*;
-import com.nashss.se.musicplaylistservice.googlebookapi.Request;
 import com.nashss.se.musicplaylistservice.models.BookModel;
-import com.nashss.se.musicplaylistservice.models.SongModel;
-import com.nashss.se.musicplaylistservice.test.helper.AlbumTrackTestHelper;
 import com.nashss.se.musicplaylistservice.test.helper.BookTestHelper;
 import com.nashss.se.musicplaylistservice.test.helper.BooklistTestHelper;
-import com.nashss.se.musicplaylistservice.test.helper.PlaylistTestHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

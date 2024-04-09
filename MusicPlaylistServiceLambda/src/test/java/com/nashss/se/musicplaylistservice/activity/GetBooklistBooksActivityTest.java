@@ -9,7 +9,7 @@ import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;
 import com.nashss.se.musicplaylistservice.exceptions.BooklistNotFoundException;
 import com.nashss.se.musicplaylistservice.exceptions.InvalidAttributeValueException;
 import com.nashss.se.musicplaylistservice.models.BookModel;
-import com.nashss.se.musicplaylistservice.models.SongOrder;
+import com.nashss.se.musicplaylistservice.models.BookOrder;
 import com.nashss.se.musicplaylistservice.test.helper.BookTestHelper;
 import com.nashss.se.musicplaylistservice.test.helper.BooklistTestHelper;
 
@@ -63,7 +63,7 @@ public class GetBooklistBooksActivityTest {
 
         GetBooklistBooksRequest request = GetBooklistBooksRequest.builder()
                 .withId(booklistId)
-                .withOrder(SongOrder.DEFAULT)
+                .withOrder(BookOrder.DEFAULT)
                 .build();
         when(booklistDao.getBooklist(booklistId)).thenReturn(booklist);
 
@@ -84,7 +84,7 @@ public class GetBooklistBooksActivityTest {
 
         GetBooklistBooksRequest request = GetBooklistBooksRequest.builder()
                 .withId(booklistId)
-                .withOrder(SongOrder.REVERSED)
+                .withOrder(BookOrder.REVERSED)
                 .build();
         when(booklistDao.getBooklist(booklistId)).thenReturn(booklist);
 
@@ -105,7 +105,7 @@ public class GetBooklistBooksActivityTest {
 
         GetBooklistBooksRequest request = GetBooklistBooksRequest.builder()
                 .withId(booklistId)
-                .withOrder(SongOrder.SHUFFLED)
+                .withOrder(BookOrder.SHUFFLED)
                 .build();
         when(booklistDao.getBooklist(booklistId)).thenReturn(booklist);
 

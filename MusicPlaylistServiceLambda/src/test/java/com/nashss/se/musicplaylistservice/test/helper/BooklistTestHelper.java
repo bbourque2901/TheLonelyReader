@@ -1,13 +1,10 @@
 package com.nashss.se.musicplaylistservice.test.helper;
 
-import com.nashss.se.musicplaylistservice.dynamodb.models.AlbumTrack;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Book;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Booklist;
-import com.nashss.se.musicplaylistservice.dynamodb.models.Playlist;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 public final class BooklistTestHelper {

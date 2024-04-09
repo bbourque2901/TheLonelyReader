@@ -1,9 +1,7 @@
 package com.nashss.se.musicplaylistservice.test.helper;
 
-import com.nashss.se.musicplaylistservice.dynamodb.models.AlbumTrack;
 import com.nashss.se.musicplaylistservice.dynamodb.models.Book;
 import com.nashss.se.musicplaylistservice.models.BookModel;
-import com.nashss.se.musicplaylistservice.models.SongModel;
 
 import java.util.List;
 

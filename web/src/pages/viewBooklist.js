@@ -130,7 +130,15 @@ import DataStore from "../util/DataStore";
           datasets: [{
             label: 'Number of Books in Genre',
             data: genreNumbers,
-            borderWidth: 1
+            borderWidth: 1,
+            backgroundColor: [
+                                  'rgb(252,194,174)',
+                                  'rgb(223,126,151)',
+                                  'rgb(123,75,131)',
+                                  'rgb(170,101,156)',
+                                  'rgb(256,192,148)',
+                                  'rgb(62,29,100)',
+                                  'rgba(207,119,157,255)']
           }]
         },
         options: {

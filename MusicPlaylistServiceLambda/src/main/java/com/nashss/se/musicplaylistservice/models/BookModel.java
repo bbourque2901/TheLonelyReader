@@ -1,5 +1,8 @@
 package com.nashss.se.musicplaylistservice.models;
 
+import com.nashss.se.musicplaylistservice.dynamodb.models.Comment;
+
+import java.util.List;
 import java.util.Objects;
 
 public class BookModel {
@@ -9,14 +12,14 @@ public class BookModel {
     private final String author;
     private final String genre;
     private final Integer rating;
-    private final String comments;
+    private final List<Comment> comments;
     private final Boolean currentlyReading;
     private final Integer percentComplete;
     private final String thumbnail;
     private final Integer pageCount;
 
     private BookModel(String asin, String title, String author, String genre, Integer rating,
-                      String comments, Boolean currentlyReading, Integer percentComplete,
+                      List<Comment> comments, Boolean currentlyReading, Integer percentComplete,
                       String thumbnail, Integer pageCount) {
         this.asin = asin;
         this.title = title;
@@ -50,7 +53,7 @@ public class BookModel {
         return rating;
     }
 
-    public String getComments() {
+    public List<Comment> getComments() {
         return comments;
     }
 
@@ -98,7 +101,7 @@ public class BookModel {
         private String author;
         private String genre;
         private Integer rating;
-        private String comments;
+        private List<Comment> comments;
         private Boolean currentlyReading;
         private Integer percentComplete;
         private String thumbnail;
@@ -129,7 +132,7 @@ public class BookModel {
             return this;
         }
 
-        public Builder withComments(String comments) {
+        public Builder withComments(List<Comment> comments) {
             this.comments = comments;
             return this;
         }

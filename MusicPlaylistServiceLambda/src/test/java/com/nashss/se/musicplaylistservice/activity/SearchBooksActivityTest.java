@@ -1,7 +1,6 @@
 package com.nashss.se.musicplaylistservice.activity;
 
 
-import com.google.api.client.json.JsonFactory;
 import com.nashss.se.musicplaylistservice.activity.requests.SearchBooksRequest;
 import com.nashss.se.musicplaylistservice.activity.results.SearchBooksResult;
 import com.nashss.se.musicplaylistservice.dynamodb.BookDao;
@@ -17,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 
+import java.util.ArrayList;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.List;
@@ -121,7 +121,7 @@ public class SearchBooksActivityTest {
 
         // these can be any attributes for this test
         book.setRating(5);
-        book.setComments("bla bla bla");
+        book.setComments(new ArrayList<>());
         book.setCurrentlyReading(true);
         book.setPercentComplete(50);
 

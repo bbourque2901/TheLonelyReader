@@ -216,6 +216,14 @@ Resources:
               Action: dynamodb:*
               Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/Books"
 
+        - PolicyName: 'AccessCommentsTable'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: dynamodb:*
+                Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/Comments"
+
   #-----------------------------------------------------
   # Lambda Functions Configuration
   #-----------------------------------------------------
@@ -480,9 +488,33 @@ Resources:
       BillingMode: "PAY_PER_REQUEST"
       TableName: "Books"
 
+  CommentTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: "Comments"
+      AttributeDefinitions:
+        - AttributeName: "commentId"
+          AttributeType: "S"
+        - AttributeName: "asin"
+          AttributeType: "S"
+        - AttributeName: "customerId"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "commentId"
+          KeyType: "HASH"
+      GlobalSecondaryIndexes:
+        - IndexName: "CustomerIdAsinIndex"
+          KeySchema:
+            - AttributeName: "customerId"
+              KeyType: "HASH"
+            - AttributeName: "asin"
+              KeyType: "RANGE"
+          Projection:
+            ProjectionType: "ALL"
+      BillingMode: "PAY_PER_REQUEST"
 
-# The outputs defined below will be printed
-#  to the screen after a successful deploy
+        # The outputs defined below will be printed
+        #  to the screen after a successful deploy
 #-----------------------------------------------------
 
 Outputs:

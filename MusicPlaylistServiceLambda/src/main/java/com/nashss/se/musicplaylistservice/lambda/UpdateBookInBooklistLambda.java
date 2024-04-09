@@ -25,12 +25,11 @@ public class UpdateBookInBooklistLambda
                                 .withAsin(unauthenticatedRequest.getAsin())
                                 .withCurrentlyReading(unauthenticatedRequest.isCurrentlyReading())
                                 .withRating(unauthenticatedRequest.getRating())
+                                .withCommentText(unauthenticatedRequest.getCommentText())
                                 .build());
             },
             (request, serviceComponent) ->
-                    serviceComponent.provideUpdateBookInBooklistActivity().handleRequest(request)
-        );
-
-
+                        serviceComponent.provideUpdateBookInBooklistActivity().handleRequest(request)
+       );
     }
 }

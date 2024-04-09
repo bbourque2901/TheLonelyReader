@@ -17,7 +17,7 @@ const EMPTY_DATASTORE_STATE = {
     constructor() {
         super();
 
-        this.bindClassMethods(['mount', 'search', 'displaySearchResults', 'getHTMLForSearchResults', 'add'], this);
+        this.bindClassMethods(['mount', 'search', 'displaySearchResults', 'getHTMLForSearchResults', 'add', 'myFunction'], this);
 
         // Create a enw datastore with an initial "empty" state.
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
@@ -26,6 +26,16 @@ const EMPTY_DATASTORE_STATE = {
         console.log("searchBooks constructor");
     }
 
+     /**
+      * Once the client is loaded, get the booklist metadata and book list.
+      */
+     async clientLoaded() {
+         const urlParams = new URLSearchParams(window.location.search);
+         const customerId = urlParams.get('email');
+         const booklists = await this.client.getUserBooklists(customerId);
+         this.dataStore.set('booklists', booklists);
+     }
+
     /**
      * Add the header to the page and load the MusicPlaylistClient.
      */
@@ -33,9 +43,12 @@ const EMPTY_DATASTORE_STATE = {
         // Wire up the form's 'submit' event and the button's 'click' event to the search method.
         document.getElementById('search-books-form').addEventListener('submit', this.search);
         document.getElementById('search-books-btn').addEventListener('click', this.search);
-        document.getElementById('search-books-results-container').addEventListener('click', this.add);
+        document.getElementById('search-books-results-container').addEventListener('click', this.myFunction);
+        document.getElementById('search-books-results-display').addEventListener('click', this.add);
+
 
         this.client = new MusicPlaylistClient();
+        this.clientLoaded();
     }
 
     /**
@@ -95,12 +108,26 @@ const EMPTY_DATASTORE_STATE = {
      * @returns A string of HTML suitable for being dropped on the page.
      */
     getHTMLForSearchResults(searchResults) {
+        const booklists = this.dataStore.get('booklists');
+        if (booklists == null) {
+            return;
+        }
+
         if (searchResults.length === 0) {
             return '<h4>No results found</h4>';
         }
 
+
+
+//                                    for (var i = 0; i < booklists.length; i++) {
+//                                        var opt = document.createElement("option");
+//                                        opt.text = booklists[i].name
+//                                        opt.value = booklists[i].id
+//                                        html += document.getElementById('myDropdown').appendChild(opt);
+//                                    }
         let html = '<table><tr><th></th><th>ISBN</th><th>Title</th><th>Author</th><th>Genre</th><th>Add Book</th></tr>';
         for (const res of searchResults) {
+            const option = '<option value="'+booklists[0].id+'" title="'+res.title+'">'+booklists[0].name+'</option>'
             html += `
             <tr>
                 <td>
@@ -111,55 +138,54 @@ const EMPTY_DATASTORE_STATE = {
                 <td>${res.author}</td>
                 <td>${res.genre}</td>
                 <td>
-                    <button data-title="${res.title}" data-booklist-id="sSKYZ" class="button add-book">Add to Booklist</button>
+                    <div class="dropdown">
+                        <button data-title="${res.title}" class="dropbtn">Add to Booklist</button>
+                        <div id="myDropdown" class="dropdown-content">
+                            ${option}
+                        </div>
+                    </div>
                 </td>
             </tr>`;
         }
+
         html += '</table>';
 
         return html;
     }
 
-//    /* When the user clicks on the button,
-//    toggle between hiding and showing the dropdown content */
     async myFunction() {
-      document.getElementById("myDropdown").classList.toggle("show");
+        document.getElementById('myDropdown').classList.toggle("show");
+        window.onclick = function(event) {
+        if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+        }
     }
-//
-//    // Close the dropdown menu if the user clicks outside of it
-//    window.onclick = function(event) {
-//      if (!event.target.matches('.dropbtn')) {
-//        var dropdowns = document.getElementsByClassName("dropdown-content");
-//        var i;
-//        for (i = 0; i < dropdowns.length; i++) {
-//          var openDropdown = dropdowns[i];
-//          if (openDropdown.classList.contains('show')) {
-//            openDropdown.classList.remove('show');
-//          }
-//        }
-//      }
-//    }
 
     async add(e) {
-       const addButton = e.target;
-       if (!addButton.classList.contains("add-book")) {
-           return;
-       }
 
-       addButton.innerText = "Adding...";
+       const addButton = e.target;
+//       if (!addButton.classList.contains("add-book")) {
+//           return;
+//       }
 
        const errorMessageDisplay = document.getElementById('error-message');
        errorMessageDisplay.innerText = ``;
        errorMessageDisplay.classList.add('hidden');
 
-       await this.client.addBookToBooklist(addButton.dataset.booklistId, addButton.dataset.title, (error) => {
+       await this.client.addBookToBooklist(addButton.value, addButton.title, (error) => {
            errorMessageDisplay.innerText = `Error: ${error.message}`;
            errorMessageDisplay.classList.remove('hidden');
        });
 
-       addButton.innerText = "Add Again";
-
-       document.getElementById(addButton.dataset.title + addButton.dataset.booklistId).add();
+       document.getElementById(addButton.title + addButton.value).add();
     }
  }
 

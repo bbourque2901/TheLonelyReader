@@ -82,6 +82,10 @@
     padding: 10px 20px;
 }
 
+.chart-content {
+    height: 400px;
+}
+
 .error {
     color: var(--error-color);
     border: 1px solid var(--error-color);

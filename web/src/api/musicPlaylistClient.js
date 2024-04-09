@@ -221,7 +221,7 @@ export default class MusicPlaylistClient extends BindingClass {
         try {
             const token = await this.getTokenOrThrow("Only authenticated users can update attributes for a book.");
             const response = await this.axiosClient.put(`booklists/${id}/books/${asin}`, {
-                id: id,
+            id: id,
                 asin: asin
             }, {
                 headers: {

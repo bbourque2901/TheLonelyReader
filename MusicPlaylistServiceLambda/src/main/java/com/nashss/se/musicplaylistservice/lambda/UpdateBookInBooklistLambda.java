@@ -22,7 +22,7 @@ public class UpdateBookInBooklistLambda
                 return input.fromUserClaims(claims ->
                         UpdateBookInBooklistRequest.builder()
                                 .withCustomerId(claims.get("email"))
-                                .withBooklistId(unauthenticatedRequest.getBooklistId())
+                                .withId(unauthenticatedRequest.getId())
                                 .withAsin(unauthenticatedRequest.getAsin())
                                 .withCurrentlyReading(unauthenticatedRequest.isCurrentlyReading())
                                 .withRating(unauthenticatedRequest.getRating())

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
 @JsonDeserialize(builder = UpdateBookInBooklistRequest.Builder.class)
 public class UpdateBookInBooklistRequest {
-    private final String booklistId;
+    private final String id;
     private final String asin;
     private final boolean currentlyReading;
     private final int percentComplete;
@@ -26,7 +26,7 @@ public class UpdateBookInBooklistRequest {
      */
     public UpdateBookInBooklistRequest(String booklistId, String asin, boolean currentlyReading, int percentComplete,
                                        String customerId, Integer rating, String commentText) {
-        this.booklistId = booklistId;
+        this.id = booklistId;
         this.asin = asin;
         this.currentlyReading = currentlyReading;
         this.percentComplete = percentComplete;
@@ -35,8 +35,8 @@ public class UpdateBookInBooklistRequest {
         this.commentText = commentText;
     }
 
-    public String getBooklistId() {
-        return booklistId;
+    public String getId() {
+        return id;
     }
 
     public String getAsin() {
@@ -65,6 +65,7 @@ public class UpdateBookInBooklistRequest {
     @Override
     public String toString() {
         return "UpdateBookInBooklistRequest{" +
+                "booklistId='" + id + '\'' +
                 "asin='" + asin + '\'' +
                 ", isCurrentlyReading='" + currentlyReading + '\'' +
                 ", percentComplete='" + percentComplete + '\'' +
@@ -80,7 +81,7 @@ public class UpdateBookInBooklistRequest {
 
     @JsonPOJOBuilder
     public static class Builder {
-        private String booklistId;
+        private String id;
         private String asin;
         private boolean currentlyReading;
         private int percentComplete;
@@ -88,8 +89,8 @@ public class UpdateBookInBooklistRequest {
         private Integer rating;
         private String commentText;
 
-        public Builder withBooklistId(String booklistId) {
-            this.booklistId = booklistId;
+        public Builder withId(String booklistId) {
+            this.id = booklistId;
             return this;
         }
         public Builder withAsin(String asin) {
@@ -116,7 +117,7 @@ public class UpdateBookInBooklistRequest {
             this.commentText = commentText;
             return this;
         }
-        public UpdateBookInBooklistRequest build() { return new UpdateBookInBooklistRequest(booklistId, asin, currentlyReading, percentComplete, customerId, rating, commentText); }
+        public UpdateBookInBooklistRequest build() { return new UpdateBookInBooklistRequest(id, asin, currentlyReading, percentComplete, customerId, rating, commentText); }
     }
 
 }

@@ -9,12 +9,15 @@ import DataStore from "../util/DataStore";
  class ViewBooklist extends BindingClass {
     constructor() {
             super();
-            this.bindClassMethods(['clientLoaded', 'mount', 'addBooklistToPage', 'addBooksToPage', 'addBook', 'remove'], this);
+            this.bindClassMethods(['clientLoaded', 'mount', 'addBooklistToPage', 'addBooksToPage', 'addBook', 'remove',
+                        'redirectToUpdateBook', 'updateBooklistName'], this);
             this.dataStore = new DataStore();
             this.dataStore.addChangeListener(this.addBooklistToPage);
             this.dataStore.addChangeListener(this.addBooksToPage);
+            this.dataStore.addChangeListener(this.dummyChart);
             this.header = new Header(this.dataStore);
             console.log("viewbooklist constructor");
+
     }
 
     /**
@@ -37,11 +40,15 @@ import DataStore from "../util/DataStore";
      mount() {
          document.getElementById('add-book').addEventListener('click', this.addBook);
          document.getElementById('books').addEventListener('click', this.remove);
+         document.getElementById('update-booklist').addEventListener('click', this.updateBooklistName);
+         document.getElementById('books').addEventListener('click', this.redirectToUpdateBook);
+
 
          this.header.addHeaderToPage();
 
          this.client = new MusicPlaylistClient();
          this.clientLoaded();
+
 
      }
 
@@ -76,7 +83,7 @@ import DataStore from "../util/DataStore";
                return;
            }
 
-           let bookHtml = '<table id="book-table"><tr><th></th><th>Title</th><th>Author</th><th>Genre</th><th>ISBN</th><th>Remove Book</th></tr>';
+           let bookHtml = '<table id="book-table"><tr><th></th><th>Title</th><th>Author</th><th>Genre</th><th>Rating</th><th>ISBN</th><th>Currently Reading</th><th>Update Book</th><th>Remove Book</th></tr>';
            let book;
            for (book of books) {
                bookHtml += `
@@ -88,13 +95,66 @@ import DataStore from "../util/DataStore";
                    <td>${book.title}</td>
                    <td>${book.author}</td>
                    <td>${book.genre}</td>
+                   <td>${book.rating}</td>
                    <td>${book.asin}</td>
+                   <td><input type="checkbox" ${book.currentlyReading ? 'checked' : ''} disabled></td>
+                   <td><button data-asin="${book.asin}" data-booklist-id="${booklist.id}" class="button update-book">Update</button></td>
                    <td><button data-asin="${book.asin}" data-booklist-id="${booklist.id}" class="button remove-book">Remove</button></td>
                </tr>`;
            }
            document.getElementById('books').innerHTML = bookHtml;
        }
 
+       //logic to create the chart
+
+     async dummyChart() {
+        const genreMap = new Map();
+        const books = this.dataStore.get('books')
+        if (books == null) {
+                       return;
+                   }
+        let book;
+        for (book of books) {
+           if (genreMap.has(book.genre)) {
+               let numberOfBooks = genreMap.get(book.genre)
+               genreMap.set(book.genre, numberOfBooks+1)
+           } else {
+           genreMap.set(book.genre, 1)
+        }
+        }
+        console.log(genreMap)
+        console.log(genreMap.values())
+        console.log(genreMap.keys())
+        const genreLabel = Array.from( genreMap.keys() );
+        const genreNumbers = Array.from( genreMap.values() );
+
+        let ctx = document.getElementById('myChart');
+
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: genreLabel,
+          datasets: [{
+            label: 'Number of Books in Genre',
+            data: genreNumbers,
+            borderWidth: 1,
+            backgroundColor: [
+                                  'rgb(252,194,174)',
+                                  'rgb(223,126,151)',
+                                  'rgb(123,75,131)',
+                                  'rgb(170,101,156)',
+                                  'rgb(256,192,148)',
+                                  'rgb(62,29,100)',
+                                  'rgba(207,119,157,255)']
+          }]
+        },
+        options: {
+          scales: {
+          }
+        }
+      });
+
+    }
         /**
          * Method to run when the add book booklist submit button is pressed. Call the MusicPlaylistService to add a book to the
          * booklist.
@@ -124,7 +184,6 @@ import DataStore from "../util/DataStore";
                  document.getElementById("add-book-form").reset();
 
                  location.reload();
-//                 document.getElementById(book-table).append()
          }
 
          /**
@@ -149,6 +208,51 @@ import DataStore from "../util/DataStore";
 
                 document.getElementById(removeButton.dataset.asin + removeButton.dataset.booklistId).remove()
           }
+
+          /**
+          * when button is clicked, user is prompted to update booklist name.
+          */
+          async updateBooklistName() {
+          const errorMessageDisplay = document.getElementById('error-message');
+          errorMessageDisplay.innerText = ``;
+          errorMessageDisplay.classList.add('hidden');
+
+          const newName = prompt("Enter new booklist name: ");
+          if (!newName) return;
+
+          const booklist = this.dataStore.get('booklist');
+          if (booklist == null) {
+            return;
+          }
+
+          document.getElementById('booklist-name').innerText = 'Updating...';
+
+          const newBooklist = await this.client.updateBooklistName(booklist.id, newName, (error) => {
+            errorMessageDisplay.innerText = `Error: ${error.message}`;
+            errorMessageDisplay.classList.remove('hidden');
+          });
+
+          document.getElementById('booklist-name').innerText = newName;
+          this.dataStore.set('booklist', newBooklist);
+          console.log("button clicked!");
+          }
+
+            /**
+            * when update button is clicked, redirects to update book page.
+            */
+            async redirectToUpdateBook(e) {
+                  const updateButton = e.target;
+                  if (!updateButton.classList.contains("update-book")) {
+                      return;
+                  }
+
+                  updateButton.innerText = "Loading...";
+                  console.log("update button clicked and now will redirect");
+
+                  if (updateButton != null) {
+                      window.location.href = `/updateBook.html?id=${updateButton.dataset.booklistId}&asin=${updateButton.dataset.asin}`;
+                  }
+            }
 }
 
  /**
@@ -157,6 +261,7 @@ import DataStore from "../util/DataStore";
   const main = async () => {
         const viewbooklist = new ViewBooklist();
         viewbooklist.mount();
+        viewbooklist.dummyChart();
   };
 
   window.addEventListener('DOMContentLoaded', main);

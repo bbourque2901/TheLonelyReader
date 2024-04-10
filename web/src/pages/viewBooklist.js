@@ -10,7 +10,7 @@ import DataStore from "../util/DataStore";
     constructor() {
             super();
             this.bindClassMethods(['clientLoaded', 'mount', 'addBooklistToPage', 'addBooksToPage', 'addBook', 'remove',
-                        'redirectToUpdateBook'], this);
+                        'redirectToUpdateBook', 'updateBooklistName'], this);
             this.dataStore = new DataStore();
             this.dataStore.addChangeListener(this.addBooklistToPage);
             this.dataStore.addChangeListener(this.addBooksToPage);
@@ -40,7 +40,9 @@ import DataStore from "../util/DataStore";
      mount() {
          document.getElementById('add-book').addEventListener('click', this.addBook);
          document.getElementById('books').addEventListener('click', this.remove);
+         document.getElementById('update-booklist').addEventListener('click', this.updateBooklistName);
          document.getElementById('books').addEventListener('click', this.redirectToUpdateBook);
+
 
          this.header.addHeaderToPage();
 
@@ -135,7 +137,15 @@ import DataStore from "../util/DataStore";
           datasets: [{
             label: 'Number of Books in Genre',
             data: genreNumbers,
-            borderWidth: 1
+            borderWidth: 1,
+            backgroundColor: [
+                                  'rgb(252,194,174)',
+                                  'rgb(223,126,151)',
+                                  'rgb(123,75,131)',
+                                  'rgb(170,101,156)',
+                                  'rgb(256,192,148)',
+                                  'rgb(62,29,100)',
+                                  'rgba(207,119,157,255)']
           }]
         },
         options: {
@@ -200,6 +210,34 @@ import DataStore from "../util/DataStore";
           }
 
           /**
+          * when button is clicked, user is prompted to update booklist name.
+          */
+          async updateBooklistName() {
+          const errorMessageDisplay = document.getElementById('error-message');
+          errorMessageDisplay.innerText = ``;
+          errorMessageDisplay.classList.add('hidden');
+
+          const newName = prompt("Enter new booklist name: ");
+          if (!newName) return;
+
+          const booklist = this.dataStore.get('booklist');
+          if (booklist == null) {
+            return;
+          }
+
+          document.getElementById('booklist-name').innerText = 'Updating...';
+
+          const newBooklist = await this.client.updateBooklistName(booklist.id, newName, (error) => {
+            errorMessageDisplay.innerText = `Error: ${error.message}`;
+            errorMessageDisplay.classList.remove('hidden');
+          });
+
+          document.getElementById('booklist-name').innerText = newName;
+          this.dataStore.set('booklist', newBooklist);
+          console.log("button clicked!");
+          }
+
+            /**
             * when update button is clicked, redirects to update book page.
             */
             async redirectToUpdateBook(e) {

@@ -17,7 +17,7 @@ export default class MusicPlaylistClient extends BindingClass {
 
         const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getBooklist',
         'getBooklistBooks', 'createBooklist', 'search', 'removeBookFromBooklist', 'removeBooklist',
-        'getUserBooklists', 'updateBookInBooklist', 'getBookFromBooklist'];
+        'getUserBooklists', 'updateBookInBooklist', 'getBookFromBooklist', 'updateBooklistName'];
 
         this.bindClassMethods(methodsToBind, this);
 
@@ -302,6 +302,29 @@ export default class MusicPlaylistClient extends BindingClass {
                  this.handleError(error, errorCallback)
              }
          }
+
+    /**
+     * Update booklist name.
+     * @param id the id of the booklist.
+     * @returns an updated booklist name.
+     */
+     async updateBooklistName(booklistId, newName, errorCallback) {
+        try {
+                const token = await this.getTokenOrThrow("Only authenticated users can update a booklist name.");
+                const response = await this.axiosClient.put(`booklists/${booklistId}`, {
+                    id: booklistId,
+                    name: newName
+                }, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    },
+                });
+                return response.data.booklists;
+            } catch (error) {
+                this.handleError(error, errorCallback)
+            }
+     }
+
 
     /**
      * Helper method to log the error and run any error functions.

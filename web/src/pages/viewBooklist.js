@@ -1,4 +1,4 @@
-import MusicPlaylistClient from '../api/musicPlaylistClient';
+import BookTrackerClient from '../api/bookTrackerClient';
 import Header from '../components/header';
 import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
@@ -35,7 +35,7 @@ import DataStore from "../util/DataStore";
     }
 
      /**
-      * Add the header to the page and load the MusicPlaylistClient.
+      * Add the header to the page and load the BookTrackerClient.
       */
      mount() {
          document.getElementById('add-book').addEventListener('click', this.addBook);
@@ -46,7 +46,7 @@ import DataStore from "../util/DataStore";
 
          this.header.addHeaderToPage();
 
-         this.client = new MusicPlaylistClient();
+         this.client = new BookTrackerClient();
          this.clientLoaded();
 
 
@@ -156,7 +156,7 @@ import DataStore from "../util/DataStore";
 
     }
         /**
-         * Method to run when the add book booklist submit button is pressed. Call the MusicPlaylistService to add a book to the
+         * Method to run when the add book booklist submit button is pressed. Call the BookTrackerService to add a book to the
          * booklist.
          */
          async addBook() {

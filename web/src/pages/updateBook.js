@@ -1,4 +1,4 @@
-import MusicPlaylistClient from '../api/musicPlaylistClient';
+import BookTrackerClient from '../api/bookTrackerClient';
 import Header from '../components/header';
 import BindingClass from '../util/bindingClass';
 import DataStore from '../util/DataStore';
@@ -22,14 +22,14 @@ class UpdateBook extends BindingClass {
     }
 
     /**
-     * Add the header to the page and load the MusicPlaylistClient.
+     * Add the header to the page and load the BookTrackerClient.
      */
     mount() {
         document.getElementById('update-book').addEventListener('click', this.submit);
 
         this.header.addHeaderToPage();
 
-        this.client = new MusicPlaylistClient();
+        this.client = new BookTrackerClient();
         this.clientLoaded();
     }
 
@@ -59,7 +59,7 @@ class UpdateBook extends BindingClass {
     }
 
     /**
-     * Method to run when the update book submit button is pressed. Call the MusicPlaylistService to update the
+     * Method to run when the update book submit button is pressed. Call the BookTrackerClient to update the
      * book.
      */
     async submit(evt) {

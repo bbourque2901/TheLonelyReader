@@ -117,17 +117,14 @@ const EMPTY_DATASTORE_STATE = {
             return '<h4>No results found</h4>';
         }
 
-
-
-//                                    for (var i = 0; i < booklists.length; i++) {
-//                                        var opt = document.createElement("option");
-//                                        opt.text = booklists[i].name
-//                                        opt.value = booklists[i].id
-//                                        html += document.getElementById('myDropdown').appendChild(opt);
-//                                    }
+        let options = '';
         let html = '<table><tr><th></th><th>ISBN</th><th>Title</th><th>Author</th><th>Genre</th><th>Add Book</th></tr>';
         for (const res of searchResults) {
-            const option = '<option value="'+booklists[0].id+'" title="'+res.title+'">'+booklists[0].name+'</option>'
+            for (var i = 0; i < booklists.length; i++) {
+            let option = '<option value="'+booklists[i].id+'" title="'+res.title+'">'+booklists[i].name+'</option>';
+            options += option;
+            }
+
             html += `
             <tr>
                 <td>
@@ -141,7 +138,7 @@ const EMPTY_DATASTORE_STATE = {
                     <div class="dropdown">
                         <button data-title="${res.title}" class="dropbtn">Add to Booklist</button>
                         <div id="myDropdown" class="dropdown-content">
-                            ${option}
+                            ${options}
                         </div>
                     </div>
                 </td>
@@ -153,18 +150,13 @@ const EMPTY_DATASTORE_STATE = {
         return html;
     }
 
-    async myFunction() {
-        document.getElementById('myDropdown').classList.toggle("show");
+    async myFunction(event) {
+        const parent = event.target.parentNode;
+        parent.querySelector('.dropdown-content').classList.toggle('show');
         window.onclick = function(event) {
         if (!event.target.matches('.dropbtn')) {
-            var dropdowns = document.getElementsByClassName("dropdown-content");
-            var i;
-            for (i = 0; i < dropdowns.length; i++) {
-                var openDropdown = dropdowns[i];
-                if (openDropdown.classList.contains('show')) {
-                    openDropdown.classList.remove('show');
-                }
-            }
+            document.querySelectorAll('.dropdown-content.show')
+            .forEach(element => element.classList.remove('show'));
         }
         }
     }
@@ -185,7 +177,7 @@ const EMPTY_DATASTORE_STATE = {
            errorMessageDisplay.classList.remove('hidden');
        });
 
-       document.getElementById(addButton.title + addButton.value).add();
+       document.getElementById(addButton.title + addButton.dataset.value).add();
     }
  }
 

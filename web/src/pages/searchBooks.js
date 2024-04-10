@@ -182,7 +182,12 @@ const EMPTY_DATASTORE_STATE = {
 
         await this.client.addBookToBooklist(addButton.value, addButton.title, (error) => {
             errorMessageDisplay.innerText = `Error: ${error.message}`;
-            errorMessageDisplay.classList.remove('hidden');
+            // Network Error occurs when clicking 'Add to Booklist' ???
+            // DynamoDBMappingException occurs when clicking out of dropdown and not selecting booklist
+            // Hiding these two errors, only showing the DuplicateBookException
+            if (errorMessageDisplay.innerText.includes("DuplicateBookException")) {
+                errorMessageDisplay.classList.remove('hidden');
+            }
         });
 
        document.getElementById(addButton.title + addButton.dataset.value).add();

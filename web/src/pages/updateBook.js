@@ -37,7 +37,8 @@ class UpdateBook extends BindingClass {
      * Once the client is loaded, get the book metadata.
      */
     async clientLoaded() {
-        document.getElementById('title').innerText = "Loading Title ...";
+        document.getElementById('title').innerText = "Loading Book ...";
+
         const book = await this.client.getBookFromBooklist(this.id, this.asin);
         this.dataStore.set('book', book);
     }
@@ -55,6 +56,7 @@ class UpdateBook extends BindingClass {
         document.getElementById('title').innerText = book.title;
         document.getElementById('author').innerText = book.author;
         document.getElementById('genre').innerText = book.genre;
+        document.getElementById('page-count').innerText = book.pageCount;
         document.getElementById('asin').innerText = book.asin;
     }
 

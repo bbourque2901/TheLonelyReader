@@ -46,7 +46,6 @@ const EMPTY_DATASTORE_STATE = {
         document.getElementById('search-books-results-container').addEventListener('click', this.showDropdown);
         document.getElementById('search-books-results-display').addEventListener('click', this.add);
 
-
         this.client = new MusicPlaylistClient();
         this.clientLoaded();
     }
@@ -119,7 +118,6 @@ const EMPTY_DATASTORE_STATE = {
 
         let html = '<table><tr><th></th><th>ISBN</th><th>Title</th><th>Author</th><th>Genre</th><th>Add Book</th></tr>';
         for (const res of searchResults) {
-
             let options = '';
             for (var i = 0; i < booklists.length; i++) {
                 let option = '<option value="'+booklists[i].id+'" title="'+res.title+'">'+booklists[i].name+'</option>';
@@ -137,7 +135,7 @@ const EMPTY_DATASTORE_STATE = {
                 <td>${res.genre}</td>
                 <td>
                     <div class="dropdown">
-                        <button data-title="${res.title}" class="dropbtn">Add to Booklist</button>
+                        <button id="button" data-title="${res.title}" class="dropbtn">Add to Booklist</button>
                         <div id="myDropdown" class="dropdown-content">
                             ${options}
                         </div>
@@ -151,30 +149,41 @@ const EMPTY_DATASTORE_STATE = {
         return html;
     }
 
+    /**
+     * Shows a dropdown menu of a user's booklist to add a book to
+     * @param event the current click event
+     */
     async showDropdown(event) {
         const parent = event.target.parentNode;
         parent.querySelector('.dropdown-content').classList.toggle('show');
-
+        if (event.target.matches('.dropbtn')) {
+            event.target.innerText = 'Adding to...';
+        }
         window.onclick = function(event) {
             if (!event.target.matches('.dropbtn')) {
+                document.querySelectorAll('.dropbtn')
+                    .forEach(element => element.innerText = 'Add to Booklist');
                 document.querySelectorAll('.dropdown-content.show')
-                .forEach(element => element.classList.remove('show'));
+                    .forEach(element => element.classList.remove('show'));
             }
         }
     }
 
+    /**
+     * Adds a book from searchResults to the chosen booklist in dropdown menu
+     * @param event the current click event
+     */
     async add(e) {
+        const addButton = e.target;
 
-       const addButton = e.target;
+        const errorMessageDisplay = document.getElementById('error-message');
+        errorMessageDisplay.innerText = ``;
+        errorMessageDisplay.classList.add('hidden');
 
-       const errorMessageDisplay = document.getElementById('error-message');
-       errorMessageDisplay.innerText = ``;
-       errorMessageDisplay.classList.add('hidden');
-
-       await this.client.addBookToBooklist(addButton.value, addButton.title, (error) => {
-           errorMessageDisplay.innerText = `Error: ${error.message}`;
-           errorMessageDisplay.classList.remove('hidden');
-       });
+        await this.client.addBookToBooklist(addButton.value, addButton.title, (error) => {
+            errorMessageDisplay.innerText = `Error: ${error.message}`;
+            errorMessageDisplay.classList.remove('hidden');
+        });
 
        document.getElementById(addButton.title + addButton.dataset.value).add();
     }

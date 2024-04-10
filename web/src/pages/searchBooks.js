@@ -17,7 +17,7 @@ const EMPTY_DATASTORE_STATE = {
     constructor() {
         super();
 
-        this.bindClassMethods(['mount', 'search', 'displaySearchResults', 'getHTMLForSearchResults', 'add', 'myFunction'], this);
+        this.bindClassMethods(['mount', 'search', 'displaySearchResults', 'getHTMLForSearchResults', 'add', 'showDropdown'], this);
 
         // Create a enw datastore with an initial "empty" state.
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
@@ -43,7 +43,7 @@ const EMPTY_DATASTORE_STATE = {
         // Wire up the form's 'submit' event and the button's 'click' event to the search method.
         document.getElementById('search-books-form').addEventListener('submit', this.search);
         document.getElementById('search-books-btn').addEventListener('click', this.search);
-        document.getElementById('search-books-results-container').addEventListener('click', this.myFunction);
+        document.getElementById('search-books-results-container').addEventListener('click', this.showDropdown);
         document.getElementById('search-books-results-display').addEventListener('click', this.add);
 
 
@@ -117,12 +117,13 @@ const EMPTY_DATASTORE_STATE = {
             return '<h4>No results found</h4>';
         }
 
-        let options = '';
         let html = '<table><tr><th></th><th>ISBN</th><th>Title</th><th>Author</th><th>Genre</th><th>Add Book</th></tr>';
         for (const res of searchResults) {
+
+            let options = '';
             for (var i = 0; i < booklists.length; i++) {
-            let option = '<option value="'+booklists[i].id+'" title="'+res.title+'">'+booklists[i].name+'</option>';
-            options += option;
+                let option = '<option value="'+booklists[i].id+'" title="'+res.title+'">'+booklists[i].name+'</option>';
+                options += option;
             }
 
             html += `
@@ -150,23 +151,21 @@ const EMPTY_DATASTORE_STATE = {
         return html;
     }
 
-    async myFunction(event) {
+    async showDropdown(event) {
         const parent = event.target.parentNode;
         parent.querySelector('.dropdown-content').classList.toggle('show');
+
         window.onclick = function(event) {
-        if (!event.target.matches('.dropbtn')) {
-            document.querySelectorAll('.dropdown-content.show')
-            .forEach(element => element.classList.remove('show'));
-        }
+            if (!event.target.matches('.dropbtn')) {
+                document.querySelectorAll('.dropdown-content.show')
+                .forEach(element => element.classList.remove('show'));
+            }
         }
     }
 
     async add(e) {
 
        const addButton = e.target;
-//       if (!addButton.classList.contains("add-book")) {
-//           return;
-//       }
 
        const errorMessageDisplay = document.getElementById('error-message');
        errorMessageDisplay.innerText = ``;

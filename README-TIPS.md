@@ -53,4 +53,4 @@ curl -X POST http://localhost:3000/some_endpoint \
 
 Your `AuthenticatedLambdaRequest` object will then be able to get the user info from that token so that you can use it in your code.
 
-Note that this is similar to what's done in [Javascript code](web/src/api/musicPlaylistClient.js) using the Axios library.
+Note that this is similar to what's done in [Javascript code](web/src/api/bookTrackerClient.js) using the Axios library.

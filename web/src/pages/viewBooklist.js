@@ -1,4 +1,4 @@
-import MusicPlaylistClient from '../api/musicPlaylistClient';
+import BookTrackerClient from '../api/bookTrackerClient';
 import Header from '../components/header';
 import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
@@ -10,7 +10,7 @@ import DataStore from "../util/DataStore";
     constructor() {
             super();
             this.bindClassMethods(['clientLoaded', 'mount', 'addBooklistToPage', 'addBooksToPage', 'addBook', 'remove',
-                        'redirectToUpdateBook'], this);
+                        'redirectToUpdateBook', 'updateBooklistName'], this);
             this.dataStore = new DataStore();
             this.dataStore.addChangeListener(this.addBooklistToPage);
             this.dataStore.addChangeListener(this.addBooksToPage);
@@ -35,16 +35,18 @@ import DataStore from "../util/DataStore";
     }
 
      /**
-      * Add the header to the page and load the MusicPlaylistClient.
+      * Add the header to the page and load the BookTrackerClient.
       */
      mount() {
          document.getElementById('add-book').addEventListener('click', this.addBook);
          document.getElementById('books').addEventListener('click', this.remove);
+         document.getElementById('update-booklist').addEventListener('click', this.updateBooklistName);
          document.getElementById('books').addEventListener('click', this.redirectToUpdateBook);
+
 
          this.header.addHeaderToPage();
 
-         this.client = new MusicPlaylistClient();
+         this.client = new BookTrackerClient();
          this.clientLoaded();
 
 
@@ -154,7 +156,7 @@ import DataStore from "../util/DataStore";
 
     }
         /**
-         * Method to run when the add book booklist submit button is pressed. Call the MusicPlaylistService to add a book to the
+         * Method to run when the add book booklist submit button is pressed. Call the BookTrackerService to add a book to the
          * booklist.
          */
          async addBook() {
@@ -208,6 +210,34 @@ import DataStore from "../util/DataStore";
           }
 
           /**
+          * when button is clicked, user is prompted to update booklist name.
+          */
+          async updateBooklistName() {
+          const errorMessageDisplay = document.getElementById('error-message');
+          errorMessageDisplay.innerText = ``;
+          errorMessageDisplay.classList.add('hidden');
+
+          const newName = prompt("Enter new booklist name: ");
+          if (!newName) return;
+
+          const booklist = this.dataStore.get('booklist');
+          if (booklist == null) {
+            return;
+          }
+
+          document.getElementById('booklist-name').innerText = 'Updating...';
+
+          const newBooklist = await this.client.updateBooklistName(booklist.id, newName, (error) => {
+            errorMessageDisplay.innerText = `Error: ${error.message}`;
+            errorMessageDisplay.classList.remove('hidden');
+          });
+
+          document.getElementById('booklist-name').innerText = newName;
+          this.dataStore.set('booklist', newBooklist);
+          console.log("button clicked!");
+          }
+
+            /**
             * when update button is clicked, redirects to update book page.
             */
             async redirectToUpdateBook(e) {

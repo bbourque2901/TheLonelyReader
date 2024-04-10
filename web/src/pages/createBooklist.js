@@ -1,4 +1,4 @@
-import MusicPlaylistClient from '../api/musicPlaylistClient';
+import BookTrackerClient from '../api/bookTrackerClient';
 import Header from '../components/header';
 import BindingClass from '../util/bindingClass';
 import DataStore from '../util/DataStore';
@@ -16,18 +16,18 @@ class CreateBooklist extends BindingClass {
     }
 
     /**
-     * Add the header to the page and load the MusicPlaylistClient.
+     * Add the header to the page and load the BookTrackerClient.
      */
     mount() {
         document.getElementById('create').addEventListener('click', this.submit);
 
         this.header.addHeaderToPage();
 
-        this.client = new MusicPlaylistClient();
+        this.client = new BookTrackerClient();
     }
 
     /**
-     * Method to run when the create booklist submit button is pressed. Call the MusicPlaylistService to create the
+     * Method to run when the create booklist submit button is pressed. Call the BookTrackerClient to create the
      * booklist.
      */
     async submit(evt) {

@@ -9,7 +9,7 @@ import DataStore from "../util/DataStore";
  class ViewBooklist extends BindingClass {
     constructor() {
             super();
-            this.bindClassMethods(['clientLoaded', 'mount', 'addBooklistToPage', 'addBooksToPage', 'addBook', 'remove',
+            this.bindClassMethods(['clientLoaded', 'mount', 'addBooklistToPage', 'dummyChart', 'addBooksToPage', 'addBook', 'remove',
                         'redirectToUpdateBook', 'updateBooklistName'], this);
             this.dataStore = new DataStore();
             this.dataStore.addChangeListener(this.addBooklistToPage);
@@ -109,7 +109,8 @@ import DataStore from "../util/DataStore";
 
      async dummyChart() {
         const genreMap = new Map();
-        const books = this.dataStore.get('books')
+        const books = this.dataStore.get('books');
+
         if (books == null) {
                        return;
                    }

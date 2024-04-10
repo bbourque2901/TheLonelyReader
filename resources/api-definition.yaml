@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  title: Music Playlist Service
-  description: "This is the API definition for the Music Playlist Service."
+  title: Book Tracker Service
+  description: "This is the API definition for the Book Tracker Service."
   version: 1.0.0
 
 servers:
@@ -12,7 +12,7 @@ tags:
     description: Create, view, and update booklists
 
   - name: Book
-    description: View and add songs to booklists
+    description: View and add books to booklists
 
 paths:
 
@@ -114,7 +114,7 @@ paths:
             type: boolean
         - name: id
           in: path
-          description: id of the playlist to check, if blank will return all currently reading
+          description: id of the booklist to check, if blank will return all currently reading
           required: false
           schema:
             type: string

@@ -1,4 +1,4 @@
-import MusicPlaylistClient from '../api/musicPlaylistClient';
+import BookTrackerClient from '../api/bookTrackerClient';
 import BindingClass from "../util/bindingClass";
 import Header from '../components/header';
 import DataStore from "../util/DataStore";
@@ -28,12 +28,12 @@ import DataStore from "../util/DataStore";
  }
 
  /**
-  * Load the MusicPlaylistClient.
+  * Load the BookTrackerClient.
   */
   mount() {
       document.getElementById('booklists').addEventListener("click", this.remove);
 
-      this.client = new MusicPlaylistClient();
+      this.client = new BookTrackerClient();
       this.clientLoaded();
       this.header.addHeaderToPage();
   }

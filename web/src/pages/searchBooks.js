@@ -1,4 +1,4 @@
-import MusicPlaylistClient from '../api/musicPlaylistClient';
+import BookTrackerClient from '../api/bookTrackerClient';
 
 import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
@@ -37,7 +37,7 @@ const EMPTY_DATASTORE_STATE = {
      }
 
     /**
-     * Add the header to the page and load the MusicPlaylistClient.
+     * Add the header to the page and load the BookTrackerClient.
      */
     mount() {
         // Wire up the form's 'submit' event and the button's 'click' event to the search method.
@@ -46,8 +46,10 @@ const EMPTY_DATASTORE_STATE = {
         document.getElementById('search-books-results-container').addEventListener('click', this.showDropdown);
         document.getElementById('search-books-results-display').addEventListener('click', this.add);
 
-        this.client = new MusicPlaylistClient();
+
+        this.client = new BookTrackerClient();
         this.clientLoaded();
+
     }
 
     /**

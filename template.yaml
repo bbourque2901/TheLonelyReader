@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
-  Music Playlist Service
+  Book Tracker Service
 
 Parameters:
 
@@ -232,8 +232,8 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt AccessRole.Arn
-      CodeUri: MusicPlaylistServiceLambda
-      Handler: com.nashss.se.musicplaylistservice.lambda.GetBooklistLambda::handleRequest
+      CodeUri: BookTrackerServiceLambda
+      Handler: com.nashss.se.booktrackerservice.lambda.GetBooklistLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -242,7 +242,7 @@ Resources:
         Variables:
           JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
       Events:
-        MusicPlaylistService:
+        BookTrackerService:
           Type: Api
           Properties:
             Path: /booklists/{id}
@@ -254,8 +254,8 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt AccessRole.Arn
-      CodeUri: MusicPlaylistServiceLambda
-      Handler: com.nashss.se.musicplaylistservice.lambda.CurrentlyReadingLambda::handleRequest
+      CodeUri: BookTrackerServiceLambda
+      Handler: com.nashss.se.booktrackerservice.lambda.CurrentlyReadingLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -264,7 +264,7 @@ Resources:
         Variables:
           JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
       Events:
-        MusicPlaylistService:
+        BookTrackerService:
           Type: Api
           Properties:
             Path: /books/{currentlyReading}
@@ -276,8 +276,8 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt AccessRole.Arn
-      CodeUri: MusicPlaylistServiceLambda
-      Handler: com.nashss.se.musicplaylistservice.lambda.SearchBooklistsLambda::handleRequest
+      CodeUri: BookTrackerServiceLambda
+      Handler: com.nashss.se.booktrackerservice.lambda.SearchBooklistsLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -286,7 +286,7 @@ Resources:
         Variables:
           JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
       Events:
-        MusicPlaylistService:
+        BookTrackerService:
           Type: Api
           Properties:
             Path: /booklists/search
@@ -298,8 +298,8 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt AccessRole.Arn
-      CodeUri: MusicPlaylistServiceLambda
-      Handler: com.nashss.se.musicplaylistservice.lambda.GetBooklistBooksLambda::handleRequest
+      CodeUri: BookTrackerServiceLambda
+      Handler: com.nashss.se.booktrackerservice.lambda.GetBooklistBooksLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -308,7 +308,7 @@ Resources:
         Variables:
           JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
       Events:
-        MusicPlaylistService:
+        BookTrackerService:
           Type: Api
           Properties:
             Path: /booklists/{id}/books
@@ -320,8 +320,8 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt AccessRole.Arn
-      CodeUri: MusicPlaylistServiceLambda
-      Handler: com.nashss.se.musicplaylistservice.lambda.CreateBooklistLambda::handleRequest
+      CodeUri: BookTrackerServiceLambda
+      Handler: com.nashss.se.booktrackerservice.lambda.CreateBooklistLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -330,7 +330,7 @@ Resources:
         Variables:
           JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
       Events:
-        MusicPlaylistService:
+        BookTrackerService:
           Type: Api
           Properties:
             Path: /booklists
@@ -340,8 +340,8 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt AccessRole.Arn
-      CodeUri: MusicPlaylistServiceLambda
-      Handler: com.nashss.se.musicplaylistservice.lambda.UpdateBooklistLambda::handleRequest
+      CodeUri: BookTrackerServiceLambda
+      Handler: com.nashss.se.booktrackerservice.lambda.UpdateBooklistLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -350,7 +350,7 @@ Resources:
         Variables:
           JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
       Events:
-        MusicPlaylistService:
+        BookTrackerService:
           Type: Api
           Properties:
             Path: /booklists/{id}
@@ -360,8 +360,8 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt AccessRole.Arn
-      CodeUri: MusicPlaylistServiceLambda
-      Handler: com.nashss.se.musicplaylistservice.lambda.AddBookToBooklistLambda::handleRequest
+      CodeUri: BookTrackerServiceLambda
+      Handler: com.nashss.se.booktrackerservice.lambda.AddBookToBooklistLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -370,7 +370,7 @@ Resources:
         Variables:
           JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
       Events:
-        MusicPlaylistService:
+        BookTrackerService:
           Type: Api
           Properties:
             Path: /booklists/{id}/books
@@ -380,8 +380,8 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt AccessRole.Arn
-      CodeUri: MusicPlaylistServiceLambda
-      Handler: com.nashss.se.musicplaylistservice.lambda.SearchBooksLambda::handleRequest
+      CodeUri: BookTrackerServiceLambda
+      Handler: com.nashss.se.booktrackerservice.lambda.SearchBooksLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -390,7 +390,7 @@ Resources:
         Variables:
           JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
       Events:
-        MusicPlaylistService:
+        BookTrackerService:
           Type: Api
           Properties:
             Path: /books/search
@@ -402,8 +402,8 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt AccessRole.Arn
-      CodeUri: MusicPlaylistServiceLambda
-      Handler: com.nashss.se.musicplaylistservice.lambda.RemoveBooklistLambda::handleRequest
+      CodeUri: BookTrackerServiceLambda
+      Handler: com.nashss.se.booktrackerservice.lambda.RemoveBooklistLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -412,7 +412,7 @@ Resources:
         Variables:
           JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
       Events:
-        MusicPlaylistService:
+        BookTrackerService:
           Type: Api
           Properties:
             Path: /booklists/{id}
@@ -422,8 +422,8 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt AccessRole.Arn
-      CodeUri: MusicPlaylistServiceLambda
-      Handler: com.nashss.se.musicplaylistservice.lambda.RemoveBookFromBooklistLambda::handleRequest
+      CodeUri: BookTrackerServiceLambda
+      Handler: com.nashss.se.booktrackerservice.lambda.RemoveBookFromBooklistLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -432,7 +432,7 @@ Resources:
         Variables:
           JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
       Events:
-        MusicPlaylistService:
+        BookTrackerService:
           Type: Api
           Properties:
             Path: /booklists/{id}/books/{asin}
@@ -442,8 +442,8 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt AccessRole.Arn
-      CodeUri: MusicPlaylistServiceLambda
-      Handler: com.nashss.se.musicplaylistservice.lambda.GetUserBooklistsLambda::handleRequest
+      CodeUri: BookTrackerServiceLambda
+      Handler: com.nashss.se.booktrackerservice.lambda.GetUserBooklistsLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -452,7 +452,7 @@ Resources:
         Variables:
           JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
       Events:
-        MusicPlaylistService:
+        BookTrackerService:
           Type: Api
           Properties:
             Path: /userBooklists
@@ -462,8 +462,8 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt AccessRole.Arn
-      CodeUri: MusicPlaylistServiceLambda
-      Handler: com.nashss.se.musicplaylistservice.lambda.UpdateBookInBooklistLambda::handleRequest
+      CodeUri: BookTrackerServiceLambda
+      Handler: com.nashss.se.booktrackerservice.lambda.UpdateBookInBooklistLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -472,7 +472,7 @@ Resources:
         Variables:
           JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
       Events:
-        MusicPlaylistService:
+        BookTrackerService:
           Type: Api
           Properties:
             Path: /booklists/{id}/books/{asin}
@@ -482,8 +482,8 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt AccessRole.Arn
-      CodeUri: MusicPlaylistServiceLambda
-      Handler: com.nashss.se.musicplaylistservice.lambda.GetBookFromBooklistLambda::handleRequest
+      CodeUri: BookTrackerServiceLambda
+      Handler: com.nashss.se.booktrackerservice.lambda.GetBookFromBooklistLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -492,7 +492,7 @@ Resources:
         Variables:
           JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
       Events:
-        MusicPlaylistService:
+        BookTrackerService:
           Type: Api
           Properties:
             Path: /booklists/{id}/books/{asin}

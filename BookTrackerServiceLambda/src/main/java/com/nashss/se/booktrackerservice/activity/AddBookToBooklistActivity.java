@@ -104,6 +104,7 @@ public class AddBookToBooklistActivity {
         if (books.contains(bookToAdd)) {
             throw new DuplicateBookException(String.format("%s is already in your booklist!", bookToAdd.getTitle()));
         } else {
+            bookToAdd.setPercentComplete(0);
             books.add(bookToAdd);
         }
 

@@ -17,7 +17,7 @@ const EMPTY_DATASTORE_STATE = {
     constructor() {
         super();
 
-        this.bindClassMethods(['mount', 'search', 'displaySearchResults', 'getHTMLForSearchResults'], this);
+        this.bindClassMethods(['mount', 'search', 'displaySearchResults', 'getHTMLForSearchResults', 'add', 'showDropdown'], this);
 
         // Create a enw datastore with an initial "empty" state.
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
@@ -26,6 +26,16 @@ const EMPTY_DATASTORE_STATE = {
         console.log("searchBooks constructor");
     }
 
+     /**
+      * Once the client is loaded, get the booklist metadata and book list.
+      */
+     async clientLoaded() {
+         const urlParams = new URLSearchParams(window.location.search);
+         const customerId = urlParams.get('email');
+         const booklists = await this.client.getUserBooklists(customerId);
+         this.dataStore.set('booklists', booklists);
+     }
+
     /**
      * Add the header to the page and load the BookTrackerClient.
      */
@@ -33,10 +43,13 @@ const EMPTY_DATASTORE_STATE = {
         // Wire up the form's 'submit' event and the button's 'click' event to the search method.
         document.getElementById('search-books-form').addEventListener('submit', this.search);
         document.getElementById('search-books-btn').addEventListener('click', this.search);
-
+        document.getElementById('search-books-results-container').addEventListener('click', this.showDropdown);
+        document.getElementById('search-books-results-display').addEventListener('click', this.add);
 
 
         this.client = new BookTrackerClient();
+        this.clientLoaded();
+
     }
 
     /**
@@ -96,12 +109,23 @@ const EMPTY_DATASTORE_STATE = {
      * @returns A string of HTML suitable for being dropped on the page.
      */
     getHTMLForSearchResults(searchResults) {
+        const booklists = this.dataStore.get('booklists');
+        if (booklists == null) {
+            return;
+        }
+
         if (searchResults.length === 0) {
             return '<h4>No results found</h4>';
         }
 
-        let html = '<table><tr><th></th><th>ISBN</th><th>Title</th><th>Author</th><th>Genre</th></tr>';
+        let html = '<table><tr><th></th><th>ISBN</th><th>Title</th><th>Author</th><th>Genre</th><th>Add Book</th></tr>';
         for (const res of searchResults) {
+            let options = '';
+            for (var i = 0; i < booklists.length; i++) {
+                let option = '<option value="'+booklists[i].id+'" title="'+res.title+'">'+booklists[i].name+'</option>';
+                options += option;
+            }
+
             html += `
             <tr>
                 <td>
@@ -111,13 +135,65 @@ const EMPTY_DATASTORE_STATE = {
                 <td>${res.title}</td>
                 <td>${res.author}</td>
                 <td>${res.genre}</td>
+                <td>
+                    <div class="dropdown">
+                        <button id="button" data-title="${res.title}" class="dropbtn">Add to Booklist</button>
+                        <div id="myDropdown" class="dropdown-content">
+                            ${options}
+                        </div>
+                    </div>
+                </td>
             </tr>`;
         }
+
         html += '</table>';
 
         return html;
     }
 
+    /**
+     * Shows a dropdown menu of a user's booklist to add a book to
+     * @param event the current click event
+     */
+    async showDropdown(event) {
+        const parent = event.target.parentNode;
+        parent.querySelector('.dropdown-content').classList.toggle('show');
+        if (event.target.matches('.dropbtn')) {
+            event.target.innerText = 'Adding to...';
+        }
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropbtn')) {
+                document.querySelectorAll('.dropbtn')
+                    .forEach(element => element.innerText = 'Add to Booklist');
+                document.querySelectorAll('.dropdown-content.show')
+                    .forEach(element => element.classList.remove('show'));
+            }
+        }
+    }
+
+    /**
+     * Adds a book from searchResults to the chosen booklist in dropdown menu
+     * @param event the current click event
+     */
+    async add(e) {
+        const addButton = e.target;
+
+        const errorMessageDisplay = document.getElementById('error-message');
+        errorMessageDisplay.innerText = ``;
+        errorMessageDisplay.classList.add('hidden');
+
+        await this.client.addBookToBooklist(addButton.value, addButton.title, (error) => {
+            errorMessageDisplay.innerText = `Error: ${error.message}`;
+            // Network Error occurs when clicking 'Add to Booklist' ???
+            // DynamoDBMappingException occurs when clicking out of dropdown and not selecting booklist
+            // Hiding these two errors, only showing the DuplicateBookException
+            if (errorMessageDisplay.innerText.includes("DuplicateBookException")) {
+                errorMessageDisplay.classList.remove('hidden');
+            }
+        });
+
+       document.getElementById(addButton.title + addButton.dataset.value).add();
+    }
  }
 
  /**

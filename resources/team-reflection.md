@@ -32,5 +32,6 @@ _Please answer at least one question from each section below as a team. Answers 
 
 ## Looking ahead
 
-* If you were to start this unit over again, what would you do differently? How do you see yourself applying that to your work in later units, the capstone, or your internship?
-  Spend more time reading javascript tutorials than just blindly trying to replicate front end code. I plan on doing a lot more research for my capstone before starting.
+### If you were to start this unit over again, what would you do differently? How do you see yourself applying that to your work in later units, the capstone, or your internship?
+  * Spend more time reading javascript tutorials than just blindly trying to replicate front end code. I plan on doing a lot more research for my capstone before starting.
+  * Learning the basics of something first before jumping right into existing code and trying to add features on top of it (javascript)

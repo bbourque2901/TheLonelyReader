@@ -130,6 +130,9 @@ h1,h2,h3,h4,h5 { text-transform: uppercase; }
     height: 400px;
 }
 
+.homepage-card {
+    text-align: center;
+}
 
 .error {
     color: var(--error-color);
